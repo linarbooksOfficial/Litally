@@ -522,14 +522,16 @@ function toggleMorningTheme() {
 
 // Restore saved preferences on page load
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('litally_vision_impaired') === 'true') {
-        document.body.classList.add('vision-impaired');
-        const btn = document.getElementById('labelVisionBtn');
-        if (btn) btn.textContent = '👁️ Обычный режим';
-    }
-    if (localStorage.getItem('litally_morning_mode') === 'true') {
-        document.body.classList.add('theme-morning');
-        const btn = document.getElementById('labelMorningBtn');
-        if (btn) btn.textContent = '🌙 Вечер';
-    }
+    try {
+        if (localStorage.getItem('litally_vision_impaired') === 'true') {
+            document.body.classList.add('vision-impaired');
+            const btn = document.getElementById('labelVisionBtn');
+            if (btn) btn.textContent = '👁️ Обычный режим';
+        }
+        if (localStorage.getItem('litally_morning_mode') === 'true') {
+            document.body.classList.add('theme-morning');
+            const btn = document.getElementById('labelMorningBtn');
+            if (btn) btn.textContent = '🌙 Вечер';
+        }
+    } catch(e) {}
 });

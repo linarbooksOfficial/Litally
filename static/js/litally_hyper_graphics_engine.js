@@ -64,10 +64,14 @@
         }
 
         checkPerformanceEnvironment() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                             (window.innerWidth < 768) ||
+                             (('ontouchstart' in window) && window.innerWidth <= 1024) ||
+                             (navigator.maxTouchPoints > 1 && window.innerWidth <= 1024);
             const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const isLowEndDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) &&
                                    (navigator.deviceMemory && navigator.deviceMemory <= 3);
-            this.isLowPower = prefersReducedMotion || isLowEndDevice;
+            this.isLowPower = isMobile || prefersReducedMotion || isLowEndDevice;
         }
 
         boot() {

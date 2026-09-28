@@ -3953,10 +3953,10 @@
         ];
 
         /* =============================================================
-           ДАННЫЕ LOCALSTORAGE
+           ДАННЫЕ LOCALSTORAGE (SAFE WRAPPED FOR IOS SAFARI & WEBVIEW)
            ============================================================= */
-        let storedBooks = JSON.parse(localStorage.getItem('litally_user_books')) || [];
-        let storedNews = JSON.parse(localStorage.getItem('litally_user_news')) || [
+        let storedBooks = [];
+        let storedNews = [
             {
                 title: "Официальное открытие Суверенного Домена Litally 4K",
                 tag: "Релиз",
@@ -3965,13 +3965,30 @@
                 date: "03 сен. 2026"
             }
         ];
-        let storedTeasers = JSON.parse(localStorage.getItem('litally_user_teasers')) || [];
-        let storedComments = JSON.parse(localStorage.getItem('litally_user_comments')) || [];
-        let storedBio = JSON.parse(localStorage.getItem('litally_user_bio')) || null;
+        let storedTeasers = [];
+        let storedComments = [];
+        let storedBio = null;
 
         // Хэш пароля с солью по умолчанию ("Litally2026")
         const DEFAULT_PASS_HASH = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
-        let storedPasscodeHash = localStorage.getItem('litally_admin_passhash') || "5f4dcc3b5aa765d61d8327deb882cf99";
+        let storedPasscodeHash = "5f4dcc3b5aa765d61d8327deb882cf99";
+
+        try {
+            const rawBooks = localStorage.getItem('litally_user_books');
+            if (rawBooks) storedBooks = JSON.parse(rawBooks) || [];
+            const rawNews = localStorage.getItem('litally_user_news');
+            if (rawNews) storedNews = JSON.parse(rawNews) || storedNews;
+            const rawTeasers = localStorage.getItem('litally_user_teasers');
+            if (rawTeasers) storedTeasers = JSON.parse(rawTeasers) || [];
+            const rawComments = localStorage.getItem('litally_user_comments');
+            if (rawComments) storedComments = JSON.parse(rawComments) || [];
+            const rawBio = localStorage.getItem('litally_user_bio');
+            if (rawBio) storedBio = JSON.parse(rawBio) || null;
+            const rawPass = localStorage.getItem('litally_admin_passhash');
+            if (rawPass) storedPasscodeHash = rawPass;
+        } catch(e) {
+            console.warn('localStorage access restricted on this browser environment', e);
+        }
         let adminSessionTimeout = null;
 
         /* =============================================================
@@ -4209,7 +4226,10 @@
         }
         window.getMasterThemesList = getMasterThemesList;
 
-        let activeThemeId = parseInt(localStorage.getItem('litally_selected_theme_id')) || 50;
+        let activeThemeId = 50;
+        try {
+            activeThemeId = parseInt(localStorage.getItem('litally_selected_theme_id')) || 50;
+        } catch(e) {}
         let previewThemeId = activeThemeId;
         let current100ThemeCat = 'all';
         let modalThemesActiveCat = 'all';
@@ -5282,13 +5302,13 @@
             }
         } catch(e) {}
 
-        if (!localStorage.getItem('litally_presentation_gold_active')) {
-            try {
+        try {
+            if (!localStorage.getItem('litally_presentation_gold_active')) {
                 localStorage.setItem('litally_selected_theme_id', '50');
                 localStorage.setItem('litally_presentation_gold_active', '1');
-            } catch(e) {}
-            activeThemeId = 50;
-        }
+                activeThemeId = 50;
+            }
+        } catch(e) {}
 
         const allMasterThemes = (typeof getMasterThemesList === 'function') ? getMasterThemesList() : kazakhThemes;
         const initialTheme = allMasterThemes.find(t => t.id === activeThemeId) || allMasterThemes[0];
