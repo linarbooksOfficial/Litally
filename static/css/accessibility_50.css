@@ -1,0 +1,306 @@
+/* =============================================================
+   LITALLY 4K — 50 SOVEREIGN ACCESSIBILITY & ASSISTIVE MODALITIES
+   File: static/css/accessibility_50.css
+   Designed to preserve 4K Liquid Glass luxury aesthetics while 
+   delivering clinical-grade assistive adaptations.
+   ============================================================= */
+
+/* -------------------------------------------------------------
+   1. COLOR & OPHTHALMIC FILTERS (SVG & CSS BLEND MODES)
+   ------------------------------------------------------------- */
+/* High-Contrast Sovereign Gold */
+body.a11y-high-contrast {
+    --bg-color: #000000 !important;
+    --bg-gradient: none !important;
+    --text-color: #ffffff !important;
+    --text-muted: #fef08a !important;
+    --accent-color: #ffd700 !important;
+    --card-bg: #050507 !important;
+    --card-border: #ffd700 !important;
+    --border-color: #ffd700 !important;
+}
+body.a11y-high-contrast .custom-card,
+body.a11y-high-contrast .modal-dialog-box {
+    border: 2px solid #ffd700 !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important;
+}
+
+/* Pure Black Ultra-OLED */
+body.a11y-pure-black {
+    --bg-color: #000000 !important;
+    --bg-gradient: none !important;
+    --card-bg: #000000 !important;
+    --card-border: rgba(255, 255, 255, 0.25) !important;
+}
+body.a11y-pure-black #ambientCanvas,
+body.a11y-pure-black .ambient-vignette {
+    display: none !important;
+}
+
+/* Morning Soft Parchment (Eye-Relief Day Mode) */
+body.a11y-morning-parchment {
+    --bg-color: #f7f4ea !important;
+    --bg-gradient: radial-gradient(circle at 50% 15%, #fffdf7 0%, #ede8d8 85%) !important;
+    --text-color: #1a1e29 !important;
+    --text-muted: #333a4d !important;
+    --text-dim: #5a647a !important;
+    --accent-color: #b8860b !important;
+    --card-bg: rgba(255, 255, 255, 0.94) !important;
+    --card-border: rgba(184, 134, 11, 0.35) !important;
+    --border-color: rgba(184, 134, 11, 0.45) !important;
+    --title-gradient: linear-gradient(135deg, #2b1d03 0%, #8b6508 45%, #b8860b 100%) !important;
+    background-color: var(--bg-color) !important;
+    background-image: var(--bg-gradient) !important;
+    color: var(--text-color) !important;
+}
+body.a11y-morning-parchment .top-bar {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-color: rgba(184, 134, 11, 0.3) !important;
+}
+body.a11y-morning-parchment .brand-title-compact,
+body.a11y-morning-parchment .custom-card h3 {
+    color: #1a1e29 !important;
+}
+body.a11y-morning-parchment .custom-card p {
+    color: #2c3240 !important;
+}
+body.a11y-morning-parchment .btn-header-action,
+body.a11y-morning-parchment .btn-master-trigger {
+    background: #ffffff !important;
+    color: #1a1e29 !important;
+    border-color: rgba(184, 134, 11, 0.4) !important;
+}
+
+/* Daltonism Profiles (CSS Filters) */
+body.a11y-protanopia { filter: url('#protanopia-filter') !important; }
+body.a11y-deuteranopia { filter: url('#deuteranopia-filter') !important; }
+body.a11y-tritanopia { filter: url('#tritanopia-filter') !important; }
+body.a11y-monochrome { filter: grayscale(100%) contrast(110%) !important; }
+body.a11y-photophobia { filter: sepia(45%) brightness(88%) contrast(95%) !important; }
+
+/* -------------------------------------------------------------
+   2. NEURO & COGNITIVE ADAPTATIONS
+   ------------------------------------------------------------- */
+/* Bionic Reading Initial Boldness */
+body.a11y-bionic-reading p,
+body.a11y-bionic-reading .bionic-applied {
+    letter-spacing: 0.4px;
+}
+body.a11y-bionic-reading .bionic-bold {
+    font-weight: 800 !important;
+    color: var(--accent-color) !important;
+}
+
+/* Dyslexia Laser Guide Ruler */
+#dyslexiaGuideRuler {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    height: 38px;
+    background: rgba(255, 215, 0, 0.12);
+    border-top: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+    backdrop-filter: invert(0.08);
+}
+body.a11y-dyslexia-ruler #dyslexiaGuideRuler {
+    display: block !important;
+}
+
+/* ADHD Hyper-Focus Mask: Dim unhovered elements */
+body.a11y-adhd-focus .main-container > * {
+    opacity: 0.25;
+    filter: blur(2px);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+body.a11y-adhd-focus .main-container > *:hover,
+body.a11y-adhd-focus .top-bar {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Sensory Overload Shield (Kills Motion, Flashes, Particles) */
+body.a11y-sensory-shield *,
+body.a11y-sensory-shield *::before,
+body.a11y-sensory-shield *::after {
+    animation: none !important;
+    transition: none !important;
+}
+body.a11y-sensory-shield #ambientCanvas,
+body.a11y-sensory-shield .cursor-spotlight,
+body.a11y-sensory-shield .status-pulse {
+    display: none !important;
+}
+
+/* OpenDyslexic Font Styling */
+body.a11y-opendyslexic {
+    font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif !important;
+    letter-spacing: 1px !important;
+    word-spacing: 3px !important;
+    line-height: 1.85 !important;
+}
+
+/* -------------------------------------------------------------
+   3. MOTOR, TREMOR & TARGET EXPANSION
+   ------------------------------------------------------------- */
+/* Tremor Click Guard (Massive magnetic targets) */
+body.a11y-tremor-guard button,
+body.a11y-tremor-guard a,
+body.a11y-tremor-guard .btn-header-action,
+body.a11y-tremor-guard .btn-master-trigger {
+    min-height: 56px !important;
+    min-width: 56px !important;
+    padding: 14px 28px !important;
+    margin: 6px !important;
+    font-size: 1.05rem !important;
+    border-width: 2px !important;
+}
+
+/* Giant Touch Targets (64px) */
+body.a11y-giant-targets button,
+body.a11y-giant-targets .btn-card-read {
+    min-height: 64px !important;
+    font-size: 1.15rem !important;
+}
+
+/* -------------------------------------------------------------
+   4. CIRCADIAN & BIOMETRIC MODALITIES
+   ------------------------------------------------------------- */
+/* Melatonin-Preserving Midnight Amber */
+body.a11y-melatonin-amber {
+    filter: sepia(85%) hue-rotate(335deg) saturate(160%) !important;
+}
+
+/* Pure Gutenberg Sanctuary Sheet */
+body.a11y-gutenberg {
+    --bg-color: #121214 !important;
+    --card-bg: transparent !important;
+    --card-border: none !important;
+    --glow-color: transparent !important;
+}
+body.a11y-gutenberg .top-bar,
+body.a11y-gutenberg #ambientCanvas,
+body.a11y-gutenberg .cursor-spotlight,
+body.a11y-gutenberg .hero-crest-ring {
+    display: none !important;
+}
+body.a11y-gutenberg .main-container {
+    max-width: 780px !important;
+    font-size: 1.25rem !important;
+    line-height: 2 !important;
+}
+
+/* -------------------------------------------------------------
+   5. MODAL 50 ACCESSIBILITY TILES MATRIX STYLING
+   ------------------------------------------------------------- */
+.a11y-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    max-height: 65vh;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.a11y-card {
+    background: rgba(14, 18, 26, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 18px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    user-select: none;
+}
+
+.a11y-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--glow-subtle);
+    background: rgba(22, 28, 40, 0.85);
+}
+
+.a11y-card.active {
+    border: 2px solid var(--accent-color) !important;
+    background: rgba(255, 215, 0, 0.08) !important;
+    box-shadow: 0 0 25px var(--glow-color) !important;
+}
+
+.a11y-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.a11y-card-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.a11y-card-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--accent-color);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.a11y-card.active .a11y-card-badge {
+    background: var(--accent-color);
+    color: #000;
+    font-weight: 800;
+}
+
+.a11y-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    font-family: var(--font-sans);
+}
+
+.a11y-card-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.a11y-category-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.a11y-category-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-fast);
+}
+
+.a11y-category-chip.active,
+.a11y-category-chip:hover {
+    background: var(--accent-color);
+    color: #000;
+    border-color: var(--accent-color);
+}

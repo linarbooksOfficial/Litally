@@ -1,0 +1,80 @@
+/* =============================================================
+   LITALLY MORNING EYE-CARE PALETTE (ТЕМА «УТРО В СТЕПИ»)
+   Файл: static/css/morning.css
+   Назначение: мягкий дневной свет, теплый пергаментный фон,
+   устраняющий блики и усталость глаз при утреннем чтении.
+   ============================================================= */
+
+body.theme-morning {
+    --bg-color: #f7f4ea !important;
+    --bg-gradient: radial-gradient(circle at 50% 15%, #fffdf7 0%, #ede8d8 85%) !important;
+    --text-color: #1a1e29 !important;
+    --text-muted: #3d4455 !important;
+    --text-dim: #60677a !important;
+    --accent-color: #b8860b !important;
+    --secondary-accent: #8b6508 !important;
+    --glow-color: rgba(184, 134, 11, 0.25) !important;
+    --glow-subtle: rgba(184, 134, 11, 0.1) !important;
+    --card-bg: rgba(255, 255, 255, 0.94) !important;
+    --card-border: rgba(184, 134, 11, 0.35) !important;
+    --border-color: rgba(184, 134, 11, 0.45) !important;
+    --title-gradient: linear-gradient(135deg, #2b1d03 0%, #8b6508 45%, #b8860b 100%) !important;
+    --admin-dark: rgba(252, 250, 245, 0.98) !important;
+    background-color: var(--bg-color) !important;
+    background-image: var(--bg-gradient) !important;
+    color: var(--text-color) !important;
+}
+
+/* 1. ВЕРХНЯЯ ПАНЕЛЬ И НАВИГАЦИЯ */
+body.theme-morning .top-bar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(184, 134, 11, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(80, 60, 20, 0.08) !important;
+}
+
+body.theme-morning .brand-title-compact {
+    color: #1a1e29 !important;
+}
+
+/* 2. КАРТОЧКИ И ПАНЕЛИ */
+body.theme-morning .custom-card,
+body.theme-morning .modal-dialog-box,
+body.theme-morning .theme-matrix-tile,
+body.theme-morning .master-dropdown-menu,
+body.theme-morning .admin-dashboard-box {
+    background: #ffffff !important;
+    border-color: rgba(184, 134, 11, 0.35) !important;
+    box-shadow: 0 15px 40px rgba(90, 70, 20, 0.07) !important;
+    color: #1a1e29 !important;
+}
+
+body.theme-morning .custom-card p,
+body.theme-morning .modal-dialog-box p {
+    color: #2c3240 !important;
+}
+
+/* 3. КНОПКИ УТРЕННЕЙ ТЕМЫ */
+body.theme-morning .btn-header-action,
+body.theme-morning .btn-master-trigger {
+    background: #fdfaf3 !important;
+    color: #222 !important;
+    border: 1px solid rgba(184, 134, 11, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.15) !important;
+}
+
+body.theme-morning .btn-hero-primary {
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(184, 134, 11, 0.35) !important;
+}
+
+/* 4. ЧАСТИЦЫ ДЛЯ УТРЕННЕЙ ТЕМЫ: МЯГКИЙ ЗОЛОТИСТЫЙ ПЫЛЬЦЕВЫЙ СВЕТ */
+body.theme-morning #ambientCanvas {
+    opacity: 0.35 !important;
+    filter: invert(0.1) !important;
+}
+
+body.theme-morning .ambient-vignette {
+    background: radial-gradient(circle at 50% 35%, transparent 40%, rgba(240, 235, 220, 0.6) 90%, var(--bg-color) 100%) !important;
+}

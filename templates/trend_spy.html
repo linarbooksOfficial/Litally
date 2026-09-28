@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Trend Spy AI — Радар мировых вирусных трендов TikTok, Instagram Reels и YouTube Shorts. Нейросетевая аналитика виральности, крючки удержания (Hooks) и бесшовная генерация 4K видео в Litdeo. Автор: Линар Серик.">
+    <meta name="author" content="Линар Серик (Linar Serik)">
+    <title>Trend Spy AI | Мировой Радар Вирусных Трендов TikTok, Reels & Shorts</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Reset & Core Styling -->
+    <style>
+        :root {
+            --bg-deep: #05060b;
+            --bg-card: rgba(13, 17, 26, 0.82);
+            --bg-card-hover: rgba(22, 28, 42, 0.92);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(244, 63, 94, 0.4);
+            
+            --neon-coral: #ff3366;
+            --neon-orange: #ff6b35;
+            --neon-gold: #ffd700;
+            --neon-cyan: #00f0ff;
+            --neon-purple: #c084fc;
+            --neon-green: #10b981;
+
+            --gradient-trend: linear-gradient(135deg, #ff3366 0%, #ff6b35 50%, #ffd700 100%);
+            --gradient-radar: radial-gradient(circle at center, rgba(255, 51, 102, 0.15) 0%, rgba(5, 6, 11, 0) 70%);
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-brand: 'Cinzel', serif;
+
+            --shadow-glow: 0 0 25px rgba(255, 51, 102, 0.25);
+            --shadow-card: 0 16px 40px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.06);
+            --radius-xl: 20px;
+            --radius-lg: 14px;
+            --radius-md: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 51, 102, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 10% 40%, rgba(0, 240, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, rgba(192, 132, 252, 0.07) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* ── TOP NAVIGATION ───────────────────────────── */
+        .trend-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 6, 11, 0.88);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand-cluster {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-flame-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 12px var(--neon-coral));
+            animation: flameFlicker 2s infinite ease-in-out;
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(-3deg); filter: drop-shadow(0 0 18px #ff6b35); }
+        }
+
+        .brand-title-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-title-text {
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: var(--gradient-trend);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: var(--font-brand);
+        }
+
+        .badge-live-radar {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulseSignal 1.5s infinite;
+        }
+
+        @keyframes pulseSignal {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.4); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        .brand-subtitle-mini {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-btn-sanctuary {
+            border-color: rgba(255, 215, 0, 0.35);
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+        }
+
+        .nav-btn-sanctuary:hover {
+            border-color: rgba(255, 215, 0, 0.7);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-btn-litdeo {
+            border-color: rgba(192, 132, 252, 0.4);
+            color: #e9d5ff;
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.15), rgba(244, 63, 94, 0.15));
+            box-shadow: 0 0 14px rgba(192, 132, 252, 0.25);
+        }
+
+        .nav-btn-litdeo:hover {
+            border-color: rgba(192, 132, 252, 0.8);
+            box-shadow: 0 0 22px rgba(192, 132, 252, 0.45);
+        }
+
+        /* ── MAIN CONTAINER ───────────────────────────── */
+        .trend-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 24px 80px 24px;
+        }
+
+        /* ── HERO RADAR SECTION ───────────────────────────── */
+        .radar-hero {
+            position: relative;
+            background: rgba(13, 17, 26, 0.75);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            padding: 44px 36px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .radar-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -30%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255, 51, 102, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-left-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--neon-coral);
+            background: rgba(255, 51, 102, 0.12);
+            padding: 4px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .hero-headline {
+            font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+            font-weight: 900;
+            line-height: 1.18;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero-headline span {
+            background: var(--gradient-trend);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.02rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .hero-stats-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            background: rgba(5, 6, 11, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-num {
+            font-size: 1.35rem;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            color: #ffffff;
+        }
+
+        .stat-num.highlight-coral { color: var(--neon-coral); }
+        .stat-num.highlight-gold { color: var(--neon-gold); }
+        .stat-num.highlight-cyan { color: var(--neon-cyan); }
+        .stat-num.highlight-green { color: var(--neon-green); }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── RADAR GRAPHIC VISUALIZATION ───────────────────────────── */
+        .radar-graphic-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 380px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-disc {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(13, 17, 26, 0.9) 0%, rgba(5, 6, 11, 0.95) 100%);
+            border: 1px solid rgba(255, 51, 102, 0.4);
+            box-shadow: 0 0 35px rgba(255, 51, 102, 0.2), inset 0 0 30px rgba(0, 240, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .radar-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+
+        .ring-1 { width: 30%; height: 30%; border-color: rgba(255, 51, 102, 0.3); }
+        .ring-2 { width: 60%; height: 60%; border-color: rgba(255, 107, 53, 0.25); }
+        .ring-3 { width: 90%; height: 90%; border-color: rgba(0, 240, 255, 0.2); }
+
+        .radar-crosshair-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .radar-crosshair-v {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .radar-sweep-beam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            transform-origin: 0 0;
+            background: conic-gradient(from 0deg, rgba(255, 51, 102, 0.45) 0deg, rgba(255, 51, 102, 0) 60deg);
+            border-radius: 100% 0 0 0;
+            animation: radarSpin 4s linear infinite;
+        }
+
+        @keyframes radarSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .radar-ping {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff3366;
+            box-shadow: 0 0 14px #ff3366;
+            animation: pingBlink 2.2s infinite ease-in-out;
+        }
+
+        .ping-1 { top: 28%; left: 35%; animation-delay: 0.3s; background: #00f0ff; box-shadow: 0 0 14px #00f0ff; }
+        .ping-2 { top: 65%; left: 72%; animation-delay: 1.1s; background: #ffd700; box-shadow: 0 0 14px #ffd700; }
+        .ping-3 { top: 78%; left: 24%; animation-delay: 1.8s; background: #ff3366; }
+        .ping-4 { top: 38%; left: 80%; animation-delay: 0.7s; background: #c084fc; box-shadow: 0 0 14px #c084fc; }
+
+        @keyframes pingBlink {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.6); opacity: 1; }
+        }
+
+        .radar-center-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 15px #ff3366;
+            z-index: 5;
+        }
+
+        /* ── AI CUSTOM NICHE & HOOK GENERATOR ───────────────────────────── */
+        .hook-generator-section {
+            background: linear-gradient(135deg, rgba(22, 28, 45, 0.9) 0%, rgba(13, 17, 26, 0.9) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.08);
+        }
+
+        .generator-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .generator-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .generator-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .generator-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--neon-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+        }
+
+        .generator-inputs-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .generator-input {
+            width: 100%;
+            background: rgba(5, 6, 11, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        .generator-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+        }
+
+        .generator-select {
+            width: 100%;
+            background: rgba(5, 6, 11, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 0.92rem;
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .generator-btn {
+            background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+            color: #05060b;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 14px 24px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            white-space: nowrap;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+        }
+
+        .generator-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        .generator-result-box {
+            display: none;
+            margin-top: 24px;
+            padding: 22px;
+            background: rgba(5, 6, 11, 0.75);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: var(--radius-lg);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── FILTER & CONTROL BAR ───────────────────────────── */
+        .controls-toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .search-and-sort-row {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .search-box-wrap {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .trend-search-input {
+            width: 100%;
+            padding: 13px 18px 13px 44px;
+            background: rgba(13, 17, 26, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        .trend-search-input:focus {
+            border-color: var(--neon-coral);
+            box-shadow: 0 0 16px rgba(255, 51, 102, 0.25);
+        }
+
+        .sort-pills-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        .pill-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pill-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pill-btn.active {
+            background: var(--neon-coral);
+            color: #ffffff;
+            border-color: var(--neon-coral);
+            box-shadow: 0 0 14px rgba(255, 51, 102, 0.4);
+        }
+
+        .category-filter-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: thin;
+        }
+
+        .chip-btn {
+            background: rgba(13, 17, 26, 0.8);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+        }
+
+        .chip-btn:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .chip-btn.active {
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 107, 53, 0.2));
+            border-color: var(--neon-coral);
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(255, 51, 102, 0.3);
+        }
+
+        /* ── VIRAL CARDS GRID ───────────────────────────── */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 24px;
+        }
+
+        .trend-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .trend-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 51, 102, 0.2);
+        }
+
+        .card-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .platform-badges-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .platform-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .tag-tiktok { background: rgba(0, 242, 234, 0.15); color: #00f2ea; border: 1px solid rgba(0, 242, 234, 0.35); }
+        .tag-reels { background: rgba(225, 48, 108, 0.15); color: #e1306c; border: 1px solid rgba(225, 48, 108, 0.35); }
+        .tag-shorts { background: rgba(255, 0, 0, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 0, 0, 0.35); }
+
+        .velocity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            color: #ff3366;
+            background: rgba(255, 51, 102, 0.15);
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 51, 102, 0.4);
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        /* ── AUDIO TRACKER MINI-PLAYER ───────────────────────────── */
+        .audio-preview-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(5, 6, 11, 0.65);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .audio-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .audio-icon-spin {
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+        }
+
+        .audio-meta {
+            overflow: hidden;
+        }
+
+        .audio-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .audio-artist {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .audio-play-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .audio-play-btn:hover {
+            background: var(--neon-coral);
+            border-color: var(--neon-coral);
+        }
+
+        /* ── RETENTION HOOK BOX ───────────────────────────── */
+        .hook-box {
+            background: rgba(255, 215, 0, 0.05);
+            border-left: 3px solid var(--neon-gold);
+            padding: 10px 14px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 16px;
+        }
+
+        .hook-label {
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--neon-gold);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hook-quote {
+            font-size: 0.86rem;
+            font-style: italic;
+            color: #f1f5f9;
+            line-height: 1.4;
+        }
+
+        /* ── PROMPT PREVIEW BOX ───────────────────────────── */
+        .prompt-preview-box {
+            background: rgba(5, 6, 11, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            line-height: 1.45;
+            margin-bottom: 18px;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+
+        /* ── CARD ACTION BUTTONS ───────────────────────────── */
+        .card-actions-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-launch-litdeo {
+            flex: 1;
+            background: linear-gradient(135deg, #ff3366 0%, #ff6b35 100%);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.86rem;
+            padding: 11px 16px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.25s;
+            box-shadow: 0 4px 18px rgba(255, 51, 102, 0.35);
+        }
+
+        .btn-launch-litdeo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 51, 102, 0.6);
+            color: #ffffff;
+        }
+
+        .btn-copy-prompt, .btn-inspect-trend {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            padding: 11px 13px;
+            border-radius: var(--radius-md);
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-copy-prompt:hover, .btn-inspect-trend:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ── MODAL: DETAILED TREND STRATEGY ───────────────────────────── */
+        .trend-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 6, 11, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .trend-modal-box {
+            background: #0d111a;
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            max-width: 760px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 51, 102, 0.25);
+            position: relative;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--neon-coral);
+        }
+
+        /* ── TOAST NOTIFICATIONS ───────────────────────────── */
+        .toast-banner {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            background: #111827;
+            border: 1px solid var(--neon-coral);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 51, 102, 0.35);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ── RESPONSIVE DESIGN ───────────────────────────── */
+        @media (max-width: 960px) {
+            .radar-hero {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+            .hero-stats-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .generator-inputs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── PERFORMANCE ACCELERATION (1000000x FASTER & ZERO LAG) ── */
+        .radar-sweep-beam {
+            will-change: transform;
+            transform: translateZ(0);
+        }
+        .radar-disc, .radar-hero, .hook-generator-section, .trends-grid {
+            transform: translateZ(0);
+            content-visibility: auto;
+            contain-intrinsic-size: 600px;
+        }
+
+        /* ── AUTHENTIC PAPER SHEET QUESTIONNAIRE AESTHETIC (АНКЕТА КАК ЛИСТ В КРАСИВОЙ РАМКЕ) ── */
+        .creator-survey-section {
+            position: relative;
+            background: radial-gradient(ellipse at 50% 0%, #151c2c 0%, #090c14 100%);
+            border: 2px solid rgba(212, 175, 55, 0.65);
+            outline: 1px dashed rgba(212, 175, 55, 0.35);
+            outline-offset: -8px;
+            border-radius: 14px;
+            padding: 40px 36px;
+            margin-bottom: 38px;
+            box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.95), 0 0 40px rgba(212, 175, 55, 0.12), inset 0 0 30px rgba(0, 240, 255, 0.03);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Corner metallic ornamental accents */
+        .creator-survey-section::before,
+        .creator-survey-section::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .creator-survey-section::before {
+            top: 10px;
+            left: 10px;
+            border-top: 3px solid #ffd700;
+            border-left: 3px solid #ffd700;
+        }
+        .creator-survey-section::after {
+            top: 10px;
+            right: 10px;
+            border-top: 3px solid #ffd700;
+            border-right: 3px solid #ffd700;
+        }
+
+        .sheet-corner-decor-bottom-left {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 22px;
+            height: 22px;
+            border-bottom: 3px solid #ffd700;
+            border-left: 3px solid #ffd700;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .sheet-corner-decor-bottom-right {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
+            border-bottom: 3px solid #ffd700;
+            border-right: 3px solid #ffd700;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Official Document Registration Header Strip */
+        .survey-doc-meta-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: #d4af37;
+            letter-spacing: 0.8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .survey-doc-stamp {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #fef08a;
+        }
+
+        .survey-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .survey-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .survey-crest-icon {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.4));
+        }
+
+        .survey-badge-pulse {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--neon-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* Audio Narrator Bar (ElevenLabs / Studio Voice) */
+        .survey-audio-narrator-btn {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            color: #e9d5ff;
+            border-radius: 30px;
+            padding: 7px 18px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+        }
+        .survey-audio-narrator-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(168, 85, 247, 0.8);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+            color: #ffffff;
+        }
+        .survey-audio-narrator-btn.playing {
+            border-color: var(--neon-cyan);
+            color: #00f0ff;
+            box-shadow: 0 0 22px rgba(0, 240, 255, 0.4);
+            background: rgba(0, 240, 255, 0.15);
+        }
+
+        .audio-equalizer-bars {
+            display: none;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+        }
+        .survey-audio-narrator-btn.playing .audio-equalizer-bars {
+            display: inline-flex;
+        }
+        .audio-equalizer-bars span {
+            width: 3px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: eqBounce 1s infinite ease-in-out;
+        }
+        .audio-equalizer-bars span:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+        .audio-equalizer-bars span:nth-child(2) { height: 14px; animation-delay: 0.3s; }
+        .audio-equalizer-bars span:nth-child(3) { height: 9px; animation-delay: 0.2s; }
+        .audio-equalizer-bars span:nth-child(4) { height: 12px; animation-delay: 0.4s; }
+
+        @keyframes eqBounce {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1); }
+        }
+
+        .survey-lang-selector-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .survey-lang-select {
+            background: rgba(5, 6, 11, 0.92);
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            color: #ffffff;
+            font-size: 0.84rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 22px;
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+            transition: all 0.2s;
+        }
+        .survey-lang-select:focus {
+            border-color: var(--neon-coral);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+        }
+
+        .survey-step-box {
+            background: rgba(13, 17, 26, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            margin-bottom: 22px;
+            transition: border-color 0.2s;
+        }
+        .survey-step-box:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .survey-step-label {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.2px;
+        }
+
+        .survey-step-number-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #ffd700;
+            font-size: 0.75rem;
+            font-weight: 900;
+            font-family: var(--font-mono);
+        }
+
+        /* ── SQUARE CHECKBOX SELECTION INDICATOR (КВАДРАТИК С ГАЛОЧКОЙ) ── */
+        .survey-checkbox-box {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(5, 6, 11, 0.7);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-right: 8px;
+            position: relative;
+        }
+
+        .survey-checkmark {
+            color: #00f0ff;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1;
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+        }
+
+        .survey-tile.active .survey-checkbox-box,
+        .survey-level-card.active .survey-checkbox-box {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+        }
+
+        .survey-tile.active .survey-checkmark,
+        .survey-level-card.active .survey-checkmark {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .survey-level-card.tier-max.active .survey-checkbox-box {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.25);
+            box-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
+        }
+        .survey-level-card.tier-max.active .survey-checkmark {
+            color: #ffd700;
+        }
+
+        .survey-tiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .survey-tile {
+            background: rgba(5, 6, 11, 0.75);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+        }
+        .survey-tile:hover {
+            border-color: rgba(0, 240, 255, 0.5);
+            transform: translateY(-2px);
+            background: rgba(13, 17, 26, 0.9);
+        }
+        .survey-tile.active {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.12);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
+        }
+
+        .survey-tile-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .survey-tile-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .survey-tile-sub {
+            font-size: 0.74rem;
+            color: var(--text-dim);
+            line-height: 1.35;
+            padding-left: 28px;
+        }
+
+        /* ── 9 USAGE LEVELS GRID & CARDS ── */
+        .survey-levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 12px;
+        }
+
+        .survey-level-card {
+            background: rgba(13, 17, 26, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+        .survey-level-card:hover {
+            border-color: rgba(0, 240, 255, 0.5);
+            transform: translateY(-2px);
+            background: rgba(22, 28, 45, 0.92);
+            box-shadow: 0 8px 22px rgba(0, 240, 255, 0.15);
+        }
+        .survey-level-card.active {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.12);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+        }
+        .survey-level-card.tier-max.active {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.12);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
+        }
+
+        .level-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .level-card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .level-card-title {
+            font-size: 0.92rem;
+            font-weight: 900;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .level-card-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #a5f3fc;
+            white-space: nowrap;
+        }
+        .survey-level-card.tier-max .level-card-badge {
+            color: #ffd700;
+            border-color: rgba(255, 215, 0, 0.4);
+            background: rgba(255, 215, 0, 0.12);
+        }
+
+        .level-card-desc {
+            font-size: 0.77rem;
+            color: #cbd5e1;
+            line-height: 1.45;
+            padding-left: 28px;
+        }
+
+        /* ── SECTION 5: REAL-TIME CALIBRATION GRAPHS (ТО ЖЕ САМОЕ ГРАФИКАМИ) ── */
+        .survey-charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .survey-chart-card {
+            background: rgba(5, 6, 11, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chart-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-title {
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chart-active-val {
+            font-size: 0.84rem;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            color: #00f0ff;
+        }
+
+        .svg-chart-box {
+            width: 100%;
+            height: 110px;
+        }
+
+        /* ── GATING & PAGE LOCK SYSTEM (НЕЛЬЗЯ ПРОЛИСТАТЬ ВНИЗ ДО ОТВЕТА) ── */
+        .radar-locked-section {
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .radar-locked-section.is-locked .radar-locked-inner {
+            filter: blur(10px) brightness(0.35);
+            opacity: 0.4;
+            pointer-events: none;
+            user-select: none;
+            transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s;
+        }
+
+        .radar-lock-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 85;
+            background: radial-gradient(circle at 50% 250px, rgba(13, 17, 26, 0.94) 0%, rgba(5, 6, 11, 0.98) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 90px;
+            border-radius: var(--radius-xl);
+        }
+
+        .radar-locked-section.is-locked .radar-lock-overlay {
+            display: flex;
+        }
+
+        .radar-lock-card {
+            background: rgba(13, 17, 26, 0.95);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 36px 40px;
+            max-width: 540px;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .radar-lock-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 16px #ffd700);
+            margin-bottom: 14px;
+            animation: lockPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 24px #ffd700); }
+        }
+
+        .radar-lock-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .radar-lock-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.55;
+            margin-bottom: 22px;
+        }
+
+        .radar-lock-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ff6b35 100%);
+            color: #05060b;
+            font-weight: 900;
+            font-size: 0.95rem;
+            padding: 13px 28px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+            transition: all 0.25s;
+        }
+        .radar-lock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        .survey-submit-btn {
+            background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 50%, #ff3366 100%);
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 1.05rem;
+            padding: 18px 36px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 18px;
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.4);
+            transition: all 0.25s;
+        }
+        .survey-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 240, 255, 0.65);
+        }
+
+        .survey-result-dossier {
+            display: none;
+            margin-top: 26px;
+            padding: 26px;
+            background: rgba(5, 6, 11, 0.9);
+            border: 2px solid var(--neon-cyan);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            animation: fadeIn 0.4s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP HEADER -->
+    <header class="trend-header">
+        <a href="/" class="brand-cluster" title="Вернуться в главное святилище Litally">
+            <span class="brand-flame-icon">🔥</span>
+            <div class="brand-title-wrap">
+                <div class="brand-title-row">
+                    <span class="brand-title-text">TREND SPY AI</span>
+                    <span class="badge-live-radar"><span class="pulse-dot"></span> LIVE RADAR</span>
+                </div>
+                <span class="brand-subtitle-mini">SOVEREIGN VIRAL INTELLIGENCE BY LITALLY</span>
+            </div>
+        </a>
+
+        <div class="header-actions">
+            <button type="button" class="nav-btn" onclick="toggleSurveySection(true)" style="border-color: rgba(0, 240, 255, 0.45); color: #67e8f9; background: rgba(0, 240, 255, 0.12);" title="Анкета Автора на 100 языках">
+                <span>📋</span> <span id="navSurveyBtnText">Анкета Автора (100 Языков)</span>
+            </button>
+            <a href="/" class="nav-btn nav-btn-sanctuary">
+                <span>🏛️</span> <span>Litally Святилище</span>
+            </a>
+            <a href="/video-ai" class="nav-btn nav-btn-litdeo">
+                <span>🎬</span> <span>Litdeo Video AI ↗</span>
+            </a>
+            <a href="/litally-ai" class="nav-btn">
+                <span>🤖</span> <span>Litally AI Чат ↗</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="trend-container">
+
+        <!-- ═════════════════════════════════════════════════════════════
+             CREATOR INTAKE APPLICATION (AUTHENTIC PAPER SHEET IN ELEGANT FRAME)
+             ═════════════════════════════════════════════════════════════ -->
+        <section class="creator-survey-section" id="creatorSurveySection">
+            <div class="sheet-corner-decor-bottom-left"></div>
+            <div class="sheet-corner-decor-bottom-right"></div>
+
+            <!-- Official Document Registration Strip -->
+            <div class="survey-doc-meta-strip">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="survey-doc-stamp" id="lblDocStamp">FORM № TS-2026-VIRAL-INTAKE</span>
+                    <span style="color: var(--text-dim);">|</span>
+                    <span id="lblDocClassification">CLASSIFICATION: SOVEREIGN CREATOR INTELLIGENCE</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #34d399; font-weight: 700;">●</span>
+                    <span id="lblDocStatus">STATUS: PENDING CALIBRATION</span>
+                </div>
+            </div>
+
+            <!-- Header Row -->
+            <div class="survey-header-row">
+                <div class="survey-title-group">
+                    <span class="survey-crest-icon">🏛️</span>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <h2 style="font-size: 1.35rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px;" id="surveyMainTitle">
+                                Creator Intake Application & Sovereign Viral Strategy
+                            </h2>
+                            <span class="survey-badge-pulse" id="surveyBadgeLang">✨ 100 WORLD LANGUAGES</span>
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 2px;" id="surveySubtitle">
+                            Complete this official questionnaire to calibrate your AI viral radar and unlock full 2026 intelligence tools.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="survey-lang-selector-wrap">
+                    <!-- Audio Narrator Button (ElevenLabs / Neural Studio Voice) -->
+                    <button type="button" class="survey-audio-narrator-btn" id="btnSurveyAudio" onclick="toggleSurveyAudioNarration()" title="Listen to survey audio narration">
+                        <span id="surveyAudioIcon">🔊</span>
+                        <span id="surveyAudioLabel">Listen to Form</span>
+                        <div class="audio-equalizer-bars" id="audioEqualizerBars">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </button>
+
+                    <span style="font-size: 0.8rem; color: var(--text-dim);" id="surveyLangSelectLabel">Language:</span>
+                    <select id="surveyLangSelect" class="survey-lang-select" onchange="switchSurveyLanguage(this.value)">
+                        <!-- Populated dynamically with 100 languages -->
+                    </select>
+
+                    <button type="button" class="nav-btn" onclick="toggleSurveyMinimize()" id="btnSurveyToggleMin" style="padding: 6px 12px; font-size: 0.74rem;">
+                        <span>_</span> <span id="txtSurveyToggleMin">Minimize</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Collapsible Survey Body -->
+            <div class="survey-content-collapsible" id="surveyCollapsibleBody">
+                
+                <!-- SECTION 1: WHO ARE YOU USING THIS FOR? -->
+                <div class="survey-step-box">
+                    <div class="survey-step-label">
+                        <span class="survey-step-number-tag">1</span>
+                        <span>👥</span> <span id="surveyQ1Title">Section 1: Who are you using this system for?</span>
+                    </div>
+                    <div class="survey-tiles-grid" id="gridSurveyAudience">
+                        <!-- Personal -->
+                        <div class="survey-tile active" data-val="personal" onclick="selectSurveyOption('audience', 'personal', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>👤</span> <span id="optAudPersonal">For personal use</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subAudPersonal">Personal social media, blog, creativity</div>
+                        </div>
+                        <!-- Company -->
+                        <div class="survey-tile" data-val="company" onclick="selectSurveyOption('audience', 'company', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🏢</span> <span id="optAudCompany">For my company</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subAudCompany">Marketing, branding and business clients</div>
+                        </div>
+                        <!-- Leaders -->
+                        <div class="survey-tile" data-val="leaders" onclick="selectSurveyOption('audience', 'leaders', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>👔</span> <span id="optAudLeaders">For my executives / leadership</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subAudLeaders">Executive reports, KPIs and viral strategy</div>
+                        </div>
+                        <!-- Other -->
+                        <div class="survey-tile" data-val="other" onclick="selectSurveyOption('audience', 'other', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>✨</span> <span id="optAudOther">Other</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subAudOther">Custom specific use case</div>
+                        </div>
+                    </div>
+                    <input type="text" id="surveyCustomAudienceInput" class="generator-input" placeholder="If 'Other' is chosen, specify your goal (e.g. startup, agency, education...)" style="margin-top: 10px;">
+                </div>
+
+                <!-- SECTION 2: USAGE LEVEL (9 LEVELS) -->
+                <div class="survey-step-box">
+                    <div class="survey-step-label">
+                        <span class="survey-step-number-tag">2</span>
+                        <span>📊</span> <span id="surveyQ2Title">Section 2: Usage Level & Technical Entry Barrier (9 Levels)</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 12px;" id="surveyQ2Subtitle">
+                        Select the entry barrier and scale of features from zero to maximum:
+                    </div>
+                    <div class="survey-levels-grid" id="gridSurveyLevel">
+                        <!-- 1. Zero -->
+                        <div class="survey-level-card active" data-val="zero" onclick="selectSurveyOption('level', 'zero', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>🟢</span> <span id="lvlTitleZero">Zero</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeZero">👶 4-9 y.o.</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescZero">
+                                for complete start and personal use. Fewer features. Simpler. Ideal for ages 4-9.
+                            </div>
+                        </div>
+                        <!-- 2. Novice -->
+                        <div class="survey-level-card" data-val="novice" onclick="selectSurveyOption('level', 'novice', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>🌱</span> <span id="lvlTitleNovice">Novice</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeNovice">📖 6-9 y.o.</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescNovice">
+                                Ideal for low entry barrier. Where you need reading skills. Ideal for 6-9.
+                            </div>
+                        </div>
+                        <!-- 3. Beginner -->
+                        <div class="survey-level-card" data-val="beginner" onclick="selectSurveyOption('level', 'beginner', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>🚀</span> <span id="lvlTitleBeginner">Beginner</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeBeginner">🎯 Basic</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescBeginner">
+                                ideal for beginner who understands how to use, knows how to work, move, create and plan.
+                            </div>
+                        </div>
+                        <!-- 4. Intermediate -->
+                        <div class="survey-level-card" data-val="intermediate" onclick="selectSurveyOption('level', 'intermediate', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>⚡</span> <span id="lvlTitleIntermediate">Intermediate</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeIntermediate">💡 6-11 y.o.</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescIntermediate">
+                                ideal for ages 6-11. Slightly higher entry barrier. More advanced controls, more features and higher barrier.
+                            </div>
+                        </div>
+                        <!-- 5. Advanced -->
+                        <div class="survey-level-card" data-val="advanced" onclick="selectSurveyOption('level', 'advanced', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>💻</span> <span id="lvlTitleAdvanced">Advanced / Complex</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeAdvanced">🎓 12-17 y.o.</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescAdvanced">
+                                Ideal for ages 12-17. Hundreds of features, various divisions, tables, code. Minimum for business and marketing.
+                            </div>
+                        </div>
+                        <!-- 6. Business Standard -->
+                        <div class="survey-level-card" data-val="business_std" onclick="selectSurveyOption('level', 'business_std', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>💼</span> <span id="lvlTitleBusiness">Business Standard</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeBusiness">📈 Business</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescBusiness">
+                                great for business. Need to read short documentation. Need coding basics & strong analytics. Ideal for small-to-medium business.
+                            </div>
+                        </div>
+                        <!-- 7. High -->
+                        <div class="survey-level-card" data-val="high" onclick="selectSurveyOption('level', 'high', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>🔬</span> <span id="lvlTitleHigh">High</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeHigh">⚙️ 800+ features</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescHigh">
+                                Near complete documentation. 800+ features. High entry barrier. Hyper-personalized tables, latest intelligence.
+                            </div>
+                        </div>
+                        <!-- 8. Extreme -->
+                        <div class="survey-level-card" data-val="extreme" onclick="selectSurveyOption('level', 'extreme', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>🧠</span> <span id="lvlTitleExtreme">Extreme</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeExtreme">🐍 1000+ feat. • Python/AI</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescExtreme">
+                                very high entry barrier. Must know programming languages, Python, AI, software, how computers work. Max personalized charts. Planning. Future trend prediction scenarios. Theories. Full documentation. 1000+ features.
+                            </div>
+                        </div>
+                        <!-- 9. MAXIMUM -->
+                        <div class="survey-level-card tier-max" data-val="maximum" onclick="selectSurveyOption('level', 'maximum', this)">
+                            <div class="level-card-top">
+                                <div class="level-card-title-group">
+                                    <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                    <div class="level-card-title"><span>👑</span> <span id="lvlTitleMaximum" style="color: #ffd700;">MAXIMUM</span></div>
+                                </div>
+                                <span class="level-card-badge" id="lvlBadgeMaximum" style="background: rgba(255,215,0,0.18); color: #ffd700; border-color: rgba(255,215,0,0.5);">🔥 ALL FEATURES</span>
+                            </div>
+                            <div class="level-card-desc" id="lvlDescMaximum" style="color: #fef08a;">
+                                extended edition of documentation. All features. Ideal for giant enterprise and global market expansion. Requires mastery in IT analytics, prompt engineering, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: SHARE LOCATION -->
+                <div class="survey-step-box">
+                    <div class="survey-step-label">
+                        <span class="survey-step-number-tag">3</span>
+                        <span>📍</span> <span id="surveyQ3Title">Section 3: Share location (city-level approximate) to maximize local district virality? (Can be changed anytime)</span>
+                    </div>
+                    <div class="survey-tiles-grid" id="gridSurveyLocation" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                        <div class="survey-tile active" data-val="yes" onclick="selectSurveyOption('location', 'yes', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>✅</span> <span id="optLocYes">Yes</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subLocYes">Local city radar and trends of your district</div>
+                        </div>
+                        <div class="survey-tile" data-val="no" onclick="selectSurveyOption('location', 'no', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🔒</span> <span id="optLocNo">No</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subLocNo">Full privacy, global worldwide trends only</div>
+                        </div>
+                        <div class="survey-tile" data-val="permission" onclick="selectSurveyOption('location', 'permission', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🛡️</span> <span id="optLocPermission">With my permission</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subLocPermission">Ask for permission before scanning district</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: 5 SOVEREIGN VIRAL THEMES (ИМЕННО ИСКЛЮЧИТЕЛЬНО 5 ТЕМ) -->
+                <div class="survey-step-box">
+                    <div class="survey-step-label">
+                        <span class="survey-step-number-tag">4</span>
+                        <span>🏷️</span> <span id="stepThemesTitle">Section 4: Select from 5 Core Sovereign Viral Themes</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 12px;" id="stepThemesSubtitle">
+                        Choose your primary content pillar to align hooks, sound design, and 4K visual templates:
+                    </div>
+                    <div class="survey-tiles-grid" id="gridSurveyThemes" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                        <!-- Theme 1 -->
+                        <div class="survey-tile active" data-val="ai_tech" onclick="selectSurveyOption('theme', 'ai_tech', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🤖</span> <span id="optThemeAi">AI & Autonomous Tech</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subThemeAi">Artificial intelligence, humanoid robotics & quantum future</div>
+                        </div>
+                        <!-- Theme 2 -->
+                        <div class="survey-tile" data-val="business_capital" onclick="selectSurveyOption('theme', 'business_capital', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>💼</span> <span id="optThemeBiz">Business & Startups</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subThemeBiz">Venture capital, money, scaling strategies & leadership</div>
+                        </div>
+                        <!-- Theme 3 -->
+                        <div class="survey-tile" data-val="heritage_history" onclick="selectSurveyOption('theme', 'heritage_history', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🏛️</span> <span id="optThemeHeritage">Heritage & Great Steppe</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subThemeHeritage">Ancient civilizations, nomadic history, myths & lore</div>
+                        </div>
+                        <!-- Theme 4 -->
+                        <div class="survey-tile" data-val="luxury_lifestyle" onclick="selectSurveyOption('theme', 'luxury_lifestyle', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🏎️</span> <span id="optThemeLux">Luxury & Supercars</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subThemeLux">Hypercars, ultra-luxury aesthetic, watches & high lifestyle</div>
+                        </div>
+                        <!-- Theme 5 -->
+                        <div class="survey-tile" data-val="cinema_cyberpunk" onclick="selectSurveyOption('theme', 'cinema_cyberpunk', this)">
+                            <div class="survey-tile-title-row">
+                                <div class="survey-checkbox-box"><span class="survey-checkmark">✓</span></div>
+                                <div class="survey-tile-title"><span>🎬</span> <span id="optThemeCinema">Cinema & Cyberpunk</span></div>
+                            </div>
+                            <div class="survey-tile-sub" id="subThemeCinema">Cinematic POV, dark sci-fi thrillers, neon aesthetics & VFX</div>
+                        </div>
+                    </div>
+                    <input type="text" id="surveyCustomNicheInput" class="generator-input" placeholder="Or type your custom niche (Cosmetics, Real Estate, Specialty Coffee, Design...)" style="margin-top: 10px;">
+                </div>
+
+                <!-- SECTION 5: REAL-TIME CALIBRATION GRAPHS (ТО ЖЕ САМОЕ ГРАФИКАМИ) -->
+                <div class="survey-step-box" id="surveyChartsSection">
+                    <div class="survey-step-label">
+                        <span class="survey-step-number-tag">5</span>
+                        <span>📈</span> <span id="surveyQ5Title">Section 5: Real-Time Calibration Graphs & Dynamics</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 14px;" id="surveyQ5Subtitle">
+                        Live visual reflection of your questionnaire parameters: capability curve, audience viral multiplier, district density, and 30-day reach projection.
+                    </div>
+                    
+                    <div class="survey-charts-container">
+                        <!-- Chart 1: 9-Tier Capability & Entry Barrier Curve -->
+                        <div class="survey-chart-card" id="chartCardCurve">
+                            <div class="chart-header-row">
+                                <span class="chart-title"><span>⚙️</span> <span id="lblChartCurveTitle">Features Curve (9 Tiers)</span></span>
+                                <span class="chart-active-val" id="valChartFeatures">15 - 1,500+ Functions</span>
+                            </div>
+                            <svg class="svg-chart-box" id="svgCurveChart" viewBox="0 0 280 110">
+                                <!-- Rendered dynamically by updateSurveyCharts() -->
+                            </svg>
+                        </div>
+
+                        <!-- Chart 2: Audience Viral Leverage Multiplier -->
+                        <div class="survey-chart-card" id="chartCardAudience">
+                            <div class="chart-header-row">
+                                <span class="chart-title"><span>👥</span> <span id="lblChartAudienceTitle">Audience Viral Multiplier</span></span>
+                                <span class="chart-active-val" id="valChartMultiplier">1.0x Reach</span>
+                            </div>
+                            <svg class="svg-chart-box" id="svgAudienceChart" viewBox="0 0 280 110">
+                                <!-- Rendered dynamically by updateSurveyCharts() -->
+                            </svg>
+                        </div>
+
+                        <!-- Chart 3: Local District vs Global Density Gauge -->
+                        <div class="survey-chart-card" id="chartCardDensity">
+                            <div class="chart-header-row">
+                                <span class="chart-title"><span>📍</span> <span id="lblChartDensityTitle">District Viral Density</span></span>
+                                <span class="chart-active-val" id="valChartDensity">+340% Local Boost</span>
+                            </div>
+                            <svg class="svg-chart-box" id="svgDensityChart" viewBox="0 0 280 110">
+                                <!-- Rendered dynamically by updateSurveyCharts() -->
+                            </svg>
+                        </div>
+
+                        <!-- Chart 4: 30-Day Exponential Reach Projection Curve -->
+                        <div class="survey-chart-card" id="chartCardReach">
+                            <div class="chart-header-row">
+                                <span class="chart-title"><span>🚀</span> <span id="lblChartReachTitle">30-Day Reach Forecast</span></span>
+                                <span class="chart-active-val" id="valChartReach">50,000 Views</span>
+                            </div>
+                            <svg class="svg-chart-box" id="svgReachChart" viewBox="0 0 280 110">
+                                <!-- Rendered dynamically by updateSurveyCharts() -->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="button" class="survey-submit-btn" id="btnSubmitSurvey" onclick="submitCreatorSurvey()">
+                    <span>⚡</span> <span id="txtBtnSubmitSurvey">Calculate My Personalized Strategy & Unlock Radar</span>
+                </button>
+
+                <!-- RESULT STRATEGY DOSSIER -->
+                <div class="survey-result-dossier" id="surveyResultDossier">
+                    <!-- Injected dynamically via trend_spy.js -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═════════════════════════════════════════════════════════════
+             LOCKED RADAR CONTAINER (REQUIRES SURVEY COMPLETION TO UNLOCK)
+             ═════════════════════════════════════════════════════════════ -->
+        <div id="radarLockedContainer" class="radar-locked-section is-locked">
+            <!-- Lock Screen Overlay -->
+            <div id="radarLockOverlay" class="radar-lock-overlay">
+                <div class="radar-lock-card">
+                    <div class="radar-lock-icon" id="radarLockIcon">🔒</div>
+                    <h3 class="radar-lock-title" id="lockTitle">Viral Radar & Tools Locked</h3>
+                    <p class="radar-lock-desc" id="lockDesc">
+                        To unlock live trend monitoring, the 4K AI prompt generator, and the global viral feed, please complete and submit the official Creator Intake Application above.
+                    </p>
+                    <button type="button" class="radar-lock-btn" onclick="scrollToSurvey()">
+                        <span>⬆️</span> <span id="lockBtnText">Complete Application Above</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Unlocked Upon Survey Completion -->
+            <div class="radar-locked-inner" id="radarLockedInner">
+
+                <!-- RADAR HERO SECTION -->
+                <section class="radar-hero">
+                    <div class="hero-left-content">
+                        <div class="hero-kicker">
+                            <span>📡</span> <span>Нейросетевой Мониторинг Виральности 2026</span>
+                        </div>
+                        <h1 class="hero-headline">
+                            Радар мировых вирусных трендов <span>TikTok, Reels & Shorts</span>
+                        </h1>
+                        <p class="hero-description">
+                            Trend Spy перехватывает взрывные тренды на этапе зарождения. Мы анализируем 3-секундные крючки удержания (Hooks), трендовую музыку и покадровые визуальные формулы, чтобы вы запускали создание 4K видео в Litdeo раньше всех алгоритмов!
+                        </p>
+
+                        <div class="hero-stats-strip">
+                            <div class="stat-item">
+                                <span class="stat-num highlight-coral" id="statTrendsCount">1,482</span>
+                                <span class="stat-label">Трендов в базе</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-num highlight-gold">+850%</span>
+                                <span class="stat-label">Ср. буст охвата</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-num highlight-cyan">99.4%</span>
+                                <span class="stat-label">Точность прогноза</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-num highlight-green">60 сек</span>
+                                <span class="stat-label">Обновление</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ANIMATED RADAR GRAPHIC -->
+                    <div class="radar-graphic-wrap">
+                        <div class="radar-disc">
+                            <div class="radar-crosshair-h"></div>
+                            <div class="radar-crosshair-v"></div>
+                            <div class="radar-ring ring-1"></div>
+                            <div class="radar-ring ring-2"></div>
+                            <div class="radar-ring ring-3"></div>
+                            <div class="radar-sweep-beam"></div>
+                            <div class="radar-ping ping-1" title="AI Evolution (+960%)"></div>
+                            <div class="radar-ping ping-2" title="Cyber Batyr (+990%)"></div>
+                            <div class="radar-ping ping-3" title="POV Secret Room (+870%)"></div>
+                            <div class="radar-ping ping-4" title="Tokyo Rain Drifting (+920%)"></div>
+                            <div class="radar-center-core"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI CUSTOM NICHE & HOOK LAB -->
+                <section class="hook-generator-section">
+                    <div class="generator-header">
+                        <div class="generator-title-row">
+                            <span style="font-size: 1.4rem;">⚡</span>
+                            <h2 class="generator-title">ИИ-Лаборатория Крючков и Трендов под твою нишу</h2>
+                            <span class="generator-badge">Нейро-Синтез</span>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-dim);">
+                            Введите нишу или ключевое слово для моментального прогноза
+                        </div>
+                    </div>
+
+                    <div class="generator-inputs-grid">
+                        <input type="text" id="customNicheInput" class="generator-input" placeholder="Например: Недвижимость Дубая, Корейская косметика, Казахский эпос, Крипта...">
+                        <select id="customEmotionSelect" class="generator-select">
+                            <option value="shock">😲 Эмоция: Шок & Неожиданность</option>
+                            <option value="curiosity" selected>🤔 Эмоция: Любопытство & Интрига</option>
+                            <option value="aesthetic">✨ Эмоция: Чистая Эстетика & ASMR</option>
+                            <option value="motivation">🔥 Эмоция: Мотивация & Успех</option>
+                        </select>
+                        <button type="button" id="btnSynthesizeTrend" class="generator-btn" onclick="synthesizeCustomTrend()">
+                            <span>⚡ Сгенерировать Тренды</span>
+                        </button>
+                    </div>
+
+                    <!-- DYNAMIC RESULT CONTAINER -->
+                    <div id="customTrendResultBox" class="generator-result-box">
+                        <!-- Rendered dynamically via trend_spy.js -->
+                    </div>
+                </section>
+
+                <!-- TOOLBAR: SEARCH & FILTERS -->
+                <section class="controls-toolbar">
+                    <div class="search-and-sort-row">
+                        <div class="search-box-wrap">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="trendSearchInput" class="trend-search-input" placeholder="Поиск по ключевым словам, хукам, звукам, хэштегам...">
+                        </div>
+
+                        <div class="sort-pills-row">
+                            <span class="sort-label">Сортировка:</span>
+                            <button type="button" class="pill-btn active" data-sort="growth" onclick="changeSort('growth', this)">
+                                <span>🚀</span> <span>По скорости роста</span>
+                            </button>
+                            <button type="button" class="pill-btn" data-sort="score" onclick="changeSort('score', this)">
+                                <span>🎯</span> <span>По виральному баллу</span>
+                            </button>
+                            <button type="button" class="pill-btn" data-sort="views" onclick="changeSort('views', this)">
+                                <span>👁️</span> <span>По просмотрам</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORY CHIPS -->
+                    <div class="category-filter-chips" id="categoryChipsWrap">
+                        <button type="button" class="chip-btn active" data-cat="all" onclick="changeCategory('all', this)">
+                            🔥 Все тренды (8)
+                        </button>
+                        <button type="button" class="chip-btn" data-cat="ai_scifi" onclick="changeCategory('ai_scifi', this)">
+                            🤖 ИИ & Sci-Fi Кино
+                        </button>
+                        <button type="button" class="chip-btn" data-cat="kazakh_heritage" onclick="changeCategory('kazakh_heritage', this)">
+                            🇰🇿 Наследие Великой Степи
+                        </button>
+                        <button type="button" class="chip-btn" data-cat="pov_thriller" onclick="changeCategory('pov_thriller', this)">
+                            🎬 POV & Кино-триллеры
+                        </button>
+                        <button type="button" class="chip-btn" data-cat="luxury_cars" onclick="changeCategory('luxury_cars', this)">
+                            🏎️ Гиперкары & Роскошь
+                        </button>
+                        <button type="button" class="chip-btn" data-cat="asmr_vfx" onclick="changeCategory('asmr_vfx', this)">
+                            ✨ Визуальный ASMR & VFX
+                        </button>
+                    </div>
+                </section>
+
+                <!-- VIRAL TRENDS GRID -->
+                <section class="trends-grid" id="trendsGrid">
+                    <!-- Populated dynamically by trend_spy.js -->
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- DETAILED TREND INSPECTION MODAL -->
+    <div class="trend-modal-overlay" id="trendDetailModal">
+        <div class="trend-modal-box">
+            <button type="button" class="modal-close-btn" onclick="closeTrendModal()">✕</button>
+            <div id="modalTrendBody">
+                <!-- Injected by trend_spy.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast-banner" id="trendToast">
+        <span id="toastIcon">✨</span>
+        <span id="toastMessage">Сообщение</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/trend_spy.js"></script>
+    <script src="/static/js/litally_updates_widget.js"></script>
+</body>
+</html>

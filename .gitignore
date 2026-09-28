@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.bak
+*.log
+.env
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+
+# Large media files (videos) - Render & GitHub have 100MB limits
+static/generated/video/
+static/uploads/*.mp4
+static/uploads/*.webm
+static/uploads/*.mov
+static/uploads/*.avi

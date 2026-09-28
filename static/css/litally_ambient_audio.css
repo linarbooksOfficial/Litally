@@ -1,0 +1,329 @@
+/* =============================================================================
+   LITALLY SOVEREIGN AMBIENT AUDIO SANCTUARY
+   File: static/css/litally_ambient_audio.css
+   Style: Luxury Glassmorphism, Warm Golden Amber & Obsidian Glow
+   Features: Compact Floating Dock, Soundwave Equalizer, Smooth Controls
+   ============================================================================= */
+
+:root {
+    --ambient-gold: #ffd700;
+    --ambient-gold-subtle: rgba(255, 215, 0, 0.18);
+    --ambient-amber: #f59e0b;
+    --ambient-glass-bg: rgba(12, 10, 6, 0.78);
+    --ambient-glass-border: rgba(255, 215, 0, 0.28);
+    --ambient-text-main: #fef3c7;
+    --ambient-text-muted: #9ca3af;
+}
+
+/* ── 1. Floating Ambient Player Container ── */
+.ambient-sanctuary-dock {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    user-select: none;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 2. Collapsed Minimalist Pill ── */
+.ambient-pill-collapsed {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--ambient-glass-bg);
+    border: 1px solid var(--ambient-glass-border);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-radius: 999px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.15);
+    cursor: pointer;
+    color: var(--ambient-text-main);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+}
+
+.ambient-pill-collapsed:hover {
+    background: rgba(24, 20, 10, 0.88);
+    border-color: rgba(255, 215, 0, 0.55);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 215, 0, 0.3);
+}
+
+.ambient-pill-icon {
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ambient-pill-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ── 3. Expanded Full Glassmorphic Player Card ── */
+.ambient-card-expanded {
+    display: none;
+    width: 320px;
+    background: var(--ambient-glass-bg);
+    border: 1px solid var(--ambient-glass-border);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 20px;
+    padding: 16px 18px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 0 32px rgba(255, 215, 0, 0.18);
+    color: var(--ambient-text-main);
+    flex-direction: column;
+    gap: 14px;
+    animation: ambientFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ambientFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Header ── */
+.ambient-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ambient-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ambient-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    color: var(--ambient-gold);
+    font-weight: 700;
+}
+
+.ambient-header-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.2px;
+}
+
+.ambient-btn-collapse {
+    background: none;
+    border: none;
+    color: var(--ambient-text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    line-height: 1;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.ambient-btn-collapse:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Track Details & Equalizer ── */
+.ambient-track-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+.ambient-track-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.ambient-track-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ambient-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ambient-track-mood {
+    font-size: 11px;
+    color: var(--ambient-text-muted);
+}
+
+/* ── Soundwave Animation Bars ── */
+.ambient-soundwave {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 18px;
+    padding-right: 4px;
+}
+
+.ambient-wave-bar {
+    width: 3px;
+    height: 4px;
+    background: var(--ambient-gold);
+    border-radius: 2px;
+    transition: height 0.2s ease;
+}
+
+.ambient-soundwave.active .ambient-wave-bar {
+    animation: ambientEqualizer 1.2s infinite ease-in-out alternate;
+}
+
+.ambient-soundwave.active .ambient-wave-bar:nth-child(1) { animation-delay: 0.1s; height: 12px; }
+.ambient-soundwave.active .ambient-wave-bar:nth-child(2) { animation-delay: 0.3s; height: 18px; }
+.ambient-soundwave.active .ambient-wave-bar:nth-child(3) { animation-delay: 0.5s; height: 10px; }
+.ambient-soundwave.active .ambient-wave-bar:nth-child(4) { animation-delay: 0.2s; height: 16px; }
+
+@keyframes ambientEqualizer {
+    0% { height: 4px; opacity: 0.5; }
+    50% { height: 18px; opacity: 1; }
+    100% { height: 8px; opacity: 0.7; }
+}
+
+/* ── Playback Controls & Volume Slider ── */
+.ambient-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ambient-btn-play {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffd700, #d4af37);
+    border: none;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(255, 215, 0, 0.35);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ambient-btn-play:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.ambient-btn-play:active {
+    transform: scale(0.96);
+}
+
+.ambient-volume-slider-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.ambient-vol-icon {
+    font-size: 13px;
+    color: var(--ambient-gold);
+}
+
+.ambient-volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.16);
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ambient-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ambient-gold);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+    transition: transform 0.15s ease;
+}
+
+.ambient-volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.25);
+}
+
+/* ── Mood Chips Grid ── */
+.ambient-mood-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.ambient-mood-chip {
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--ambient-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease;
+}
+
+.ambient-mood-chip:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+    color: var(--ambient-text-main);
+}
+
+.ambient-mood-chip.active {
+    background: rgba(255, 215, 0, 0.18);
+    border-color: var(--ambient-gold);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Responsive adjustment for small mobile screens */
+@media (max-width: 600px) {
+    .ambient-sanctuary-dock {
+        bottom: 14px;
+        right: 14px;
+    }
+    .ambient-card-expanded {
+        width: 290px;
+    }
+}

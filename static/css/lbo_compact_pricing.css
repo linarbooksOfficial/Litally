@@ -1,0 +1,542 @@
+﻿/* =============================================================================
+   LBO COMPACT HORIZONTAL PRICING — TaxScout-style
+   File: static/css/lbo_compact_pricing.css
+   Narrow columns, horizontal row, no long vertical scroll
+   ============================================================================= */
+
+/* ── ROOT OVERRIDES ── */
+:root {
+    --lbo-card-w: 220px;
+    --lbo-card-pad: 20px 18px 16px;
+    --lbo-feat-fs: 0.72rem;
+    --lbo-feat-lh: 1.45;
+    --lbo-price-fs: 2.6rem;
+    --lbo-name-fs: 1rem;
+}
+
+/* ── CONTAINER: horizontal scroll rail ── */
+.pricing-tiers-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212,175,55,0.25) transparent;
+}
+.pricing-tiers-scroll-container::-webkit-scrollbar {
+    height: 5px;
+    background: transparent;
+}
+.pricing-tiers-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(212,175,55,0.22);
+    border-radius: 3px;
+}
+
+/* ── GRID: single horizontal row ── */
+.pricing-tiers-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+    width: max-content !important;
+    min-width: 100% !important;
+    padding: 8px 4px 4px !important;
+}
+
+/* ── CARD BASE ── */
+.pricing-tier-card {
+    flex: 0 0 var(--lbo-card-w) !important;
+    width: var(--lbo-card-w) !important;
+    min-width: var(--lbo-card-w) !important;
+    max-width: var(--lbo-card-w) !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: var(--lbo-card-pad) !important;
+    background: #111318 !important;
+    border: 1px solid rgba(255,255,255,0.09) !important;
+    border-radius: 14px !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35) !important;
+    transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s !important;
+    cursor: default !important;
+    overflow: hidden !important;
+}
+.pricing-tier-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(212,175,55,0.2) !important;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5) !important;
+}
+
+/* ── POPULAR CARD: slightly elevated + accent border ── */
+.pricing-tier-card.tier-popular-highlight {
+    background: #14161e !important;
+    border-color: rgba(212,175,55,0.3) !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.15) !important;
+    z-index: 1;
+}
+.pricing-tier-card.tier-popular-highlight:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.12) !important;
+}
+
+/* ── POPULAR RIBBON ── */
+.tier-popular-ribbon {
+    position: absolute !important;
+    top: -1px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: linear-gradient(135deg,#d4af37,#ffd700) !important;
+    color: #000 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 0.56rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    padding: 3px 10px !important;
+    border-radius: 0 0 8px 8px !important;
+    white-space: nowrap !important;
+    z-index: 10 !important;
+}
+
+/* ── BASIC VERTICAL BANNER (left side ribbon) ── */
+.tier-basic-vertical-banner {
+    position: absolute !important;
+    top: 0; left: 0 !important;
+    width: 22px !important;
+    height: 100% !important;
+    background: linear-gradient(180deg,rgba(212,175,55,0.22) 0%,rgba(212,175,55,0.08) 100%) !important;
+    border-right: 1px solid rgba(212,175,55,0.18) !important;
+    border-radius: 14px 0 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    z-index: 2 !important;
+}
+.tier-basic-vertical-banner span {
+    writing-mode: vertical-rl !important;
+    text-orientation: mixed !important;
+    transform: rotate(180deg) !important;
+    font-family: var(--font-decorative, 'Cinzel Decorative', serif) !important;
+    font-size: 0.44rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    color: rgba(212,175,55,0.7) !important;
+    white-space: nowrap !important;
+    user-select: none !important;
+}
+/* shift card content right when banner present */
+.pricing-tier-card.tier-basic-highlight .tier-card-header,
+.pricing-tier-card.tier-basic-highlight .tier-price-box,
+.pricing-tier-card.tier-basic-highlight .tier-divider-line,
+.pricing-tier-card.tier-basic-highlight .tier-distance-hud,
+.pricing-tier-card.tier-basic-highlight .tier-features-matrix,
+.pricing-tier-card.tier-basic-highlight .tier-features-list,
+.pricing-tier-card.tier-basic-highlight .tier-cta-button {
+    margin-left: 16px !important;
+}
+
+/* ── CARD HEADER ── */
+.tier-card-header {
+    margin-bottom: 10px !important;
+}
+.tier-badge-pill {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.52rem !important;
+    font-weight: 700 !important;
+    color: rgba(212,175,55,0.55) !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    display: block !important;
+    margin-bottom: 4px !important;
+}
+.tier-card-name {
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: var(--lbo-name-fs) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.15 !important;
+    margin: 0 0 3px !important;
+    letter-spacing: -0.01em !important;
+}
+.tier-card-tagline {
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: 0.62rem !important;
+    font-weight: 400 !important;
+    color: rgba(255,255,255,0.38) !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+}
+
+/* ── PRICE BLOCK ── */
+.tier-price-box {
+    margin: 10px 0 8px !important;
+}
+.tier-price-amount {
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: var(--lbo-price-fs) !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    line-height: 1 !important;
+    letter-spacing: -0.03em !important;
+    display: block !important;
+}
+.tier-price-period {
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: 0.65rem !important;
+    font-weight: 400 !important;
+    color: rgba(255,255,255,0.35) !important;
+    margin-top: 2px !important;
+    display: block !important;
+}
+
+/* ── DIVIDER ── */
+.tier-divider-line {
+    height: 1px !important;
+    background: rgba(255,255,255,0.07) !important;
+    margin: 8px 0 !important;
+    border: none !important;
+}
+
+/* ── CTA BUTTON ── */
+.tier-cta-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    padding: 10px 12px !important;
+    margin: 0 0 10px !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 9px !important;
+    color: rgba(255,255,255,0.85) !important;
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.01em !important;
+}
+.tier-cta-button:hover {
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+}
+.tier-popular-highlight .tier-cta-button,
+.tier-cta-button.tier-cta-popular {
+    background: linear-gradient(135deg,#d4af37,#ffd700,#b8960c) !important;
+    border-color: transparent !important;
+    color: #000 !important;
+}
+.tier-popular-highlight .tier-cta-button:hover {
+    box-shadow: 0 0 16px rgba(212,175,55,0.4) !important;
+    transform: scale(1.02) !important;
+}
+.tier-cta-basic {
+    background: rgba(212,175,55,0.1) !important;
+    border-color: rgba(212,175,55,0.25) !important;
+    color: rgba(212,175,55,0.9) !important;
+}
+
+/* ── DISTANCE HUD ── */
+.tier-distance-hud {
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 8px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 8px !important;
+}
+.distance-hud-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 4px !important;
+}
+.distance-hud-tag {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.5rem !important;
+    font-weight: 700 !important;
+    color: rgba(212,175,55,0.5) !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+}
+.distance-hud-status {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.5rem !important;
+    font-weight: 700 !important;
+    color: rgba(255,255,255,0.25) !important;
+}
+.distance-hud-ticker {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.58rem !important;
+    color: rgba(255,255,255,0.45) !important;
+    line-height: 1.4 !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+}
+
+/* ── FEATURE MATRIX (panorama chips) ── */
+.tier-features-matrix {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+}
+.tier-matrix-chip {
+    background: rgba(255,255,255,0.025) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 6px !important;
+    padding: 4px 6px !important;
+    font-size: 0.6rem !important;
+    font-weight: 600 !important;
+    color: rgba(255,255,255,0.55) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: background 0.15s, color 0.15s !important;
+    cursor: default !important;
+    position: relative !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.tier-matrix-chip:hover {
+    background: rgba(212,175,55,0.07) !important;
+    color: rgba(255,255,255,0.8) !important;
+    overflow: visible !important;
+    z-index: 10 !important;
+}
+.matrix-chip-badge {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    flex-shrink: 0 !important;
+}
+.matrix-chip-icon {
+    font-size: 0.65rem !important;
+    line-height: 1 !important;
+}
+.matrix-chip-qty {
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.55rem !important;
+    font-weight: 900 !important;
+    background: rgba(212,175,55,0.18) !important;
+    color: #ffd700 !important;
+    border-radius: 3px !important;
+    padding: 0 3px !important;
+    min-width: 14px !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+}
+.matrix-chip-name {
+    font-size: 0.58rem !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.matrix-chip-info {
+    overflow: hidden !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+.matrix-chip-popover {
+    display: none !important;
+    position: absolute !important;
+    bottom: calc(100% + 6px) !important;
+    left: 0 !important;
+    min-width: 160px !important;
+    max-width: 220px !important;
+    background: rgba(10,11,14,0.98) !important;
+    border: 1px solid rgba(212,175,55,0.25) !important;
+    border-radius: 10px !important;
+    padding: 10px 12px !important;
+    font-size: 0.7rem !important;
+    color: rgba(255,255,255,0.8) !important;
+    line-height: 1.5 !important;
+    z-index: 9999 !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6) !important;
+    pointer-events: none !important;
+    white-space: normal !important;
+    backdrop-filter: blur(20px) !important;
+}
+.tier-matrix-chip:hover .matrix-chip-popover { display: block !important; }
+
+/* ── DETAILED LIST VIEW ── */
+.tier-features-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: 320px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(212,175,55,0.15) transparent !important;
+}
+.tier-features-list::-webkit-scrollbar { width: 3px; }
+.tier-features-list::-webkit-scrollbar-thumb {
+    background: rgba(212,175,55,0.15);
+    border-radius: 2px;
+}
+.tier-feature-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 5px !important;
+    padding: 3px 0 !important;
+    font-family: var(--font-sans, 'Montserrat', sans-serif) !important;
+    font-size: var(--lbo-feat-fs) !important;
+    line-height: var(--lbo-feat-lh) !important;
+    color: rgba(255,255,255,0.65) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+}
+.tier-feature-item:last-child { border-bottom: none !important; }
+.tier-feature-icon {
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
+    flex-shrink: 0 !important;
+    margin-top: 1px !important;
+}
+.tier-feature-title {
+    font-size: var(--lbo-feat-fs) !important;
+    font-weight: 600 !important;
+    color: rgba(255,255,255,0.75) !important;
+    line-height: var(--lbo-feat-lh) !important;
+}
+.tier-feature-desc {
+    font-size: 0.62rem !important;
+    color: rgba(255,255,255,0.32) !important;
+    display: block !important;
+    margin-top: 1px !important;
+    line-height: 1.35 !important;
+}
+.tier-feature-text-block { flex: 1; min-width: 0; }
+
+/* ── VIEW MODE TOGGLING ── */
+.view-mode-panorama .tier-features-list { display: none !important; }
+.view-mode-panorama .tier-features-matrix { display: grid !important; }
+.view-mode-detailed .tier-features-matrix { display: none !important; }
+.view-mode-detailed .tier-features-list { display: flex !important; }
+
+/* ── SOVEREIGN NOTE ── */
+.tier-matrix-sovereign-note {
+    grid-column: 1 / -1 !important;
+    font-size: 0.52rem !important;
+    color: rgba(212,175,55,0.25) !important;
+    text-align: center !important;
+    padding-top: 4px !important;
+    border-top: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+/* ── OVERALL WRAPPER (the plans portal area) ── */
+.pricing-plans-master-wrapper {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+/* ── HIDE LARGE HERO INTRO (compact mode) ── */
+.pricing-hero-intro { padding: 12px 8px 0 !important; }
+.pricing-hero-sub {
+    font-size: 0.78rem !important;
+    max-width: 100% !important;
+    margin-bottom: 10px !important;
+    color: rgba(255,255,255,0.38) !important;
+}
+.pricing-currency-pill { margin-bottom: 10px !important; }
+
+/* ── CATEGORY BAR ── */
+.plans-category-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+}
+.plans-category-chip {
+    font-size: 0.68rem !important;
+    padding: 5px 10px !important;
+    border-radius: 20px !important;
+}
+
+/* ── CONTROLS ROW ── */
+.plans-viewmode-btn {
+    font-size: 0.72rem !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    margin-bottom: 10px !important;
+}
+
+/* ── HIDE V2 HERO WHEN LEGACY RENDER IS IN USE ── */
+.pricing-tiers-scroll-container ~ .lbo-plans-sovereign-canvas { display: none !important; }
+
+/* ── GUARANTEE FOOTER ── */
+.pricing-guarantee-footer {
+    font-size: 0.7rem !important;
+    padding: 10px 8px !important;
+    margin-top: 10px !important;
+    color: rgba(255,255,255,0.3) !important;
+    border-top: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+/* ── TAB BAR ── */
+.plans-portal-tab-bar {
+    padding: 0 0 0 4px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    margin-bottom: 10px !important;
+    display: flex !important;
+    gap: 4px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+}
+.plans-portal-tab-bar::-webkit-scrollbar { display: none !important; }
+.plans-tab-btn {
+    font-size: 0.74rem !important;
+    padding: 8px 14px !important;
+    border-radius: 8px 8px 0 0 !important;
+    white-space: nowrap !important;
+}
+
+/* ── PRICE FORMATTING for $14.99 ── */
+.tier-price-amount[data-cents]::after {
+    content: attr(data-cents);
+    font-size: 1.1rem;
+    font-weight: 700;
+    vertical-align: super;
+    margin-left: 1px;
+    color: rgba(255,255,255,0.55);
+}
+
+/* ── RESPONSIVE: wider cards on large screens ── */
+@media (min-width: 1800px) {
+    :root { --lbo-card-w: 240px; }
+}
+@media (min-width: 2200px) {
+    :root { --lbo-card-w: 260px; }
+}
+
+/* ── MOBILE: enable horizontal swipe ── */
+@media (max-width: 768px) {
+    :root {
+        --lbo-card-w: 200px;
+        --lbo-price-fs: 2.1rem;
+        --lbo-feat-fs: 0.68rem;
+    }
+    .pricing-tiers-grid { gap: 8px !important; }
+}
+@media (max-width: 480px) {
+    :root {
+        --lbo-card-w: 185px;
+        --lbo-price-fs: 1.9rem;
+    }
+}

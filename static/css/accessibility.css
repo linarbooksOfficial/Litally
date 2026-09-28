@@ -1,0 +1,102 @@
+/* =============================================================
+   LITALLY ACCESSIBILITY DESIGN SYSTEM (РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ)
+   Файл: static/css/accessibility.css
+   Назначение: максимальная читаемость, повышенный контраст,
+   укрупненные шрифты и отсутствие раздражающих зрительных эффектов.
+   ============================================================= */
+
+/* 1. БАЗОВЫЕ ПАРАМЕТРЫ ПРИ ВКЛЮЧЕНИИ РЕЖИМА */
+body.vision-impaired {
+    font-size: 18px !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0.5px !important;
+    --card-bg: #0d1117 !important;
+    --card-border: #ffd700 !important;
+    --border-color: #ffd700 !important;
+    --text-color: #ffffff !important;
+    --text-muted: #e2e8f0 !important;
+    --text-dim: #cbd5e1 !important;
+    --glass-blur: none !important;
+}
+
+/* 2. ОТКЛЮЧЕНИЕ ЧАСТИЦ И БЛЕСКОВ ДЛЯ СНИЖЕНИЯ НАГРУЗКИ НА ГЛАЗА */
+body.vision-impaired #ambientCanvas,
+body.vision-impaired .ambient-vignette,
+body.vision-impaired .cursor-spotlight {
+    display: none !important;
+}
+
+/* 3. УВЕЛИЧЕНИЕ И ЧЁТКОСТЬ ЗАГОЛОВКОВ */
+body.vision-impaired h1,
+body.vision-impaired .brand-title-compact {
+    font-size: 2.2rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 2px !important;
+}
+
+body.vision-impaired h2 {
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+}
+
+body.vision-impaired h3 {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+}
+
+body.vision-impaired p,
+body.vision-impaired span,
+body.vision-impaired div {
+    font-size: 1.08rem !important;
+    line-height: 1.75 !important;
+}
+
+/* 4. ЧЕТКИЕ КОНТРАСТНЫЕ РАМКИ ДЛЯ КАРТОЧЕК */
+body.vision-impaired .custom-card,
+body.vision-impaired .theme-matrix-tile,
+body.vision-impaired .modal-dialog-box,
+body.vision-impaired .admin-dashboard-box {
+    border: 2px solid #ffd700 !important;
+    background: #0b0e14 !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
+}
+
+/* 5. УВЕЛИЧЕННЫЕ КНОПКИ С ВЫСОКИМ КОНТРАСТОМ */
+body.vision-impaired button,
+body.vision-impaired .btn-master-trigger,
+body.vision-impaired .btn-header-action,
+body.vision-impaired .btn-hero-primary,
+body.vision-impaired .btn-card-read {
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    min-height: 48px !important;
+    padding: 12px 24px !important;
+    border: 2px solid #ffd700 !important;
+    background: #111520 !important;
+    color: #ffffff !important;
+    outline-offset: 4px !important;
+}
+
+body.vision-impaired button:hover,
+body.vision-impaired button:focus {
+    background: #ffd700 !important;
+    color: #000000 !important;
+    outline: 3px solid #ffffff !important;
+}
+
+/* 6. ВЫСОКОКОНТРАСТНЫЙ ТЕКСТ В ФОРМАХ И ПОЛЯХ */
+body.vision-impaired input,
+body.vision-impaired textarea,
+body.vision-impaired select {
+    font-size: 1.15rem !important;
+    border: 2px solid #ffd700 !important;
+    background: #000000 !important;
+    color: #ffffff !important;
+    padding: 14px 18px !important;
+}
+
+/* 7. ФОКУСИРОВКА С КЛАВИАТУРЫ (ДЛЯ СКРИНРИДЕРОВ И НАВИГАЦИИ) */
+body.vision-impaired *:focus-visible {
+    outline: 3px solid #00e5ff !important;
+    outline-offset: 3px !important;
+}

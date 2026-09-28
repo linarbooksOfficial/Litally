@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Litdeo — Sovereign 4K Video Generation Studio. Generate cinematic AI videos from text with Litdeo 2.0, Litdeo 2.1, and Litdeo 2.2 models.">
+    <title>Litdeo | Sovereign 4K Video Generation Studio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/litally_video_ai.css">
+    <!-- Litally Hyper-Graphics Quantum Visual Engine 4K/8K Stylesheet -->
+    <link rel="stylesheet" href="/static/css/litally_hyper_graphics_engine.css">
+    <style>
+        :root, html, body.video-ai-body {
+            background-color: #070514 !important;
+            color: #e0e7ff;
+        }
+        .video-topbar {
+            background: rgba(14, 9, 34, 0.88) !important;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.25) !important;
+        }
+    </style>
+</head>
+<body class="video-ai-body">
+
+    <!-- TOPBAR -->
+    <header class="video-topbar">
+        <a href="/video-ai" class="topbar-brand">
+            <div class="brand-icon-wrap">📖</div>
+            <div class="brand-info">
+                <div class="brand-title">
+                    <span id="brandTitleText">Litdeo</span>
+                    <span class="badge-4k">4K HDR</span>
+                </div>
+                <div class="brand-sub" id="brandSubText">Суверенная 4K Студия Видеогенерации</div>
+            </div>
+        </a>
+
+        <!-- Model Selector Switcher -->
+        <div class="topbar-center">
+            <div class="model-pill-switcher">
+                <button type="button" class="model-btn active" data-model="litdeo_2_0" title="Litdeo 2.0 (Быстрый • 1080p)">
+                    <span>⚡</span> <span>Litdeo 2.0</span>
+                </button>
+                <button type="button" class="model-btn" data-model="litdeo_2_1" title="Litdeo 2.1 (Кинематографичный • 4K 30fps)">
+                    <span>🧠</span> <span>Litdeo 2.1</span>
+                </button>
+                <button type="button" class="model-btn" data-model="litdeo_2_2" title="Litdeo 2.2 (Ультра 4K • 60fps)">
+                    <span>💎</span> <span>Litdeo 2.2</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="topbar-right">
+            <button type="button" class="topbar-link" onclick="openBenchmarkModal()" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.45); font-weight: 700; color: #fef08a;" title="Бенчмаркинг Litdeo vs Luma vs Higgsfield vs Runway">
+                <span>🏆</span> <span id="btnTxtBenchmark">Бенчмаркинг (Luma/Higgsfield)</span>
+            </button>
+            <button type="button" class="topbar-link" onclick="openSafetyModal()" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 700; color: #bae6fd;" title="Правила безопасности и авторские права Линара Серика">
+                <span>🛡️</span> <span id="btnTxtSafety">Безопасность & Копирайт</span>
+            </button>
+            <button type="button" class="topbar-link" id="topbarAgeTrigger" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(168, 85, 247, 0.18); border: 1px solid rgba(168, 85, 247, 0.45); font-weight: 700; color: #e9d5ff;" title="Сменить возраст зрителя (1-99 лет)">
+                <span id="topbarAgeBadge"><span id="topbarAgeVal">⚡ 25 лет</span></span> <span style="font-size: 0.7rem; opacity: 0.7;">▼</span>
+            </button>
+            <a href="/trend-spy" target="_blank" class="topbar-link" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(244, 63, 94, 0.18); border: 1px solid rgba(244, 63, 94, 0.45); font-weight: 700; color: #fda4af;" title="Trend Spy AI | Мировой Радар Трендов">
+                <span>🔥</span> <span>Trend Spy ↗</span>
+            </a>
+            <a href="/litally-ai" target="_blank" class="topbar-link link-highlight">
+                <span>🤖</span> <span id="navChatText">Litally AI Чат ↗</span>
+            </a>
+            <a href="/" target="_blank" class="topbar-link">
+                <span>🏛️</span> <span id="navSanctuaryText">Главное святилище</span>
+            </a>
+            <button type="button" class="topbar-link" id="btnLangModalTrigger" style="display:inline-flex;align-items:center;gap:6px;" title="Сменить язык / Change language">
+                <span id="activeLangFlag">🇷🇺</span> <span id="activeLangName">Русский</span> <span style="font-size:0.7rem;opacity:0.7;">▼</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- STUDIO MAIN WORKSPACE -->
+    <main class="studio-main">
+
+        <!-- LEFT PANEL: STUDIO CONTROLS -->
+        <section class="studio-panel">
+            <div class="panel-header">
+                <h2 class="panel-title" id="studioTitleText">
+                    <span>🎬</span> <span>Студия создания видео</span>
+                </h2>
+                <span class="quality-badge">PRO EDITION</span>
+            </div>
+
+            <!-- Baby / Toddler Friendly Mode Panel (Ages 1-3) -->
+            <div id="babyToddlerPanel" style="display: none; background: linear-gradient(135deg, rgba(236, 72, 153, 0.18), rgba(245, 158, 11, 0.18)); border: 2px dashed #f472b6; border-radius: 18px; padding: 18px; margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 6px;">🧸 🚗 🌈</div>
+                <h3 style="margin: 0 0 6px 0; color: #f472b6; font-size: 1.25rem; font-weight: 800;">Детский режим: Малыш (1–3 года)</h3>
+                <p style="margin: 0 0 14px 0; color: #fbcfe8; font-size: 0.92rem; line-height: 1.4;">Спокойная колыбельная музыка-шарманка, яркая машинка на радужном коврике, безопасная плавная анимация без стробоскопии.</p>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" id="btnBabyPlayCar" class="btn-generate-main" style="background: linear-gradient(135deg, #ec4899, #f59e0b); border: none; font-size: 1.1rem; padding: 12px 24px; border-radius: 16px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                        🚗 Играть с машинкой
+                    </button>
+                    <button type="button" id="btnBabyChangeAge" class="btn-outline" style="font-size: 0.88rem; padding: 8px 16px; border-radius: 12px; color: #fbcfe8; border-color: rgba(244, 114, 182, 0.4); cursor: pointer;">
+                        ⚙️ Изменить возраст
+                    </button>
+                </div>
+            </div>
+
+            <!-- 1. Video Prompt -->
+            <div class="panel-section">
+                <div class="section-label" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span id="lblPromptText">Промпт видео:</span>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <button type="button" class="btn-magic-enhance" id="btnTrillionVariants" title="Сгенерировать случайную идею из 129 квадриллионов (1000+ миллиардов) вариантов!" style="background: linear-gradient(135deg, #a855f7, #ec4899); border: 1px solid rgba(236,72,153,0.5); color: #fff;">🎲 1 Триллион Идей</button>
+                        <button type="button" class="btn-magic-enhance" id="btnMagicEnhance">✨ Улучшить с ИИ</button>
+                    </div>
+                </div>
+                <div class="prompt-box-wrap">
+                    <textarea id="promptInput" class="prompt-textarea" placeholder="Опишите видео или изображение: кто в кадре (персонаж, возраст, эмоция), что делает (действие, физика), внешность (цвет волос и глаз, прическа), одежда и детали, окружение (локация, погода), освещение (золотой час, неон, киносвет), ракурс и движение камеры (35mm наезд, дрон, slow-mo)..."></textarea>
+                    <div class="prompt-actions-bar">
+                        <span class="prompt-hint-shortcut">⌨️ <b>Enter</b> или <b>Ctrl+Enter</b></span>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="btn-clear-prompt" id="btnClearPrompt" style="display: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer;" title="Очистить текст (сбросить)">✕ Стереть</button>
+                            <button type="button" class="btn-prompt-send" id="btnPromptSend" title="Отправить промпт и мгновенно сгенерировать 4K видео">
+                                <span>🚀</span> <span id="btnPromptSendText">Отправить</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Quick Tag Modifiers: 7 Pillars of Cinematography -->
+                    <div class="prompt-modifiers-row" style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('8K Cinema HDR, Octane Render, 32-bit')">✨ 8K Master</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Объемные лучи золотого часа, киносвет, rim light')">🌅 Киносвет</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Линза 35mm Anamorphic, боке, глубина резкости')">🎥 35mm Lens</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Плавная съемка с FPV дрона, кинематографичная стабилизация')">🛸 FPV Дрон</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Замедленная съемка Slow Motion 60fps, динамическая физика')">⏳ Slow-Mo</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Неоновые отражения, киберпанк мегаполис')">🌆 Неон</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Гиперреализм Unreal Engine 5.5, трассировка лучей')">🎮 UE5.5</button>
+                        <button type="button" class="prompt-modifier-pill" onclick="appendPromptModifier('Шелковые традиционные ткани, золотые узоры, детальная текстура')">👘 Ткани & Детали</button>
+                    </div>
+                    <div id="kidsPromptHint" style="display: none; margin-top: 8px; padding: 8px 12px; border-radius: 10px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); font-size: 0.85rem; color: #bae6fd;">
+                        🧸 <b>Подсказка для детей:</b> Ты можешь писать с ошибками, например <i>«созадй машику видео»</i> или <i>«робота в космосе»</i> — Litdeo поймёт тебя и создаст красивое 3D видео!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.5 Multimodal Human Perception Dropzone (Presentations, Photos, Video, Audio, Docs) -->
+            <div class="panel-section">
+                <div class="section-label" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="lblPercepTitle">🧠 Мультимодальное зрение и слух:</span>
+                    <span class="badge-pro" style="font-size: 0.65rem;">PPTX • PDF • ФОТО • ВИДЕО</span>
+                </div>
+                <div class="multimodal-dropzone" id="multimodalDropzone">
+                    <input type="file" id="videoFileInput" accept=".pptx,.ppt,.pdf,.docx,.xlsx,.txt,.epub,.jpg,.jpeg,.png,.webp,.mp4,.webm,.mov,.mp3,.wav" style="display:none;">
+                    <div class="dropzone-inner-content">
+                        <span style="font-size: 1.4rem;">📎 📑 👁️ 🎧</span>
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #fff; margin-top: 4px;">Прикрепить презентацию, фото, видео или документ</div>
+                        <div style="font-size: 0.72rem; color: var(--v-text-muted);">ИИ поймет смысл, увидит композицию и создаст 4K видео по мотивам</div>
+                    </div>
+                </div>
+                <div id="perceptionResultCard" class="perception-result-card" style="display: none;">
+                    <div class="perception-card-header">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span id="percepIcon">📑</span>
+                            <strong id="percepFilename">Документ</strong>
+                        </div>
+                        <button type="button" class="btn-close-percep" id="btnClosePercep">✕</button>
+                    </div>
+                    <div id="percepBodyText" class="perception-body-text"></div>
+                    <button type="button" class="btn-percep-generate" id="btnPercepGenerateVideo">
+                        <span>🎬</span> <span id="btnPercepGenerateVideoText">Создать 4K видео по этому материалу</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. Quick Inspirations -->
+            <div class="panel-section">
+                <div class="section-label" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="lblInspirationText">Быстрые идеи и темы:</span>
+                    <button type="button" class="btn-magic-enhance" id="btnOpen100ThemesModal" style="padding: 3px 10px; font-size: 0.74rem; cursor: pointer; background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(168, 85, 247, 0.25)); border-color: rgba(168, 85, 247, 0.5);">🎨 Каталог 100 тем</button>
+                </div>
+                <div class="quick-prompts-scroll">
+                    <button type="button" class="prompt-chip" data-theme="cyberpunk" data-prompt="Киберпанк мегаполис под неоновым дождём, летающие автомобили, отражения на мокром асфальте, 8k cinematic">🌆 Киберпанк 2099</button>
+                    <button type="button" class="prompt-chip" data-theme="space" data-prompt="Сверхмассивная черная дыра в центре галактики, аккреционный диск из золотой плазмы, кинематографичный космос IMAX">🌌 Черная Дыра</button>
+                    <button type="button" class="prompt-chip" data-theme="nature" data-prompt="Величественный беркут парит над золотым каньоном Великой Степи на закате, лучи солнца сквозь перья, 8k nature">🦅 Великая Степь</button>
+                    <button type="button" class="prompt-chip" data-theme="ocean" data-prompt="Гигантский светящийся биолюминесцентный кит в бездне ночного океана, каустические лучи света, 4k ultra">🌊 Океанская Бездна</button>
+                    <button type="button" class="prompt-chip" data-theme="action" data-prompt="Футуристический гиперкар дрифтует по горному серпантину на рассвете, дым из-под колес, камера с дрона">🏎️ Гиперкар Дрифт</button>
+                    <button type="button" class="prompt-chip" data-theme="anime" data-prompt="Цветение сакуры в старинном храме Киото, падающие лепестки, стиль аниме Макото Синкая, 4k">🌸 Сакура Киото</button>
+                </div>
+            </div>
+
+            <!-- 3. Visual Styles -->
+            <div class="panel-section">
+                <div class="section-label" id="lblStyleText">Кинематографичный стиль:</div>
+                <div class="styles-grid">
+                    <div class="style-card active" data-style="cinematic_8k">
+                        <span class="style-icon">🎬</span>
+                        <span class="style-name">Cinematic 8K</span>
+                    </div>
+                    <div class="style-card" data-style="cyberpunk">
+                        <span class="style-icon">🌆</span>
+                        <span class="style-name">Cyberpunk</span>
+                    </div>
+                    <div class="style-card" data-style="anime">
+                        <span class="style-icon">🎨</span>
+                        <span class="style-name">Anime Studio</span>
+                    </div>
+                    <div class="style-card" data-style="nature">
+                        <span class="style-icon">🌿</span>
+                        <span class="style-name">UE5 Nature</span>
+                    </div>
+                    <div class="style-card" data-style="action">
+                        <span class="style-icon">⚡</span>
+                        <span class="style-name">Action 60fps</span>
+                    </div>
+                    <div class="style-card" data-style="hyperlapse">
+                        <span class="style-icon">⏳</span>
+                        <span class="style-name">Hyperlapse</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Aspect Ratio (30 Variations) -->
+            <div class="panel-section">
+                <div class="section-label" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="lblRatioText">Формат кадра (30 форматов):</span>
+                    <button type="button" class="btn-magic-enhance" id="btnOpenAspectModal" style="padding: 3px 8px; font-size: 0.72rem; cursor: pointer;">📐 Все 30 форматов</button>
+                </div>
+                <!-- 5 Quick Access Buttons -->
+                <div class="aspect-ratios-row" id="quickRatioButtonsRow">
+                    <button type="button" class="ratio-btn active" data-ratio="16:9" title="16:9 (Кино / YouTube / 4K)">
+                        <div class="ratio-box r-16-9"></div>
+                        <span class="ratio-label">16:9</span>
+                    </button>
+                    <button type="button" class="ratio-btn" data-ratio="9:16" title="9:16 (TikTok / Reels / Shorts)">
+                        <div class="ratio-box r-9-16"></div>
+                        <span class="ratio-label">9:16</span>
+                    </button>
+                    <button type="button" class="ratio-btn" data-ratio="1:1" title="1:1 (Квадрат / Instagram)">
+                        <div class="ratio-box r-1-1"></div>
+                        <span class="ratio-label">1:1</span>
+                    </button>
+                    <button type="button" class="ratio-btn" data-ratio="4:5" title="4:5 (Instagram Feed Portrait)">
+                        <div class="ratio-box r-4-5"></div>
+                        <span class="ratio-label">4:5</span>
+                    </button>
+                    <button type="button" class="ratio-btn" data-ratio="21:9" title="21:9 (CinemaScope UltraWide)">
+                        <div class="ratio-box r-21-9"></div>
+                        <span class="ratio-label">21:9</span>
+                    </button>
+                </div>
+                <!-- Dropdown for all 30 variations -->
+                <div style="margin-top: 10px;">
+                    <select id="aspectRatioSelect30" class="select-styled" style="font-size: 0.82rem; padding: 8px 10px;">
+                        <optgroup label="📱 Мобильные и Соцсети (10 форматов)">
+                            <option value="9:16">📱 9:16 — TikTok, Reels, Shorts & Stories</option>
+                            <option value="4:5">📸 4:5 — Instagram Feed Portrait</option>
+                            <option value="1:1">⏹️ 1:1 — Instagram Square & Обложка альбома</option>
+                            <option value="9:19.5">📲 9:19.5 — iPhone 14/15/16 Pro Fullscreen</option>
+                            <option value="9:20">📱 9:20 — Samsung Galaxy AMOLED Fullscreen</option>
+                            <option value="9:21">📱 9:21 — Sony Xperia Cinema Mobile</option>
+                            <option value="3:4">📷 3:4 — Ретро-портрет / iPad Vertical</option>
+                            <option value="2:3">📸 2:3 — Вертикальная фотопленка 35mm</option>
+                            <option value="10:16">📱 10:16 — Вертикальный планшет / e-Reader</option>
+                            <option value="1:2">📲 1:2 — Ультравысокий складной Fold</option>
+                        </optgroup>
+                        <optgroup label="🎬 Кино и Режиссура (10 форматов)">
+                            <option value="16:9" selected>🎬 16:9 — Стандарт Widescreen (YouTube / 4K UHD / ТВ)</option>
+                            <option value="21:9">🎥 21:9 — Cinematic UltraWide (CinemaScope)</option>
+                            <option value="2.39:1">🎞️ 2.39:1 — Голливудский анаморфотный стандарт</option>
+                            <option value="2.35:1">🎬 2.35:1 — Классический CinemaScope 35mm</option>
+                            <option value="1.85:1">🎥 1.85:1 — Американский театральный стандарт</option>
+                            <option value="2:1">📺 2:1 — Univisium (Netflix Originals, Stranger Things)</option>
+                            <option value="1.43:1">🌌 1.43:1 — Полнокупольный IMAX 70mm (Interstellar)</option>
+                            <option value="2.76:1">🏛️ 2.76:1 — Ultra Panavision 70 (The Hateful Eight)</option>
+                            <option value="1.66:1">🎞️ 1.66:1 — Европейский широкоэкранный (Super 16)</option>
+                            <option value="1.375:1">📽️ 1.375:1 — Золотой Век Голливуда (Academy Ratio)</option>
+                        </optgroup>
+                        <optgroup label="🖥️ Мониторы, Фото и Панорамы (10 форматов)">
+                            <option value="3:2">📷 3:2 — Классическая 35mm плёнка / Фотография DSLR</option>
+                            <option value="4:3">📺 4:3 — Ретро ТВ / SDTV / Мониторы CRT / iPad</option>
+                            <option value="16:10">💻 16:10 — Дисплеи MacBook Pro / PC 2560x1600</option>
+                            <option value="5:4">🖥️ 5:4 — Большой формат / Мониторы 1280x1024</option>
+                            <option value="32:9">🏎️ 32:9 — Super Ultra-Wide (Dual 16:9 Gaming)</option>
+                            <option value="3:1">🌆 3:1 — Тройной монитор / Кинопанорама Surround</option>
+                            <option value="4:1">🌉 4:1 — Ультрапанорамный ленточный баннер</option>
+                            <option value="5:3">🎮 5:3 — Портативные консоли (PSP / Super 16)</option>
+                            <option value="1:3">🏙️ 1:3 — Вертикальная инфостойка / Skyscraper Totem</option>
+                            <option value="9:32">🗼 9:32 — Ультравертикальный Skyscraper баннер</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 4.5. Litdeo Soul: Character Lock (Soul ID) & Aesthetic Reference (Higgsfield Soul Killer) -->
+            <div class="panel-section" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08)); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 12px; padding: 12px;">
+                <div class="section-label" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                    <span style="display:flex; align-items:center; gap:6px;">
+                        <span>💎</span> <strong style="color:#f472b6;">Litdeo Soul™</strong> <span class="badge-pro" style="font-size:0.65rem;">SOUL ID • КИНО-ЭСТЕТИКА</span>
+                    </span>
+                    <span style="font-size:0.7rem; color:var(--v-text-muted);">Фиксация лица и стиля</span>
+                </div>
+                
+                <div class="controls-two-col" style="gap: 8px;">
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;">👤 Soul ID (Персонаж):</span>
+                        <select id="soulIdSelect" class="select-styled" style="font-size:0.78rem; padding:6px 8px; border-color:rgba(236,72,153,0.35);">
+                            <option value="none">✨ Свободный выбор (Без привязки)</option>
+                            <option value="nomad_hero">👑 Казахский Батыр (Altynbek • Шёлковый шапан, скакун)</option>
+                            <option value="steppe_queen">👸 Томирис / Царица Степей (Tomiris • Золотой саукеле)</option>
+                            <option value="cyber_runner">🌆 Киберпанк Беглец (Kai • Неоновый визор, хром)</option>
+                            <option value="anime_heroine">🌸 Аниме Героиня (Aiko • Глаза-аметисты, каре)</option>
+                            <option value="deep_astronaut">🌌 Астронавт Deep Space (Vega • Скафандр 2099)</option>
+                            <option value="vogue_model">📸 Vogue Супермодель (Elena • Высокая мода, фарфор)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;">🎨 Soul Reference (Вайб & Эстетика):</span>
+                        <select id="soulAestheticSelect" class="select-styled" style="font-size:0.78rem; padding:6px 8px; border-color:rgba(236,72,153,0.35);">
+                            <option value="default">🌟 Стандарт Litdeo 4K HDR</option>
+                            <option value="quiet_luxury">🍸 Quiet Luxury (Мягкий свет, кашемир и шёлк)</option>
+                            <option value="selfie_wide">🤳 0.5x Ultra-Wide Selfie (Streetwear тренд)</option>
+                            <option value="y2k_grunge">📼 Y2K Cyber Grunge (Глянцевый винил, хром)</option>
+                            <option value="golden_nomad">🦅 Золотая Степь (Закат, парча, орнаменты)</option>
+                            <option value="kodak_portra">🎞️ Kodak Portra 400 (Аналоговая тёплая плёнка)</option>
+                            <option value="imax_interstellar">🌌 IMAX 70mm Interstellar (Глубокий космос)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Litdeo DoP Supreme: 100+ Professional Camera Movement Library & Optics (Higgsfield DoP Killer) -->
+            <div class="panel-section" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(59, 130, 246, 0.08)); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 12px; padding: 12px;">
+                <div class="section-label" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="display:flex; align-items:center; gap:6px;">
+                        <span>🎥</span> <strong style="color:#38bdf8;">Litdeo DoP Supreme™</strong> <span class="badge-pro" style="font-size:0.65rem;">РЕЖИССЕРСКАЯ КАМЕРА</span>
+                    </span>
+                    <span style="font-size:0.7rem; color:#bae6fd;">25+ траекторий киносъемки</span>
+                </div>
+
+                <div style="margin-bottom: 8px;">
+                    <span style="font-size:0.75rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;" id="lblCameraText">Движение камеры (DoP Presets):</span>
+                    <select id="cameraMotionSelect" class="select-styled" style="font-size:0.8rem; padding:7px 10px; border-color:rgba(56,189,248,0.4);">
+                        <optgroup label="🎬 Классическая киностудия (Basic Studio)">
+                            <option value="zoom_in" selected>🎥 Наезд (Dolly In — Плавное приближение)</option>
+                            <option value="zoom_out">🔭 Отъезд (Dolly Out — Раскрытие сцены)</option>
+                            <option value="pan_right">↔️ Панорама вправо (Pan Right)</option>
+                            <option value="pan_left">↔️ Панорама влево (Pan Left)</option>
+                            <option value="pedestal_up">⬆️ Пьедестал вверх (Pedestal Up)</option>
+                            <option value="pedestal_down">⬇️ Пьедестал вниз (Pedestal Down)</option>
+                            <option value="static">⚓ Статичный штатив (Static Tripod)</option>
+                        </optgroup>
+                        <optgroup label="⚡ Голливуд & Экшн (Epic Action)">
+                            <option value="crash_zoom">💥 Crash Zoom (Мгновенный резкий наезд Тарантино)</option>
+                            <option value="bullet_time">⏱️ Bullet Time 360° (Замедленное вращение Матрица)</option>
+                            <option value="vertigo">🌀 Vertigo Dolly Zoom (Эффект Хичкока: искажение фона)</option>
+                            <option value="whip_pan">⚡ Whip Pan (Хлыстовая динамичная панорама)</option>
+                            <option value="dutch_angle">📐 Dutch Angle (Голландский наклонённый угол 25°)</option>
+                            <option value="snorricam">🎽 Snorricam (Нательная камера персонажа)</option>
+                            <option value="roll_360">🔄 Roll 360° (Вращение по оси крена на 360°)</option>
+                        </optgroup>
+                        <optgroup label="🛸 FPV Дроны & Аэросъемка (Aerial & FPV)">
+                            <option value="drone_fpv">🛸 Дрон FPV Glide (Плавное парение над локацией)</option>
+                            <option value="drone_dive">🦅 FPV Dive (Вертикальное пикирование с неба)</option>
+                            <option value="orbit_360">🔄 Орбита 360° (Orbit Arc вокруг героя)</option>
+                            <option value="corkscrew">🌪️ Штопор (Corkscrew Fly-Through)</option>
+                            <option value="low_skim">🏎️ Бреющий полёт у земли (Low-Altitude Skim)</option>
+                            <option value="top_down_nadir">🛰️ Взгляд бога (Top-Down 90° Nadir)</option>
+                        </optgroup>
+                        <optgroup label="📱 Viral Social & Diffuse Trends (TikTok / Reels)">
+                            <option value="selfie_05">🤳 0.5x Ultra-Wide Selfie (Широкоугольный фишай)</option>
+                            <option value="handheld">📹 Ручная камера (Handheld Vlogger Shake)</option>
+                            <option value="snap_zoom">⚡ Snap Zoom (Ритмичный пульсирующий наезд)</option>
+                            <option value="parallax_reveal">✨ Parallax Reveal (Кинематографичное раскрытие)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- DoP Virtual Lens & Lighting Rig -->
+                <div class="controls-two-col" style="gap: 8px;">
+                    <div>
+                        <span style="font-size:0.74rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;">🔍 Кинообъектив (Lens):</span>
+                        <select id="lensSelect" class="select-styled" style="font-size:0.76rem; padding:5px 7px;">
+                            <option value="35mm" selected>🎬 35mm Anamorphic T1.3 (Голливуд)</option>
+                            <option value="14mm">🐟 14mm Ultra-Wide Fisheye</option>
+                            <option value="24mm">🏔️ 24mm Wide Landscape</option>
+                            <option value="50mm">👁️ 50mm Human Prime f/1.2</option>
+                            <option value="85mm">✨ 85mm Bokeh Master f/1.4</option>
+                            <option value="200mm">🔭 200mm Telephoto Compression</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span style="font-size:0.74rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;">💡 Световая схема (Lighting):</span>
+                        <select id="lightingRigSelect" class="select-styled" style="font-size:0.76rem; padding:5px 7px;">
+                            <option value="three_point" selected>💡 3-точечный свет (Key/Fill/Rim)</option>
+                            <option value="rembrandt">🎭 Рембрандтовский chiaroscuro</option>
+                            <option value="golden_hour">🌅 Золотой час (Контровой свет)</option>
+                            <option value="neon_duotone">🌆 Неоновый дуотон (Cyan/Magenta)</option>
+                            <option value="film_noir">🎬 Кинонуар (Глубокие тени)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Secondary Motion Mixer & Duration -->
+                <div class="controls-two-col" style="gap: 8px; margin-top: 8px;">
+                    <div>
+                        <span style="font-size:0.74rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;">🎛️ Микшер движения (Secondary):</span>
+                        <select id="secondaryMotionSelect" class="select-styled" style="font-size:0.76rem; padding:5px 7px;">
+                            <option value="none">Без вторичного эффекта</option>
+                            <option value="handheld">📹 Тряска ручной камеры</option>
+                            <option value="speed_blur">💨 Оптический блюр скорости</option>
+                            <option value="subtle_drift">🍃 Медленный дрейф (Subtle)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span style="font-size:0.74rem; color:var(--v-text-muted); font-weight:600; display:block; margin-bottom:4px;" id="lblDurationText">Длительность (60с – 5 мин):</span>
+                        <select id="durationSelect" class="select-styled" style="font-size:0.76rem; padding:5px 7px;">
+                            <option value="60" selected>⚡ 60 сек (1 минута • Тизер)</option>
+                            <option value="90">⏱️ 90 сек (1.5 мин • Трейлер)</option>
+                            <option value="120">🎬 120 сек (2 минуты • Новелла)</option>
+                            <option value="180">🎥 180 сек (3 минуты • Киносцена)</option>
+                            <option value="240">🌟 240 сек (4 минуты • Эпизод)</option>
+                            <option value="300">👑 300 сек (5 минут • Шедевр)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Slider for Fine-Tuned Duration (60s to 300s) -->
+                <div style="margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 8px; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <span style="font-size:0.72rem; color:var(--v-text-muted);">Точная шкала хронометража:</span>
+                        <span id="durationValBadge" style="font-size:0.74rem; font-weight:800; color:#38bdf8; font-family:monospace;">60 сек (01:00)</span>
+                    </div>
+                    <input type="range" id="rangeDurationSlider" min="60" max="300" step="15" value="60" class="custom-slider" style="width:100%; cursor:pointer;">
+                </div>
+            </div>
+
+            <!-- 5.2. Уровень сложности, Детализация & ИИ Автосценарист -->
+            <div class="panel-section" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.08), rgba(249, 115, 22, 0.08)); border: 1px solid rgba(234, 179, 8, 0.3); border-radius: 12px; padding: 12px;">
+                <div class="section-label" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                    <span style="display:flex; align-items:center; gap:6px;">
+                        <span>🧠</span> <strong style="color:#facc15;">Логика, Сценарий и Детализация</strong>
+                    </span>
+                    <span class="badge-pro" style="font-size:0.65rem; background:rgba(234,179,8,0.2); color:#fef08a;">60с – 5 МИН</span>
+                </div>
+
+                <div style="margin-bottom: 8px;">
+                    <select id="complexitySelect" class="select-styled" style="font-size:0.78rem; padding:7px 10px; border-color:rgba(234,179,8,0.45); color:#fef08a;">
+                        <option value="standard" selected>⚡ Базовый сюжет (60 сек • 2 логические сцены • 4K Standard)</option>
+                        <option value="medium">🎬 Высокая детализация (120 сек / 2 мин • 3 сцены • 4K HDR)</option>
+                        <option value="cinema">🎥 Кинематографический эпос (180 сек / 3 мин • 4 связанных акта • 4K 60fps)</option>
+                        <option value="masterpiece">👑 Ультра-шедевр (300 сек / 5 минут • 5 актов сюжета • 8K Quantum Ray-Tracing)</option>
+                    </select>
+                </div>
+
+                <!-- Storyboard Action Bar -->
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                    <button type="button" id="btnAutoGenerateScreenplay" class="btn-action-cinema btn-action-primary" style="flex:1; padding:7px 10px; font-size:0.75rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; background:linear-gradient(135deg, #ffd700, #f59e0b); color:#000;">
+                        <span>✨</span> <span>ИИ Создать 4-Актный Сценарий</span>
+                    </button>
+                    <button type="button" id="btnToggleStoryboardExpand" class="btn-action-cinema" style="padding:7px 10px; font-size:0.75rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1;" title="Развернуть покадровый монтажный стол">
+                        <span>📋 Стол</span>
+                    </button>
+                </div>
+
+                <!-- Interactive 4-Act Storyboard Accordion Desk -->
+                <div id="narrativeActsCard" style="background:rgba(0,0,0,0.35); border-radius:8px; padding:10px; font-size:0.73rem; color:#cbd5e1; line-height:1.5;">
+                    <div style="font-weight:700; color:#ffd700; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+                        <span id="screenplayTitleBadge">📜 Сквозной киносценарий (4 Акта):</span>
+                        <span id="cardDurationSummary" style="color:#38bdf8; font-family:monospace;">01:00</span>
+                    </div>
+
+                    <div id="narrativeActsContainer" style="display:flex; flex-direction:column; gap:6px;">
+                        <!-- Act 1 -->
+                        <div class="act-card-item" data-act="1" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:700; color:#38bdf8; margin-bottom:2px; cursor:pointer;" onclick="window.seekToAct(1)">
+                                <span>🎬 Акт 1: Экспозиция мира</span>
+                                <span class="act-timing" style="font-family:monospace; color:#94a3b8;">00:00–00:15</span>
+                            </div>
+                            <div class="act-desc-text" style="color:#cbd5e1; font-size:0.71rem;">Масштабная панорама, построение 3D-пространства сцены и атмосферный свет.</div>
+                            <div class="act-narration-quote" style="color:#fef08a; font-style:italic; font-size:0.68rem; margin-top:2px;">«Там, где ветер касается вечности, рождается легенда...»</div>
+                        </div>
+                        <!-- Act 2 -->
+                        <div class="act-card-item" data-act="2" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:700; color:#c084fc; margin-bottom:2px; cursor:pointer;" onclick="window.seekToAct(2)">
+                                <span>👤 Акт 2: Герой и микрофизика</span>
+                                <span class="act-timing" style="font-family:monospace; color:#94a3b8;">00:15–00:30</span>
+                            </div>
+                            <div class="act-desc-text" style="color:#cbd5e1; font-size:0.71rem;">Появление персонажа, Soul ID фиксация, мимика, колыхание ткани и взгляд.</div>
+                            <div class="act-narration-quote" style="color:#fef08a; font-style:italic; font-size:0.68rem; margin-top:2px;">«В деталях кроется истина, а во взгляде — непоколебимая решимость...»</div>
+                        </div>
+                        <!-- Act 3 -->
+                        <div class="act-card-item" data-act="3" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:700; color:#f87171; margin-bottom:2px; cursor:pointer;" onclick="window.seekToAct(3)">
+                                <span>🔥 Акт 3: Кульминация и драйв</span>
+                                <span class="act-timing" style="font-family:monospace; color:#94a3b8;">00:30–00:45</span>
+                            </div>
+                            <div class="act-desc-text" style="color:#cbd5e1; font-size:0.71rem;">Пиковая кинетическая энергия, скоростные траектории DoP и драматический перелом.</div>
+                            <div class="act-narration-quote" style="color:#fef08a; font-style:italic; font-size:0.68rem; margin-top:2px;">«Сквозь вихри времени скачет батыр навстречу рассвету новой эры!»</div>
+                        </div>
+                        <!-- Act 4 -->
+                        <div class="act-card-item" data-act="4" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:700; color:#4ade80; margin-bottom:2px; cursor:pointer;" onclick="window.seekToAct(4)">
+                                <span>🌅 Акт 4: Кинематографический финал</span>
+                                <span class="act-timing" style="font-family:monospace; color:#94a3b8;">00:45–01:00</span>
+                            </div>
+                            <div class="act-desc-text" style="color:#cbd5e1; font-size:0.71rem;">Величественная развязка, затухание движения, божественные лучи света и катарсис.</div>
+                            <div class="act-narration-quote" style="color:#fef08a; font-style:italic; font-size:0.68rem; margin-top:2px;">«И пока горит этот вечный свет — не угаснет слава вовеки.»</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Voiceover & Narration Sound Controls -->
+                <div style="margin-top: 8px; background: rgba(0,0,0,0.25); border-radius: 8px; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <span style="font-size:0.72rem; color:var(--v-text-muted); font-weight:600;">🎙️ Дикторская озвучка сюжета (Voiceover):</span>
+                        <label style="display:inline-flex; align-items:center; gap:4px; font-size:0.7rem; color:#ffd700; cursor:pointer;">
+                            <input type="checkbox" id="voiceoverToggleCheckbox" checked style="accent-color:#ffd700;"> Включена
+                        </label>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <select id="voiceoverStyleSelect" class="select-styled" style="font-size:0.73rem; padding:4px 6px;">
+                            <option value="trailer_baritone" selected>🗣️ Голливудский Баритон (Кинотрейлер)</option>
+                            <option value="steppe_teller">🦅 Сказитель Великой Степи (Жырау)</option>
+                            <option value="litdeo_ai">🌌 Нейро-Голос Litdeo (Футуристический ИИ)</option>
+                        </select>
+                        <select id="motionDynamicsSelect" class="select-styled" style="font-size:0.73rem; padding:4px 6px; width:130px;" title="Скорость оптического потока">
+                            <option value="0.5">🐢 Slow-Mo 0.5x</option>
+                            <option value="1.0" selected>🎬 Норма 1.0x</option>
+                            <option value="1.5">⚡ Экшен 1.5x</option>
+                            <option value="2.0">🔥 Драйв 2.0x</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.5. Realism & Compute Time Pipeline (1-10 minutes) -->
+            <div class="panel-section">
+                <div class="section-label" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span id="lblRenderTimeText">⏳ Глубина физики и время рендеринга:</span>
+                    <span class="badge-pro" style="font-size:0.65rem;">1–10 МИНУТ</span>
+                </div>
+                <select id="renderPipelineTimeSelect" class="select-styled" style="border-color: rgba(234, 179, 8, 0.45); color: #fef08a;">
+                    <option value="1">⚡ 1 минута — Turbo Draft (Быстрый предпросмотр сцены)</option>
+                    <option value="3" selected>🎬 3 минуты — 4K Cinema (Luma & Higgsfield Spatial Coherence)</option>
+                    <option value="5">👑 5 минут — 4K HDR Pro (Полная физика тканей, волос и объемный свет)</option>
+                    <option value="10">🌌 10 минут — 8K Quantum Master (120 FPS • Трассировка квантовых лучей)</option>
+                </select>
+
+                <!-- Dynamic Estimated Wait Time Display -->
+                <div id="estimatedWaitTimeCard" style="background:rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.3); border-radius:8px; padding:8px 10px; margin-top:8px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:0.73rem; color:#cbd5e1; font-weight:600;">⏱️ Примерное время ожидания:</span>
+                        <span id="etaTimeDisplay" style="font-size:0.9rem; font-weight:800; color:#ffd700; font-family:'JetBrains Mono', monospace;">~45 сек</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; font-size:0.68rem; color:#94a3b8;">
+                        <span id="etaOriginalCompare">Базовое: <s>3 мин 30 сек</s></span>
+                        <span id="etaBoostActiveBadge" style="background:rgba(168,85,247,0.25); color:#c084fc; padding:1px 6px; border-radius:4px; font-weight:700;">Стандарт 1x</span>
+                    </div>
+                </div>
+
+                <!-- 5.6 GPU Boost Multipliers (x1, x4, x8, x12, x20) & Shop -->
+                <div style="margin-top:10px; background:rgba(0,0,0,0.3); border:1px solid rgba(168,85,247,0.25); border-radius:8px; padding:8px 10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <span style="font-size:0.73rem; color:#c084fc; font-weight:700; display:flex; align-items:center; gap:4px;">
+                            <span>⚡</span> <span>Ускорители (Boost):</span>
+                        </span>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span id="userLCoinsBalance" style="background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4); color:#ffd700; padding:2px 7px; border-radius:10px; font-size:0.7rem; font-weight:800; cursor:pointer;" title="Ваш баланс L-Coins. Кликните для бонуса!">🪙 150 L-Coins</span>
+                            <button type="button" id="btnOpenBoostShop" class="badge-pro" style="cursor:pointer; background:linear-gradient(135deg, #a855f7, #ec4899); border:none; color:#fff; font-size:0.65rem; padding:3px 7px;" title="Купить супер-ускорители x4, x8, x12, x20">🛒 МАГАЗИН</button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Multiplier Selector Row -->
+                    <div id="boostPillsRow" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px;">
+                        <button type="button" class="boost-pill-btn active" data-boost="1" style="background:rgba(168,85,247,0.3); border:1px solid #c084fc; color:#fff; border-radius:6px; padding:4px 2px; font-size:0.68rem; font-weight:700; cursor:pointer; text-align:center;">1x</button>
+                        <button type="button" class="boost-pill-btn" data-boost="4" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.68rem; font-weight:700; cursor:pointer; text-align:center;" title="Turbo GPU (x4) • 50 L-Coins">x4 ⚡</button>
+                        <button type="button" class="boost-pill-btn" data-boost="8" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.68rem; font-weight:700; cursor:pointer; text-align:center;" title="Quantum Rig (x8) • 100 L-Coins">x8 🔮</button>
+                        <button type="button" class="boost-pill-btn" data-boost="12" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.68rem; font-weight:700; cursor:pointer; text-align:center;" title="Tensor TPU (x12) • 200 L-Coins">x12 🧬</button>
+                        <button type="button" class="boost-pill-btn" data-boost="20" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.68rem; font-weight:700; cursor:pointer; text-align:center;" title="Hyperspace Core (x20) • 400 L-Coins">x20 🌌</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Sound Effects Option -->
+            <div class="panel-section">
+                <label style="display: flex; align-items: center; gap: 10px; font-size: 0.84rem; color: #cbd5e1; cursor: pointer;">
+                    <input type="checkbox" id="audioToggleCheckbox" checked style="accent-color: #a855f7; width: 16px; height: 16px;">
+                    <span id="lblAudioText">🔊 Синтезировать звуковые эффекты и музыку</span>
+                </label>
+            </div>
+
+            <!-- 6.5 AGE SOFT (ЭРГОНОМИКА ЗРЕНИЯ 1-99 ЛЕТ) -->
+            <div class="panel-section age-soft-card" id="ageSoftSection">
+                <div class="section-label" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="display: flex; align-items: center; gap: 6px;">
+                        <span>👁️</span> <strong>Age Soft™</strong> <span class="badge-pro" style="font-size: 0.65rem;">1–99 ЛЕТ</span>
+                    </span>
+                    <label class="age-toggle-label" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.76rem; color: #c084fc;">
+                        <input type="checkbox" id="toggleAgeSoft" checked style="cursor: pointer;">
+                        <span>ВКЛ</span>
+                    </label>
+                </div>
+
+                <div class="age-controls-container">
+                    <!-- Age input & Stepper -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 0.8rem; color: var(--v-text-muted); font-weight: 600;">Возраст зрителя:</span>
+                        <div class="age-number-stepper" style="display: flex; align-items: center; gap: 4px;">
+                            <button type="button" class="btn-age-step" id="btnAgeMinus" style="width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; cursor: pointer;">−</button>
+                            <input type="number" id="inputAgeSoft" min="1" max="99" value="25" style="width: 48px; text-align: center; background: rgba(0,0,0,0.4); border: 1px solid rgba(168,85,247,0.5); color: #ffd700; border-radius: 6px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; padding: 2px 4px;">
+                            <button type="button" class="btn-age-step" id="btnAgePlus" style="width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; cursor: pointer;">+</button>
+                            <span style="font-size: 0.75rem; color: var(--v-text-muted); margin-left: 2px;" id="ageUnitLabel">лет</span>
+                        </div>
+                    </div>
+
+                    <!-- Range Slider 1-99 -->
+                    <input type="range" id="rangeAgeSoft" min="1" max="99" value="25" class="custom-slider" style="margin-bottom: 10px;">
+
+                    <!-- Quick Milestone Chips -->
+                    <div class="age-chips-row" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;">
+                        <button type="button" class="age-chip" data-age="1">1 год</button>
+                        <button type="button" class="age-chip" data-age="4">4 г.</button>
+                        <button type="button" class="age-chip" data-age="12">12 лет</button>
+                        <button type="button" class="age-chip active" data-age="25">25 лет</button>
+                        <button type="button" class="age-chip" data-age="45">45 лет</button>
+                        <button type="button" class="age-chip" data-age="67">67 лет</button>
+                        <button type="button" class="age-chip" data-age="99">99 лет</button>
+                    </div>
+
+                    <!-- Gender selector -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                        <span style="font-size: 0.76rem; color: var(--v-text-muted);">Профиль:</span>
+                        <div class="mini-pills" id="ageGenderGroup">
+                            <button type="button" class="mini-pill active" data-gender="all">🌟 Все</button>
+                            <button type="button" class="mini-pill" data-gender="female">👩 Женщина</button>
+                            <button type="button" class="mini-pill" data-gender="male">👨 Мужчина</button>
+                        </div>
+                    </div>
+
+                    <!-- Clinical Dossier Card -->
+                    <div class="age-dossier-card" id="ageDossierCard" style="background: rgba(0,0,0,0.35); border: 1px solid rgba(168,85,247,0.3); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+                        <div id="ageStageBadge" style="font-size: 0.8rem; font-weight: 700; color: #facc15; display: flex; align-items: center; gap: 6px;">
+                            <span>🩺</span> <span id="ageStageText">Пресбиопия & Зрительное утомление (45 лет)</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.74rem;">
+                            <div style="background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between;">
+                                <span style="color: var(--v-text-muted);">Синий спектр:</span>
+                                <strong style="color: #38bdf8;" id="specBlueCut">−28%</strong>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between;">
+                                <span style="color: var(--v-text-muted);">Цветовая t°:</span>
+                                <strong style="color: #fbbf24;" id="specColorTemp">4600K</strong>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between;">
+                                <span style="color: var(--v-text-muted);">Микроконтраст:</span>
+                                <strong style="color: #4ade80;" id="specContrast">+18%</strong>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between;">
+                                <span style="color: var(--v-text-muted);">Плавность:</span>
+                                <strong style="color: #c084fc;" id="specSpeed">0.9x</strong>
+                            </div>
+                        </div>
+                        <div id="ageAdviceText" style="font-size: 0.73rem; color: #cbd5e1; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+                            Офтальмология 45 лет: естественное возрастное уплотнение ядра хрусталика (пресбиопия). Усилен микроконтраст контуров (+18%), чтобы глаза не напрягались при фиксации деталей. Синий спектр снижен на 28%, устраняя эффект "сухого глаза".
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.68rem; color: #94a3b8;">
+                            <span>✔ Стандарты ВОЗ, AAO & AAP Ergonomics</span>
+                            <button type="button" id="btnAgeSearchAdvice" style="background: none; border: none; color: #38bdf8; cursor: pointer; text-decoration: underline; font-size: 0.68rem;">🔍 Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Generate Video Button -->
+            <button type="button" class="btn-generate-video" id="btnGenerateVideo">
+                <span>🎬</span> <span id="btnGenerateVideoText">Сгенерировать видео 4K</span>
+            </button>
+        </section>
+
+        <!-- RIGHT PANEL: CINEMA VIEWPORT & PLAYER -->
+        <section class="cinema-panel">
+            <div class="cinema-viewport-container" id="cinemaViewportContainer">
+                
+                <!-- Format info badge, Resolution Switcher & Display Modes -->
+                <div style="padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; font-size: 0.76rem; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span id="currentFormatBadge" style="background: rgba(168, 85, 247, 0.18); border: 1px solid rgba(168, 85, 247, 0.45); color: #e9d5ff; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; letter-spacing: 0.5px;">16:9</span>
+                        
+                        <!-- Studio Master Resolution Switcher -->
+                        <div class="resolution-pills-bar" id="resolutionPillsGroup">
+                            <button type="button" class="res-pill" data-res="1080p" title="Full HD 1080p (Стандарт)">1080p</button>
+                            <button type="button" class="res-pill" data-res="2k" title="2K Quad HD (Четкий)">2K QHD</button>
+                            <button type="button" class="res-pill active" data-res="4k" title="4K Cinema UHD (Ультра)">4K HDR</button>
+                            <button type="button" class="res-pill" data-res="8k" title="8K Master Studio (Квантовая четкость 120 FPS)">8K Studio 👑</button>
+                        </div>
+                    </div>
+
+                    <!-- Display & Screen Filling Modes -->
+                    <div class="display-modes-bar">
+                        <button type="button" class="mode-pill-btn active" id="btnModeFit" title="Вписать точно в кадр">📐 Вписать</button>
+                        <button type="button" class="mode-pill-btn" id="btnModeFill" title="Заполнить экран на 100% без черных полос!">🖼️ Заполнить всё</button>
+                        <button type="button" class="mode-pill-btn" id="btnModeTight" title="Компактный фокус только на видео без боковых черных полос!">📱 Только видео</button>
+                        <button type="button" class="mode-pill-btn" id="btnModeAmbient" title="Неоновый динамический амбиент-фон">🌌 Неон-фон</button>
+                        <button type="button" class="mode-pill-btn" id="btnModeTheater" title="Театральный полноэкранный режим студии">🖥️ Театр</button>
+                    </div>
+                </div>
+
+                <!-- Aspect Stage Container -->
+                <div class="aspect-stage" id="aspectStage">
+                    <!-- Dynamic Ambient Glow Backdrop (No black void) -->
+                    <div class="ambient-glow-layer" id="ambientGlowLayer"></div>
+
+                    <!-- Dynamic Aspect Ratio Container -->
+                    <div class="aspect-wrapper" id="aspectWrapper" style="aspect-ratio: 16 / 9;">
+                        <canvas id="cinemaCanvas"></canvas>
+
+                        <!-- Live Cinema Subtitles / CC Teleprompter Overlay -->
+                        <div id="cinemaSubtitlesOverlay" style="display:none; position:absolute; bottom:26px; left:50%; transform:translateX(-50%); width:90%; text-align:center; pointer-events:none; z-index:4; transition:opacity 0.3s ease;">
+                            <span id="cinemaSubtitlesText" style="display:inline-block; background:rgba(7,5,18,0.85); backdrop-filter:blur(8px); border:1px solid rgba(255,215,0,0.35); color:#fef08a; padding:6px 20px; border-radius:20px; font-size:0.86rem; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.95); line-height:1.45; max-width:85%;">«Там, где ветер целует вечность, рождается легенда...»</span>
+                        </div>
+
+                        <!-- Neural Generation Progress Overlay -->
+                        <div class="render-overlay" id="renderOverlay">
+                            <div class="render-scanner-orb">
+                                <span class="render-pct-text" id="renderPctText">0%</span>
+                            </div>
+                            <div class="render-status-info">
+                                <div class="render-status-title" id="renderStatusTitle">Нейросетевой Рендеринг 4K</div>
+                                <div class="render-status-sub" id="renderStatusSub">Анализ семантики промпта и физики сцены...</div>
+                                
+                                <!-- Dynamic Remaining Countdown -->
+                                <div id="renderEtaRemainingContainer" style="display:inline-flex; align-items:center; gap:6px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,215,0,0.35); border-radius:20px; padding:4px 14px; font-size:0.75rem; color:#fef08a; margin-top:8px;">
+                                    <span>⏳ Примерное время:</span>
+                                    <strong id="renderCountdownText" style="font-family:'JetBrains Mono', monospace; color:#ffd700;">~45 сек</strong>
+                                    <span id="renderActiveBoostTag" style="background:rgba(168,85,247,0.35); color:#c084fc; padding:1px 6px; border-radius:10px; font-size:0.68rem; font-weight:700;">1x</span>
+                                </div>
+
+                                <!-- Mini-Game Invite Button during Rendering -->
+                                <div style="margin-top:12px;">
+                                    <button type="button" id="btnLaunchMiniGameDuringRender" style="background:linear-gradient(135deg, #10b981, #06b6d4); color:#000; font-weight:800; border:none; padding:8px 18px; border-radius:20px; font-size:0.78rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 25px rgba(16,185,129,0.45); transition:transform 0.2s;">
+                                        <span>🎮</span> <span>Сыграть в Кибер-Раннер пока идет рендеринг! (+L-Coins)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Cinema Player Toolbar -->
+                <div class="player-controls-bar">
+                    <!-- Interactive Multi-Act Storyboard Chapters Bar (60s – 300s Narrative Progression) -->
+                    <div class="storyboard-acts-bar" id="storyboardActsBar" style="display:flex; gap:6px; margin-bottom:8px; overflow-x:auto; padding-bottom:2px;">
+                        <button type="button" class="story-act-btn active" data-act="1" style="background:rgba(168,85,247,0.25); border:1px solid #c084fc; color:#fff; border-radius:6px; padding:3px 8px; font-size:0.72rem; cursor:pointer; font-weight:700; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+                            <span>🎬</span> <span>Акт 1: Экспозиция</span>
+                        </button>
+                        <button type="button" class="story-act-btn" data-act="2" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#cbd5e1; border-radius:6px; padding:3px 8px; font-size:0.72rem; cursor:pointer; font-weight:600; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+                            <span>👤</span> <span>Акт 2: Герой & Сюжет</span>
+                        </button>
+                        <button type="button" class="story-act-btn" data-act="3" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#cbd5e1; border-radius:6px; padding:3px 8px; font-size:0.72rem; cursor:pointer; font-weight:600; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+                            <span>🔥</span> <span>Акт 3: Кульминация</span>
+                        </button>
+                        <button type="button" class="story-act-btn" data-act="4" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#cbd5e1; border-radius:6px; padding:3px 8px; font-size:0.72rem; cursor:pointer; font-weight:600; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+                            <span>🌅</span> <span>Акт 4: Финал</span>
+                        </button>
+                    </div>
+
+                    <div class="scrubber-container" id="scrubberContainer" title="Таймлайн: нажмите для перехода к кадру">
+                        <div class="scrubber-progress" id="scrubberProgress"></div>
+                    </div>
+                    <div class="player-btn-row">
+                        <div class="player-left-controls">
+                            <button type="button" class="btn-player" id="btnFramePrev" title="Назад на 5 сек (J / ←)">
+                                <span>⏮</span>
+                            </button>
+                            <button type="button" class="btn-player" id="btnPlayPause" title="Воспроизведение / Пауза (Пробел / K)">
+                                <span id="playPauseIcon">⏸</span>
+                            </button>
+                            <button type="button" class="btn-player" id="btnFrameNext" title="Вперед на 5 сек (L / →)">
+                                <span>⏭</span>
+                            </button>
+                            <span class="time-counter" id="timeCounter">00:00 / 01:00</span>
+                            
+                            <!-- Multi-Camera Angles Switcher (1, 2, 3) -->
+                            <div class="camera-angles-switcher" style="display:inline-flex; gap:3px; background:rgba(0,0,0,0.4); border-radius:6px; padding:2px; border:1px solid rgba(255,255,255,0.08);">
+                                <button type="button" class="cam-angle-btn active" data-angle="1" title="Камера 1: Общий план (Клавиша 1)" style="background:rgba(168,85,247,0.3); border:1px solid #c084fc; color:#fff; font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:4px; cursor:pointer;">📹 C1</button>
+                                <button type="button" class="cam-angle-btn" data-angle="2" title="Камера 2: Крупный портрет DoP (Клавиша 2)" style="background:none; border:1px solid transparent; color:#94a3b8; font-size:0.68rem; font-weight:600; padding:2px 6px; border-radius:4px; cursor:pointer;">👤 C2</button>
+                                <button type="button" class="cam-angle-btn" data-angle="3" title="Камера 3: FPV Дрон / Экшен (Клавиша 3)" style="background:none; border:1px solid transparent; color:#94a3b8; font-size:0.68rem; font-weight:600; padding:2px 6px; border-radius:4px; cursor:pointer;">🦅 C3</button>
+                            </div>
+
+                            <!-- Real-Time 48kHz Audio Spectrum Equalizer -->
+                            <canvas id="audioSpectrumCanvas" width="90" height="22" class="audio-spectrum-canvas" title="Спектральный анализатор 48kHz звука в реальном времени"></canvas>
+
+                            <button type="button" class="btn-player" id="btnMute" title="Звук (M)">
+                                <span id="muteIcon">🔊</span>
+                            </button>
+                        </div>
+                        <div class="player-right-controls">
+                            <button type="button" class="btn-player" id="btnToggleSubtitles" title="Субтитры / CC (Клавиша C)" style="font-size:0.75rem; font-weight:800; color:#ffd700; border:1px solid rgba(255,215,0,0.3); padding:0 7px; border-radius:6px;">
+                                <span>CC</span>
+                            </button>
+                            <!-- Interactive Quality Selector -->
+                            <div class="quality-selector-wrap" id="qualitySelectorWrap" style="position:relative; display:inline-flex; align-items:center;">
+                                <button type="button" class="quality-badge interactive-quality-badge" id="playerQualityIndicator" title="Выбор разрешения и битрейта (8K IMAX, 4K UHD, 2K, 1080p)">
+                                    <span id="qualityBadgeIcon">💎</span> <span id="qualityBadgeText">4K UHD 60FPS</span> <span style="font-size:0.6rem; margin-left:3px; opacity:0.8;">▼</span>
+                                </button>
+                                <div class="quality-dropdown-menu" id="qualityDropdownMenu" style="display:none; position:absolute; bottom:calc(100% + 8px); right:0; background:rgba(13,15,26,0.97); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,215,0,0.4); border-radius:10px; padding:6px; min-width:220px; box-shadow:0 12px 36px rgba(0,0,0,0.85), 0 0 24px rgba(255,215,0,0.2); z-index:9999;">
+                                    <div style="font-size:0.68rem; font-weight:800; color:#ffd700; text-transform:uppercase; letter-spacing:0.5px; padding:4px 8px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                                        <span>🚀 Качество видео</span>
+                                        <span style="font-size:0.6rem; color:#a855f7;">60-120 FPS</span>
+                                    </div>
+                                    <button type="button" class="quality-opt-btn" data-res="8k" style="width:100%; text-align:left; background:transparent; border:none; color:#fff; padding:6px 10px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                                        <span>👑 8K Quantum IMAX</span>
+                                        <span style="font-size:0.65rem; color:#ffd700; background:rgba(255,215,0,0.15); padding:2px 6px; border-radius:4px; font-weight:800;">80 Mbps</span>
+                                    </button>
+                                    <button type="button" class="quality-opt-btn active" data-res="4k" style="width:100%; text-align:left; background:rgba(168,85,247,0.25); border:1px solid rgba(168,85,247,0.5); color:#fff; padding:6px 10px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                                        <span>💎 4K UHD Cinema</span>
+                                        <span style="font-size:0.65rem; color:#c084fc; background:rgba(168,85,247,0.2); padding:2px 6px; border-radius:4px; font-weight:800;">50 Mbps</span>
+                                    </button>
+                                    <button type="button" class="quality-opt-btn" data-res="2k" style="width:100%; text-align:left; background:transparent; border:none; color:#fff; padding:6px 10px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                                        <span>✨ 2K QHD Master</span>
+                                        <span style="font-size:0.65rem; color:#38bdf8; background:rgba(56,189,248,0.15); padding:2px 6px; border-radius:4px; font-weight:800;">30 Mbps</span>
+                                    </button>
+                                    <button type="button" class="quality-opt-btn" data-res="1080p" style="width:100%; text-align:left; background:transparent; border:none; color:#fff; padding:6px 10px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                                        <span>⚡ 1080p Full HD</span>
+                                        <span style="font-size:0.65rem; color:#94a3b8; background:rgba(148,163,184,0.15); padding:2px 6px; border-radius:4px; font-weight:800;">16 Mbps</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- HDR 12-Bit Button -->
+                            <button type="button" class="btn-player active-hdr" id="btnHdrToggle" title="Кинематографический HDR 12-Bit / Deep Dynamic Range" style="font-size:0.72rem; font-weight:800; color:#38bdf8; border:1px solid rgba(56,189,248,0.5); padding:0 8px; border-radius:6px; background:rgba(56,189,248,0.15); letter-spacing:0.5px; height:24px; display:inline-flex; align-items:center;">
+                                <span id="btnHdrText">✨ HDR 12b</span>
+                            </button>
+                            <button type="button" class="btn-player" id="btnFullscreen" title="Полноэкранный просмотр (F)">
+                                <span>⛶</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons below Player -->
+            <div class="cinema-actions-row">
+                <div class="actions-left-group">
+                    <button type="button" class="btn-action-cinema btn-action-primary" id="btnDownloadVideo" title="Экспорт и скачивание реального 4K/8K видеофайла">
+                        <span id="btnDownloadText">📥 Скачать видео (WebM / MP4)</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnSaveToFolder" title="Выбрать любую папку на компьютере для прямого сохранения">
+                        <span>📂 Сохранить в папку</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnSnapshot" title="Мгновенный 8K Ultra скриншот кадра высокой четкости">
+                        <span>📸 Кадр 8K</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnScanFrameVision" title="Сканировать текущий кадр: что ИИ РЕАЛЬНО видит в кадре (спектральная палитра пикселей, резкость, свет, объекты)" style="background:rgba(56,189,248,0.18); border-color:rgba(56,189,248,0.5); color:#38bdf8;">
+                        <span>👁️ Что ИИ видит в кадре?</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnOpenMiniGame" title="Сыграть в Кибер-Раннер и заработать L-Coins" style="background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.4); color:#34d399;">
+                        <span>🎮 Мини-игра</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnOpen5v5FromCinema" title="Командная битва 5х5: составьте ростер из 25 персонажей" style="background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.45); color:#fca5a5;">
+                        <span>⚔️ Битва 5х5</span>
+                    </button>
+                </div>
+                <div class="actions-right-group">
+                    <button type="button" class="btn-action-cinema" id="btnOpenShareModal" title="Переслать видео в Telegram, WhatsApp, соцсети">
+                        <span>📤 Переслать</span>
+                    </button>
+                    <button type="button" class="btn-action-cinema" id="btnCopyLink" title="Скопировать прямую ссылку на видео">
+                        <span id="btnCopyLinkText">📋 Ссылка</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STUDIO PRO CUSTOMIZATION & COLOR GRADING PANEL -->
+            <div class="customizer-panel">
+                <div class="customizer-header">
+                    <div class="customizer-title">
+                        <span>🎛️</span> <span id="customizerTitleText">Студия кастомизации кадра и цветокоррекции</span>
+                        <span class="badge-pro">LIVE GPU</span>
+                    </div>
+                    <button type="button" class="btn-reset-custom" id="btnResetCustom">🔄 Сбросить фильтры</button>
+                </div>
+
+                <!-- 1. Color Presets (LUTs) -->
+                <div>
+                    <div class="custom-group-label" id="lblLutPresets" style="font-size: 0.8rem; font-weight: 700; color: var(--v-text-muted); margin-bottom: 8px;">Кинематографичные профили (LUT):</div>
+                    <div class="lut-pills-row">
+                        <button type="button" class="lut-pill active" data-lut="default">☀️ Натуральный</button>
+                        <button type="button" class="lut-pill" data-lut="cyberpunk">🌆 Кибер-Неон</button>
+                        <button type="button" class="lut-pill" data-lut="golden">🌅 Золотой Час</button>
+                        <button type="button" class="lut-pill" data-lut="matrix">🟢 Матрица</button>
+                        <button type="button" class="lut-pill" data-lut="noir">🎞️ Ч/Б Нуар</button>
+                        <button type="button" class="lut-pill" data-lut="scifi">❄️ Космос IMAX</button>
+                    </div>
+                </div>
+
+                <!-- 2. Interactive Sliders Grid -->
+                <div class="sliders-grid">
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblBrightText">☀️ Яркость</span>
+                            <span class="slider-val" id="valBrightness">100%</span>
+                        </div>
+                        <input type="range" id="rangeBrightness" min="50" max="160" value="100" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblContrastText">🌓 Контраст</span>
+                            <span class="slider-val" id="valContrast">100%</span>
+                        </div>
+                        <input type="range" id="rangeContrast" min="50" max="160" value="100" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblSatText">🎨 Насыщенность</span>
+                            <span class="slider-val" id="valSaturation">100%</span>
+                        </div>
+                        <input type="range" id="rangeSaturation" min="0" max="200" value="100" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblHueText">🌈 Цветовой сдвиг</span>
+                            <span class="slider-val" id="valHue">0°</span>
+                        </div>
+                        <input type="range" id="rangeHue" min="0" max="360" value="0" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblGlowText">✨ Неоновое свечение</span>
+                            <span class="slider-val" id="valGlow">30%</span>
+                        </div>
+                        <input type="range" id="rangeGlow" min="0" max="100" value="30" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span id="lblVignetteText">🕶️ Виньетка</span>
+                            <span class="slider-val" id="valVignette">65%</span>
+                        </div>
+                        <input type="range" id="rangeVignette" min="0" max="100" value="65" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span>💫 Аноморфный блик</span>
+                            <span class="slider-val" id="valFlare">40%</span>
+                        </div>
+                        <input type="range" id="rangeFlare" min="0" max="100" value="40" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span>⛅ Лучи света (God Rays)</span>
+                            <span class="slider-val" id="valGodRays">50%</span>
+                        </div>
+                        <input type="range" id="rangeGodRays" min="0" max="100" value="50" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span>🔮 Хроматическая аберрация</span>
+                            <span class="slider-val" id="valChroma">0%</span>
+                        </div>
+                        <input type="range" id="rangeChroma" min="0" max="100" value="0" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span>🔍 Ультра-четкость (CAS)</span>
+                            <span class="slider-val" id="valSharpness">75%</span>
+                        </div>
+                        <input type="range" id="rangeSharpness" min="0" max="150" value="75" class="custom-slider">
+                    </div>
+
+                    <div class="slider-box">
+                        <div class="slider-label-row">
+                            <span>🌟 HDR Динамический диапазон</span>
+                            <span class="slider-val" id="valHdr">80%</span>
+                        </div>
+                        <input type="range" id="rangeHdr" min="0" max="100" value="80" class="custom-slider">
+                    </div>
+                </div>
+
+                <!-- 3. Fine-tuning rows: Resolution & Playback Speed & Particles & Grain -->
+                <div class="custom-tunes-row">
+                    <div class="tune-item">
+                        <span class="tune-label" id="lblResolutionText">💎 Разрешение рендера:</span>
+                        <div class="mini-pills" id="resolutionPillsGroup">
+                            <button type="button" class="res-pill mini-pill" data-res="1080p">1080p</button>
+                            <button type="button" class="res-pill mini-pill" data-res="2k">2K QHD</button>
+                            <button type="button" class="res-pill mini-pill active" data-res="4k">4K UHD</button>
+                            <button type="button" class="res-pill mini-pill" data-res="8k">8K IMAX</button>
+                        </div>
+                    </div>
+
+                    <div class="tune-item">
+                        <span class="tune-label" id="lblSpeedText">⚡ Скорость видео:</span>
+                        <div class="mini-pills" id="speedPillsGroup">
+                            <button type="button" class="mini-pill" data-speed="0.5">0.5x</button>
+                            <button type="button" class="mini-pill active" data-speed="1.0">1.0x</button>
+                            <button type="button" class="mini-pill" data-speed="1.5">1.5x</button>
+                            <button type="button" class="mini-pill" data-speed="2.0">2.0x</button>
+                        </div>
+                    </div>
+
+                    <div class="tune-item">
+                        <span class="tune-label" id="lblGrainText">🎞️ Зерно плёнки:</span>
+                        <div class="mini-pills" id="grainPillsGroup">
+                            <button type="button" class="mini-pill active" data-grain="none">Выкл</button>
+                            <button type="button" class="mini-pill" data-grain="light">35mm</button>
+                            <button type="button" class="mini-pill" data-grain="cinema">70mm</button>
+                        </div>
+                    </div>
+
+                    <div class="tune-item">
+                        <span class="tune-label" id="lblParticlesText">💫 Плотность сцены:</span>
+                        <div class="mini-pills" id="particlePillsGroup">
+                            <button type="button" class="mini-pill" data-particles="60">Минимум</button>
+                            <button type="button" class="mini-pill active" data-particles="120">Баланс</button>
+                            <button type="button" class="mini-pill" data-particles="220">Максимум</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- RECENT CREATIONS GALLERY -->
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <h3 class="gallery-title">
+                <span id="galleryTitleText">🎞️ Недавние генерации видео</span>
+            </h3>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Dynamically populated by litally_video_ai.js -->
+        </div>
+    </section>
+
+    <!-- 100 LANGUAGE SELECTOR MODAL -->
+    <div id="langModalOverlay" class="lang-modal-overlay">
+        <div class="lang-modal-box">
+            <div class="lang-modal-header">
+                <h3 class="lang-modal-title" id="langModalTitleText">Выберите язык студии (100 языков)</h3>
+                <button type="button" class="btn-modal-close" id="btnCloseLangModal">✕</button>
+            </div>
+            <div class="lang-search-box">
+                <input type="text" id="langSearchInput" class="lang-search-input" placeholder="Поиск языка...">
+            </div>
+            <div class="lang-items-grid" id="langItemsGrid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 30 ASPECT RATIOS MODAL & VISUAL CATALOG -->
+    <div id="aspectModalOverlay" class="aspect-modal-overlay">
+        <div class="aspect-modal-box">
+            <div class="lang-modal-header">
+                <h3 class="lang-modal-title">📐 Каталог всех 30 форматов кадра Litdeo</h3>
+                <button type="button" class="btn-modal-close" id="btnCloseAspectModal">✕</button>
+            </div>
+            <div class="lang-search-box">
+                <input type="text" id="aspectSearchInput" class="lang-search-input" placeholder="🔍 Поиск формата (например: 9:16, TikTok, IMAX, 21:9, 4:5, 32:9)...">
+            </div>
+            <div class="aspect-grid-30" id="aspectGrid30">
+                <!-- Dynamically populated with all 30 formats with visual preview shapes -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 100 THEMES CATALOG MODAL -->
+    <div class="video-modal-overlay" id="themes100ModalOverlay" style="display: none;">
+        <div class="video-modal-card" style="max-width: 960px; max-height: 88vh; display: flex; flex-direction: column;">
+            <div class="video-modal-header" style="padding-bottom: 12px;">
+                <div class="video-modal-title">
+                    <span>🎨</span> <span>Каталог 100 визуальных миров и тем Litdeo</span>
+                    <span class="badge-pro">100 ТЕМ LIVE</span>
+                </div>
+                <button type="button" class="btn-modal-close" id="btnClose100ThemesModal">✕</button>
+            </div>
+
+            <!-- Search & Category Filters -->
+            <div style="padding: 0 0 14px 0; display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="theme100SearchInput" class="prompt-textarea" style="height: 42px; min-height: 42px; padding: 8px 16px; font-size: 0.88rem; border-radius: 10px;" placeholder="🔍 Поиск по 100 темам (космос, дождь, киберпанк, сакура, нуар, дзен...)" oninput="window.filter100Themes(this.value)">
+                
+                <!-- Category Pills -->
+                <div class="theme-cat-pills" id="themeCategoryPillsRow" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <button type="button" class="mode-pill-btn active" data-cat="all">🌌 Все (100)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="space">🚀 Космос (12)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="scifi">⚡ Киберпанк (14)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="nature">🌿 Природа (14)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="cinema">🎬 Кино (12)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="urban">🏙️ Города (12)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="art">🎨 Арт (12)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="history">🏛️ Эпохи (12)</button>
+                    <button type="button" class="mode-pill-btn" data-cat="relax">☕ Дзен (14)</button>
+                </div>
+            </div>
+
+            <!-- 100 Themes Grid Container -->
+            <div class="themes-grid-100" id="themes100GridContainer" style="overflow-y: auto; flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; padding-right: 6px;">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- REAL 4K/8K VIDEO EXPORT MODAL -->
+    <div class="video-modal-overlay" id="videoExportModal" style="display: none; z-index: 10000;">
+        <div class="video-modal-card" style="max-width: 480px; text-align: center; padding: 26px; border: 1px solid rgba(255,215,0,0.35); box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(255,215,0,0.15);">
+            <div class="video-modal-header" style="justify-content: center; position: relative; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <div class="video-modal-title" style="font-size: 1.15rem; color: #ffd700;">
+                    <span>🎬</span> <span>Экспорт Ultra HD Видео</span>
+                </div>
+            </div>
+            <div style="margin: 22px 0;">
+                <div style="font-size: 2.4rem; margin-bottom: 8px;">💎</div>
+                <div id="exportProgressStatus" style="font-size: 0.95rem; color: #ffd700; font-weight: 700; margin-bottom: 16px;">Кодирование 8K/4K видеопотока 60 FPS (Высокий битрейт)...</div>
+                <div style="background: rgba(255,255,255,0.08); border-radius: 8px; height: 14px; overflow: hidden; position: relative; border: 1px solid rgba(255,215,0,0.3); padding: 2px;">
+                    <div id="exportProgressBar" style="width: 0%; height: 100%; border-radius: 6px; background: linear-gradient(90deg, #a855f7, #ec4899, #ffd700); transition: width 0.1s linear; box-shadow: 0 0 12px rgba(255,215,0,0.5);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--v-text-muted); margin-top: 8px;">
+                    <span id="exportQualityLabel" style="color: #38bdf8; font-weight: 600;">8K / 4K Cinema • 60 FPS • Rec.2020 HDR</span>
+                    <span id="exportProgressPct" style="font-weight: 800; color: #fff;">0%</span>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 16px;">
+                <button type="button" class="btn-action-cinema" id="btnCancelExport" style="background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #f87171;">
+                    <span>Отмена</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARE & FORWARD MODAL -->
+    <div class="video-modal-overlay" id="shareModalOverlay" style="display: none;">
+        <div class="video-modal-card" style="max-width: 500px;">
+            <div class="video-modal-header">
+                <div class="video-modal-title">
+                    <span>📤</span> <span>Переслать и поделиться видео</span>
+                </div>
+                <button type="button" class="btn-modal-close" id="btnCloseShareModal">✕</button>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--v-text-muted); margin-bottom: 16px;">Отправьте сгенерированное видео или прямую ссылку в один клик:</p>
+            
+            <div class="share-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px;">
+                <a href="#" class="share-pill-btn" id="shareTelegram" target="_blank" style="background: rgba(36, 161, 222, 0.15); border: 1px solid rgba(36, 161, 222, 0.4); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">✈️</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">Telegram</span>
+                </a>
+                <a href="#" class="share-pill-btn" id="shareWhatsApp" target="_blank" style="background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.4); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">💬</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">WhatsApp</span>
+                </a>
+                <a href="#" class="share-pill-btn" id="shareVk" target="_blank" style="background: rgba(0, 119, 255, 0.15); border: 1px solid rgba(0, 119, 255, 0.4); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">🌐</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">ВКонтакте</span>
+                </a>
+                <a href="#" class="share-pill-btn" id="shareTwitter" target="_blank" style="background: rgba(29, 155, 240, 0.15); border: 1px solid rgba(29, 155, 240, 0.4); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">🐦</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">X (Twitter)</span>
+                </a>
+                <a href="#" class="share-pill-btn" id="shareEmail" style="background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.4); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">✉️</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">Email</span>
+                </a>
+                <button type="button" class="share-pill-btn" id="shareNative" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); color: #fff; padding: 12px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.2s;">
+                    <span style="font-size: 1.5rem;">📲</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">Система</span>
+                </button>
+            </div>
+
+            <!-- Direct Link Copy Box -->
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="shareDirectLinkInput" readonly style="flex-grow: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--v-border); color: #cbd5e1; padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; font-family: monospace;">
+                <button type="button" class="btn-action-cinema btn-action-primary" id="btnCopyShareDirectLink" style="padding: 8px 16px; font-size: 0.8rem; white-space: nowrap;">Скопировать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GPU BOOST HARDWARE & MULTIPLIERS SHOP MODAL (x4, x8, x12, x20) -->
+    <div class="video-modal-overlay" id="boostShopModalOverlay" style="display: none; z-index: 10050;">
+        <div class="video-modal-card" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+            <div class="video-modal-header">
+                <div class="video-modal-title" style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:1.4rem;">⚡</span>
+                    <div>
+                        <span style="font-size:1.15rem; font-weight:800; color:#fff;">Квантовый Магазин Ускорителей Рендеринга</span>
+                        <div style="font-size:0.75rem; color:#c084fc;">Мгновенное ускорение генерации в x4, x8, x12 и x20 раз</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-modal-close" id="btnCloseBoostShopModal">✕</button>
+            </div>
+
+            <!-- Balance and Free Coin Drop Banner -->
+            <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(234,179,8,0.2)); border: 1px solid rgba(255,215,0,0.4); border-radius: 12px; padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+                <div>
+                    <div style="font-size:0.75rem; color:#cbd5e1;">Текущий баланс энергии:</div>
+                    <div id="modalUserBalanceDisplay" style="font-size:1.3rem; font-weight:800; color:#ffd700; font-family:'JetBrains Mono', monospace;">🪙 150 L-Coins</div>
+                </div>
+                <button type="button" id="btnClaimDailyCoins" class="btn-action-cinema" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#000; font-weight:800; font-size:0.76rem; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;" title="Получить 100 бесплатных L-Coins прямо сейчас">
+                    🎁 +100 L-Coins Бонус
+                </button>
+            </div>
+
+            <!-- Boost Items Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                <!-- Card 1: Standard 1x -->
+                <div class="boost-shop-card" data-boost="1" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <span style="font-size:1.3rem;">🖥️</span>
+                            <span class="badge-pro" style="background:rgba(255,255,255,0.1); color:#fff; font-size:0.68rem;">1x БАЗОВЫЙ</span>
+                        </div>
+                        <div style="font-weight:700; color:#fff; font-size:0.92rem; margin-bottom:4px;">Standard Cloud GPU</div>
+                        <div style="font-size:0.74rem; color:var(--v-text-muted); line-height:1.4;">Стандартная очередь нейрорендеринга. Включена бесплатно.</div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:700; color:#10b981; font-size:0.8rem;">Бесплатно</span>
+                        <button type="button" class="btn-boost-action" data-boost="1" style="background:rgba(168,85,247,0.25); border:1px solid #c084fc; color:#fff; border-radius:8px; padding:6px 14px; font-size:0.75rem; font-weight:700; cursor:pointer;">Активен</button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Turbo GPU Cluster x4 -->
+                <div class="boost-shop-card" data-boost="4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(6,182,212,0.3); border-radius: 12px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <span style="font-size:1.3rem;">⚡</span>
+                            <span class="badge-pro" style="background:rgba(6,182,212,0.25); color:#67e8f9; font-size:0.68rem;">x4 УСКОРЕНИЕ</span>
+                        </div>
+                        <div style="font-weight:700; color:#67e8f9; font-size:0.92rem; margin-bottom:4px;">Turbo GPU Cluster (Dual RTX 4090)</div>
+                        <div style="font-size:0.74rem; color:var(--v-text-muted); line-height:1.4;">Разгон в 4 раза. Сокращает время генерации на 75%. Идеально для 60–120 сек видео.</div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:800; color:#ffd700; font-size:0.85rem; font-family:'JetBrains Mono', monospace;">🪙 50 L-Coins</span>
+                        <button type="button" class="btn-boost-action" data-boost="4" data-price="50" style="background:linear-gradient(135deg, #06b6d4, #3b82f6); border:none; color:#000; border-radius:8px; padding:6px 14px; font-size:0.75rem; font-weight:800; cursor:pointer;">Купить / Вкл</button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Quantum H100 Rig x8 -->
+                <div class="boost-shop-card" data-boost="8" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(234,179,8,0.35); border-radius: 12px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <span style="font-size:1.3rem;">🔮</span>
+                            <span class="badge-pro" style="background:rgba(234,179,8,0.25); color:#fef08a; font-size:0.68rem;">x8 УСКОРЕНИЕ</span>
+                        </div>
+                        <div style="font-weight:700; color:#facc15; font-size:0.92rem; margin-bottom:4px;">Quantum H100 Supercluster</div>
+                        <div style="font-size:0.74rem; color:var(--v-text-muted); line-height:1.4;">Разгон в 8 раз. Сокращает время ожидания на 87.5%. 3-минутное видео рендерится за ~25 сек.</div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:800; color:#ffd700; font-size:0.85rem; font-family:'JetBrains Mono', monospace;">🪙 100 L-Coins</span>
+                        <button type="button" class="btn-boost-action" data-boost="8" data-price="100" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#000; border-radius:8px; padding:6px 14px; font-size:0.75rem; font-weight:800; cursor:pointer;">Купить / Вкл</button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Tensor TPU V5e Supernode x12 -->
+                <div class="boost-shop-card" data-boost="12" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(168,85,247,0.4); border-radius: 12px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <span style="font-size:1.3rem;">🧬</span>
+                            <span class="badge-pro" style="background:rgba(168,85,247,0.25); color:#c084fc; font-size:0.68rem;">x12 УСКОРЕНИЕ</span>
+                        </div>
+                        <div style="font-weight:700; color:#c084fc; font-size:0.92rem; margin-bottom:4px;">Tensor TPU V5e Supernode</div>
+                        <div style="font-size:0.74rem; color:var(--v-text-muted); line-height:1.4;">Разгон в 12 раз. Экономит более 91% времени. Мгновенная субпиксельная латентная диффузия.</div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:800; color:#ffd700; font-size:0.85rem; font-family:'JetBrains Mono', monospace;">🪙 200 L-Coins</span>
+                        <button type="button" class="btn-boost-action" data-boost="12" data-price="200" style="background:linear-gradient(135deg, #a855f7, #ec4899); border:none; color:#fff; border-radius:8px; padding:6px 14px; font-size:0.75rem; font-weight:800; cursor:pointer;">Купить / Вкл</button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Hyperspace Singularity Core x20 -->
+                <div class="boost-shop-card" data-boost="20" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(239,68,68,0.45); border-radius: 12px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between; position:relative; grid-column:1 / -1;">
+                    <div style="display:flex; gap:12px; align-items:flex-start;">
+                        <span style="font-size:1.8rem;">🌌</span>
+                        <div style="flex-grow:1;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                <div style="font-weight:800; color:#f87171; font-size:1.05rem;">Hyperspace Singularity Core (Apex Quantum)</div>
+                                <span class="badge-pro" style="background:rgba(239,68,68,0.25); color:#fca5a5; font-size:0.72rem; font-weight:800;">🔥 x20 МАКСИМУМ</span>
+                            </div>
+                            <div style="font-size:0.76rem; color:var(--v-text-muted); line-height:1.45;">
+                                Квантовая сингулярность и параллельный суперкомпьютерный тензорный кластер. 5-минутный шедевр (300 сек) рендерится всего за 10–15 секунд!
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:10px;">
+                        <span style="font-weight:800; color:#ffd700; font-size:0.95rem; font-family:'JetBrains Mono', monospace;">🪙 400 L-Coins</span>
+                        <button type="button" class="btn-boost-action" data-boost="20" data-price="400" style="background:linear-gradient(135deg, #ef4444, #f59e0b); border:none; color:#000; border-radius:8px; padding:7px 18px; font-size:0.78rem; font-weight:800; cursor:pointer;">Купить / Активировать</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini-Game Earn Hint -->
+            <div style="text-align:center; padding:10px; background:rgba(16,185,129,0.1); border:1px dashed rgba(16,185,129,0.35); border-radius:10px;">
+                <span style="font-size:0.78rem; color:#6ee7b7;">🎮 Закончились монеты? Сыграйте в мини-игру <strong>«Кибер-Раннер»</strong> во время ожидания рендеринга и собирайте квантовые монеты на лету!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RETRO-ARCADE MINI-GAME MODAL: LITDEO BATTLE SQUAD - 100 HEROES, 5 TOWERS & 3D GALAXY -->
+    <div class="video-modal-overlay" id="miniGameModalOverlay" style="display: none; z-index: 10100;">
+        <div class="video-modal-card" id="miniGameModalCard" style="max-width: 960px; width: 97vw; max-height: 95vh; overflow-y: auto; padding: 12px 16px; background: #05020c; border: 1px solid rgba(168,85,247,0.55); box-shadow: 0 0 80px rgba(168,85,247,0.5); border-radius: 18px; position:relative; transition: all 0.3s ease;">
+            
+            <!-- HEADER -->
+            <div class="video-modal-header" style="margin-bottom: 6px;">
+                <div class="video-modal-title" style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:1.5rem;">👑</span>
+                    <div>
+                        <div style="font-size:1.05rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:8px;">
+                            <span>Битва 100 Героев: Осада 5 Башен</span>
+                            <span style="font-size:0.65rem; background:linear-gradient(135deg, #a855f7, #ec4899); color:#fff; padding:1px 6px; border-radius:4px; font-weight:700;">РАУНД 7-10 МИН</span>
+                        </div>
+                        <div style="font-size:0.68rem; color:#c084fc;">Найдите Изумрудный Камень и Посох Воды • Разрушьте 5 Башен • Видео рендерится в фоне!</div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <button type="button" id="btnToggle3DMode" style="background:linear-gradient(135deg, #06b6d4, #3b82f6); border:none; color:#fff; border-radius:6px; padding:4px 10px; font-size:0.72rem; font-weight:800; cursor:pointer;" title="Переключить 3D / 2D режим (Клавиша V)">🕶️ 3D Режим</button>
+                    <button type="button" id="btnToggleGameFullscreen" style="background:rgba(168,85,247,0.2); border:1px solid rgba(168,85,247,0.4); color:#c084fc; border-radius:6px; padding:4px 8px; font-size:0.72rem; font-weight:700; cursor:pointer;" title="Развернуть на весь экран">⛶ Экран</button>
+                    <button type="button" class="btn-modal-close" id="btnCloseMiniGameModal">✕</button>
+                </div>
+            </div>
+
+            <!-- HERO SELECTION BAR (FEATURED HEROES + 100 HEROES ROSTER BUTTON) -->
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(56,189,248,0.25); border-radius:10px; padding:6px 8px; margin-bottom:6px;">
+                <div style="font-size:0.66rem; color:#94a3b8; font-weight:700; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:#38bdf8;">🌟 Выберите Героя из 100 персонажей: <strong id="activeHeroDisplayName" style="color:#ffd700;">Фил (Главный стратег, СЕО)</strong></span>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" id="btnOpen5v5RosterModal" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;" title="Собрать команды и начать битву 5х5">⚔️ Битва 5х5 (Ростер) ➔</button>
+                        <button type="button" id="btnOpen100HeroesRoster" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#000; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;">👥 Каталог всех 100 Героев ➔</button>
+                    </div>
+                </div>
+                <div id="quickHeroSelectRow" style="display:grid; grid-template-columns:repeat(7, 1fr); gap:4px;">
+                    <button type="button" class="team-hero-btn active" data-hero="1" style="background:rgba(56,189,248,0.25); border:1px solid #38bdf8; color:#fff; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>👨‍🔧</span> <span>Фил</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" data-hero="2" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>🤴</span> <span>Тогайбек</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" data-hero="3" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>🧝‍♀️</span> <span>Сара</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" data-hero="4" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>🥷</span> <span>Девин</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" data-hero="5" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>🛡️</span> <span>Джэйм</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" data-hero="6" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>⚡</span> <span>Эби</span>
+                    </button>
+                    <button type="button" class="team-hero-btn" id="btnOpen100HeroesRosterAlt" style="background:rgba(168,85,247,0.15); border:1px solid rgba(168,85,247,0.3); color:#c084fc; border-radius:6px; padding:4px 2px; font-size:0.7rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:3px;">
+                        <span>📜</span> <span>100 Героев</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 5 CANONICAL ABILITIES BAR FOR ACTIVE HERO -->
+            <div id="heroAbilityBar" style="background:rgba(15,23,42,0.85); border:1px solid rgba(56,189,248,0.35); border-radius:10px; padding:6px 10px; margin-bottom:6px; box-shadow:0 2px 10px rgba(0,0,0,0.5);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span style="font-size:0.7rem; font-weight:800; color:#ffd700; text-transform:uppercase; letter-spacing:0.5px;">⚡ Способности Героя:</span>
+                        <span id="heroAbilityHeroName" style="font-size:0.75rem; font-weight:800; color:#fff;">Фил (Фил К. Рэйт)</span>
+                        <span id="heroAbilityRoleBadge" style="font-size:0.62rem; font-weight:700; padding:1px 6px; border-radius:4px; border:1px solid #38bdf8; color:#38bdf8; background:rgba(56,189,248,0.1);">Главный стратег, СЕО</span>
+                    </div>
+                    <div style="font-size:0.62rem; color:#94a3b8; font-family:'JetBrains Mono', monospace;">
+                        Клавиши: [Q] [Shift+E] [ПКМ] [R / Ульта] [Z]
+                    </div>
+                </div>
+                <div id="heroAbilitiesContainer" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;">
+                    <!-- Dynamically populated 5 abilities -->
+                </div>
+            </div>
+
+            <!-- QUEST ARTIFACTS & 5 TOWERS STATUS BAR -->
+            <div style="background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:4px 8px; margin-bottom:5px; font-size:0.67rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-weight:700;">
+                    <!-- Artifacts Quest -->
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <span style="color:#94a3b8;">Артефакты мира:</span>
+                        <span id="questEmeraldBadge" style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:1px 6px; border-radius:4px;">💎 Изумруд: ❌ Искать в Неоне</span>
+                        <span id="questWaterStaffBadge" style="background:rgba(6,182,212,0.15); border:1px solid #06b6d4; color:#38bdf8; padding:1px 6px; border-radius:4px;">🌊 Посох Воды: ❌ Искать в Разломе</span>
+                    </div>
+                    <!-- Round Timer & Mode -->
+                    <div style="display:flex; gap:6px; align-items:center; font-family:'JetBrains Mono', monospace;">
+                        <span id="gameViewModeBadge" style="color:#38bdf8; font-size:0.65rem;">Режим: 2D Открытый Мир</span>
+                        <span style="color:#ffd700;">⏱️ <span id="gameRoundTimer">00:00</span> / 08:30</span>
+                    </div>
+                </div>
+
+                <!-- 5 Towers Progress -->
+                <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:4px;">
+                    <div class="tower-hud-card" id="towerHudCard1" style="background:rgba(255,255,255,0.03); border:1px solid rgba(168,85,247,0.3); border-radius:6px; padding:2px 4px; text-align:center;">
+                        <div style="font-size:0.6rem; color:#c084fc; font-weight:700;">🧙 Башня 1: Маг</div>
+                        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-top:1px;">
+                            <div id="towerHpBar1" style="width:100%; height:100%; background:#a855f7;"></div>
+                        </div>
+                    </div>
+                    <div class="tower-hud-card" id="towerHudCard2" style="background:rgba(255,255,255,0.03); border:1px solid rgba(239,68,68,0.3); border-radius:6px; padding:2px 4px; text-align:center;">
+                        <div style="font-size:0.6rem; color:#f87171; font-weight:700;">🦀 Башня 2: 100 Крабов</div>
+                        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-top:1px;">
+                            <div id="towerHpBar2" style="width:100%; height:100%; background:#ef4444;"></div>
+                        </div>
+                    </div>
+                    <div class="tower-hud-card" id="towerHudCard3" style="background:rgba(255,255,255,0.03); border:1px solid rgba(245,158,11,0.3); border-radius:6px; padding:2px 4px; text-align:center;">
+                        <div style="font-size:0.6rem; color:#fbbf24; font-weight:700;">🦖 Башня 3: Динозавры</div>
+                        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-top:1px;">
+                            <div id="towerHpBar3" style="width:100%; height:100%; background:#f59e0b;"></div>
+                        </div>
+                    </div>
+                    <div class="tower-hud-card" id="towerHudCard4" style="background:rgba(255,255,255,0.03); border:1px solid rgba(239,68,68,0.4); border-radius:6px; padding:2px 4px; text-align:center;">
+                        <div style="font-size:0.6rem; color:#ef4444; font-weight:800;">👑🦀 Башня 4: Босс-Краб</div>
+                        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-top:1px;">
+                            <div id="towerHpBar4" style="width:100%; height:100%; background:#dc2626;"></div>
+                        </div>
+                    </div>
+                    <div class="tower-hud-card" id="towerHudCard5" style="background:rgba(255,255,255,0.03); border:1px solid rgba(236,72,153,0.4); border-radius:6px; padding:2px 4px; text-align:center;">
+                        <div style="font-size:0.6rem; color:#ec4899; font-weight:800;">👑🦖 Башня 5: Босс-Дино</div>
+                        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-top:1px;">
+                            <div id="towerHpBar5" style="width:100%; height:100%; background:#db2777;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE STATS & BACKGROUND VIDEO SYNC BAR -->
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:4px 10px; margin-bottom:5px; font-family:'JetBrains Mono', monospace; font-size:0.72rem;">
+                <div style="color:#ffd700; font-weight:800;">🪙 <span id="gameCoinsEarned">0</span></div>
+                <div style="color:#38bdf8;">🏆 <span id="gameScore">0</span></div>
+                <div style="color:#f43f5e;" id="gameLivesDisplay">❤️❤️❤️</div>
+                <div id="activeSectorBadge" style="color:#c084fc; font-size:0.66rem; font-weight:700;">🌌 Сектор 1 [450, 380]</div>
+                <div style="display:flex; align-items:center; gap:4px;">
+                    <button type="button" id="btnTriggerUltimate" style="background:linear-gradient(135deg, #a855f7, #ec4899); border:none; color:#fff; border-radius:6px; padding:2px 8px; font-size:0.68rem; font-weight:800; cursor:pointer;" title="Нажмите E или кнопку">⚡ УЛЬТА: <span id="ultimateChargeText">0%</span></button>
+                </div>
+                <!-- Background Video Status -->
+                <div id="gameRenderSyncBadge" style="background:rgba(168,85,247,0.25); border:1px solid rgba(168,85,247,0.4); color:#c084fc; padding:2px 8px; border-radius:6px; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:4px;">
+                    <span>🎬 Видео в фоне:</span> <strong id="gameRenderPct" style="color:#ffd700;">0%</strong>
+                </div>
+            </div>
+
+            <!-- Canvas Container (Widescreen 920x480) -->
+            <div id="miniGameCanvasContainer" style="position:relative; width:100%; border-radius:12px; overflow:hidden; border:1px solid rgba(168,85,247,0.4); background:#020108; box-shadow:inset 0 0 50px rgba(0,0,0,0.85);">
+                <canvas id="miniGameCanvas" width="920" height="480" style="display:block; width:100%; height:auto;"></canvas>
+
+                <!-- 5v5 Scoreboard HUD (Top-Center) -->
+                <div id="hud5v5Scoreboard" style="display:none; position:absolute; top:8px; left:50%; transform:translateX(-50%); background:rgba(10,12,24,0.88); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:4px 16px; align-items:center; gap:14px; z-index:5; box-shadow:0 4px 20px rgba(0,0,0,0.6);">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <span style="color:#38bdf8; font-weight:800; font-size:0.75rem;">🔷 АЛЬФА</span>
+                        <span id="hud5v5AlphaScore" style="color:#38bdf8; font-weight:900; font-size:1.15rem; font-family:'JetBrains Mono', monospace;">0</span>
+                    </div>
+                    <div style="font-size:0.7rem; color:#ffd700; font-weight:800; background:rgba(255,215,0,0.15); padding:1px 8px; border-radius:10px;">ДО 15 УБИЙСТВ</div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <span id="hud5v5BetaScore" style="color:#ef4444; font-weight:900; font-size:1.15rem; font-family:'JetBrains Mono', monospace;">0</span>
+                        <span style="color:#ef4444; font-weight:800; font-size:0.75rem;">БЕТА 🔴</span>
+                    </div>
+                </div>
+
+                <!-- 5v5 Killfeed HUD (Top-Right) -->
+                <div id="hud5v5Killfeed" style="display:none; position:absolute; top:8px; right:8px; flex-direction:column; gap:4px; z-index:5; pointer-events:none;">
+                    <!-- Dynamic kill messages -->
+                </div>
+
+                <!-- In-Game Victory Overlay when Video finishes or 5 Towers defeated -->
+                <div id="gameVideoReadyBanner" style="display:none; position:absolute; inset:0; background:rgba(7,5,18,0.92); backdrop-filter:blur(8px); flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; z-index:10;">
+                    <div style="font-size:2.5rem; margin-bottom:4px;">🎉 🏆 👑</div>
+                    <div id="gameVictoryTitle" style="font-size:1.25rem; font-weight:800; color:#fff; margin-bottom:4px;">Победа 100 Героев: 5 Башен Сокрушены!</div>
+                    <div style="font-size:0.82rem; color:#94a3b8; margin-bottom:12px;">Вы заработали в игре: <strong id="gameFinalCoinsAdded" style="color:#ffd700;">+0 L-Coins</strong></div>
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" id="btnGameWatchVideo" style="background:linear-gradient(135deg, #ffd700, #f59e0b); color:#000; font-weight:800; border:none; padding:8px 16px; border-radius:8px; font-size:0.78rem; cursor:pointer;">
+                            🎬 Смотреть готовое видео
+                        </button>
+                        <button type="button" id="btnGameContinuePlaying" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:600; padding:8px 14px; border-radius:8px; font-size:0.78rem; cursor:pointer;">
+                            Продолжить битву ➔
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Help Footer -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.67rem; color:#94a3b8;">
+                <span>Управление: <strong>[W, A, S, D]</strong> или <strong>[Стрелки]</strong> | <strong>[Shift]</strong> — Форсаж | <strong>[Пробел]</strong> — Огонь | <strong>[E]</strong> — Ульта | <strong>[V]</strong> — 3D/2D</span>
+                <span>Мир: <strong>3600 x 2700 px</strong> • 5 Башен • Изумруд & Посох Воды • 100 Персонажей</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 100 HEROES ROSTER CATALOG MODAL -->
+    <div class="video-modal-overlay" id="heroRosterModalOverlay" style="display: none; z-index: 10200;">
+        <div class="video-modal-card" style="max-width: 820px; width: 95vw; max-height: 90vh; overflow-y: auto; padding: 18px; background: #080414; border: 1px solid rgba(168,85,247,0.6); box-shadow: 0 0 60px rgba(168,85,247,0.5); border-radius: 16px;">
+            <div class="video-modal-header" style="margin-bottom: 12px;">
+                <div class="video-modal-title" style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:1.6rem;">👥</span>
+                    <div>
+                        <div style="font-size:1.15rem; font-weight:800; color:#fff;">Каталог 100 Героев Litdeo</div>
+                        <div style="font-size:0.72rem; color:#c084fc;">Каждый герой уникален со своими характеристиками, оружием и супер-способностью!</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-modal-close" id="btnCloseHeroRosterModal">✕</button>
+            </div>
+
+            <!-- Search & Filters -->
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+                <input type="text" id="heroSearchInput" placeholder="🔍 Быстрый поиск героя по имени или классу (Фил, Тогайбек, Сара...)..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:8px 12px; color:#fff; font-size:0.8rem; outline:none;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="hero-filter-pill active" data-class="all" style="background:#a855f7; border:none; color:#fff; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">Все (100)</button>
+                    <button type="button" class="hero-filter-pill" data-class="warrior" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">⚔️ Воины (21)</button>
+                    <button type="button" class="hero-filter-pill" data-class="mage" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">🔮 Маги (22)</button>
+                    <button type="button" class="hero-filter-pill" data-class="ranger" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">🏹 Лучники (21)</button>
+                    <button type="button" class="hero-filter-pill" data-class="paladin" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">🛡️ Паладины (19)</button>
+                    <button type="button" class="hero-filter-pill" data-class="techno" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#94a3b8; border-radius:6px; padding:3px 10px; font-size:0.7rem; font-weight:700; cursor:pointer;">⚡ Техники (17)</button>
+                </div>
+            </div>
+
+            <!-- Heroes Grid -->
+            <div id="heroRosterGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:8px; max-height:55vh; overflow-y:auto; padding-right:4px;">
+                <!-- Dynamically populated with 100 heroes -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 5v5 TEAM ROSTER MODAL BUILDER -->
+    <div class="video-modal-overlay" id="modal5v5TeamRoster" style="display: none; z-index: 10250;">
+        <div class="video-modal-card" style="max-width: 960px; width: 95vw; max-height: 92vh; overflow-y: auto; padding: 20px; background: #070512; border: 1px solid rgba(239,68,68,0.5); box-shadow: 0 0 60px rgba(239,68,68,0.3); border-radius: 16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.8rem;">⚔️</span>
+                    <div>
+                        <h3 style="font-size:1.2rem; font-weight:800; color:#fff; margin:0;">Командная Битва 5х5: Конструктор Ростера</h3>
+                        <div style="font-size:0.72rem; color:#94a3b8; margin-top:2px;">Соберите идеальный отряд из 25 канонических героев вселенной Litally и сокрушите команду соперника!</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-modal-close" id="btnClose5v5RosterModal">✕</button>
+            </div>
+
+            <!-- Preset Quick Bar -->
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:8px 12px; border-radius:10px;">
+                <span style="font-size:0.7rem; color:#ffd700; font-weight:800;">⚡ Быстрые Сетапы:</span>
+                <button type="button" id="btnPreset5v5Canonical" style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🌟 Канонический (Лидеры Litally)</button>
+                <button type="button" id="btnPreset5v5SpecOps" style="background:rgba(168,85,247,0.15); border:1px solid #a855f7; color:#c084fc; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🗡️ Спецназ & Разведка</button>
+                <button type="button" id="btnPreset5v5Balanced" style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">⚖️ Идеальный Баланс Классов</button>
+                <button type="button" id="btnPreset5v5Random" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🎲 Случайный Ростер</button>
+            </div>
+
+            <!-- 2-Column Teams Grid -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
+                <!-- Team Alpha Column -->
+                <div style="background:rgba(6,182,212,0.05); border:1px solid rgba(56,189,248,0.3); border-radius:12px; padding:12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid rgba(56,189,248,0.2); padding-bottom:6px;">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:1.1rem;">🔷</span>
+                            <span style="font-size:0.9rem; font-weight:800; color:#38bdf8;">КОМАНДА АЛЬФА (ВАША)</span>
+                        </div>
+                        <span id="rosterAlphaSynergy" style="font-size:0.72rem; font-weight:800; background:rgba(56,189,248,0.2); color:#38bdf8; padding:2px 8px; border-radius:6px;">Синергия: 98%</span>
+                    </div>
+                    <div id="rosterAlphaSlots" style="display:flex; flex-direction:column; gap:8px;">
+                        <!-- Slots populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Team Beta Column -->
+                <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid rgba(239,68,68,0.2); padding-bottom:6px;">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:1.1rem;">🔴</span>
+                            <span style="font-size:0.9rem; font-weight:800; color:#ef4444;">КОМАНДА БЕТА (СОПЕРНИКИ)</span>
+                        </div>
+                        <span id="rosterBetaSynergy" style="font-size:0.72rem; font-weight:800; background:rgba(239,68,68,0.2); color:#ef4444; padding:2px 8px; border-radius:6px;">Синергия: 92%</span>
+                    </div>
+                    <div id="rosterBetaSlots" style="display:flex; flex-direction:column; gap:8px;">
+                        <!-- Slots populated via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action / Start Battle Footer -->
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.72rem; color:#94a3b8;">
+                    💡 <em>Первый слот Команды Альфа — это ваш активный герой. Остальные 4 союзника и 5 соперников сражаются под управлением ИИ.</em>
+                </div>
+                <button type="button" id="btnStart5v5Battle" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; font-weight:800; font-size:0.92rem; padding:10px 24px; border-radius:10px; cursor:pointer; box-shadow:0 0 20px rgba(239,68,68,0.5); display:flex; align-items:center; gap:8px;">
+                    <span>⚔️ НАЧАТЬ БИТВУ 5х5</span> <span>➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGE WELCOME ONBOARDING MODAL (1-99 YEARS) -->
+    <div class="video-modal-overlay" id="ageOnboardingModal" style="display: none; z-index: 10000;">
+        <div class="video-modal-card" style="max-width: 720px; text-align: center; padding: 32px 24px; max-height: 90vh; overflow-y: auto; position: relative;">
+            <button type="button" class="btn-modal-close" id="btnCloseAgeOnboardingModal" style="position: absolute; top: 16px; right: 16px;">✕</button>
+            <div style="font-size: 2.2rem; margin-bottom: 6px;">🎬 📖</div>
+            <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 6px;">Добро пожаловать в Litdeo!</h2>
+            <p style="font-size: 0.86rem; color: var(--v-text-muted); margin-bottom: 22px; max-width: 560px; margin-left: auto; margin-right: auto;">
+                Выберите ваш возраст — интерфейс, размер букв, видеоряд и музыка автоматически настроятся под ваше зрение:
+            </p>
+
+            <div class="onboarding-age-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 24px; text-align: left;">
+                <div class="onboarding-age-card" data-age="1" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">👶 1–3 года</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Малыши</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Машинки, колыбельные, супер-простой экран</div>
+                </div>
+
+                <div class="onboarding-age-card" data-age="5" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🧒 4–7 лет</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Дети</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Яркие мультики, детский ИИ с пониманием опечаток</div>
+                </div>
+
+                <div class="onboarding-age-card" data-age="11" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🧑 8–13 лет</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Школьники</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Игры, аниме, яркие образы и творчество</div>
+                </div>
+
+                <div class="onboarding-age-card" data-age="20" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">⚡ 14–29 лет</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Pro-Студия</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Полная мощь: 100 тем, 30 форматов, GPU-шейдеры</div>
+                </div>
+
+                <div class="onboarding-age-card" data-age="35" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">💼 30–39 лет</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Четкость и Фокус</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Увеличенный шрифт, быстрый и удобный интерфейс</div>
+                </div>
+
+                <div class="onboarding-age-card" data-age="45" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🌟 40+ лет</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 0.88rem;">Кино-Комфорт</div>
+                    <div style="font-size: 0.72rem; color: var(--v-text-muted); margin-top: 2px;">Премиальный стиль, крупные буквы, эргономика зрения</div>
+                </div>
+            </div>
+
+            <!-- Exact Number Input -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; flex-wrap: wrap;">
+                <span style="font-size: 0.82rem; color: var(--v-text-muted);">Или введите точный возраст (1-99):</span>
+                <input type="number" id="onboardingCustomAge" min="1" max="99" value="45" style="width: 60px; text-align: center; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.5); color: #ffd700; font-weight: 800; font-family: monospace; font-size: 1rem; border-radius: 8px; padding: 4px;">
+                <button type="button" class="btn-generate-video" id="btnConfirmOnboardingAge" style="padding: 8px 22px; font-size: 0.85rem; height: auto;">Войти в студию ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REAL VIDEO EXPORT & PROGRESS MODAL -->
+    <div class="video-modal-overlay" id="videoExportModal" style="display: none; z-index: 10001;">
+        <div class="video-modal-card" style="max-width: 520px; text-align: center; padding: 28px 24px;">
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">🎬 💾</div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 6px;" id="exportModalTitle">Экспорт 4K / 8K Видео</h3>
+            <p style="font-size: 0.82rem; color: var(--v-text-muted); margin-bottom: 18px;" id="exportModalDesc">
+                Запись видеопотока со звуком 48kHz и кодирование в реальном времени:
+            </p>
+
+            <!-- Export Progress Bar -->
+            <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden; margin-bottom: 12px; position: relative;">
+                <div id="exportProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b); border-radius: 6px; transition: width 0.15s ease;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--v-text-muted); font-family: monospace; margin-bottom: 20px;">
+                <span id="exportProgressStatus">Инициализация энкодера...</span>
+                <span id="exportProgressPct" style="color: #ffd700; font-weight: bold;">0%</span>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" class="btn-action-cinema" id="btnCancelExport" style="padding: 8px 18px; font-size: 0.82rem;">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 100 Languages Database & Translations -->
+    <script src="/static/js/languages_100_data.js"></script>
+    <script src="/static/js/languages_100_translations.js"></script>
+    <!-- Litdeo Video AI Engine Script -->
+    <script src="/static/js/litdeo_100_themes.js"></script>
+    <script src="/static/js/litdeo_age_soft.js"></script>
+    <script src="/static/js/litdeo_audio_engine.js"></script>
+    <script src="/static/js/litally_video_ai.js"></script>
+    <!-- Litally Hyper-Graphics Quantum Visual Engine 4K/8K Engine -->
+    <script src="/static/js/litally_hyper_graphics_engine.js"></script>
+
+
+    <!-- BENCHMARK MODAL (Litdeo vs Luma Dream Machine vs Higgsfield vs Runway) -->
+    <div id="benchmarkModal" class="custom-modal-backdrop" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px;">
+        <div class="modal-card" style="background:#0c081e; border:1px solid rgba(234, 179, 8, 0.4); border-radius:20px; max-width:860px; width:100%; max-height:90vh; overflow-y:auto; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 30px rgba(234, 179, 8, 0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.8rem;">🏆</span>
+                    <div>
+                        <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffd700;">Бенчмаркинг AI Видеогенераторов 2026</h3>
+                        <p style="margin:0; font-size:0.75rem; color:#94a3b8;">Litdeo (Линар Серик) vs Luma Dream Machine vs Higgsfield AI vs Runway Gen-3 vs OpenAI Sora</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeBenchmarkModal()" style="background:none; border:none; font-size:1.4rem; color:#94a3b8; cursor:pointer;">✕</button>
+            </div>
+
+            <div style="overflow-x:auto; margin-bottom:20px;">
+                <table style="width:100%; border-collapse:collapse; font-size:0.82rem; text-align:left;">
+                    <thead>
+                        <tr style="background:rgba(255,255,255,0.06); color:#ffd700; border-bottom:2px solid rgba(255,215,0,0.3);">
+                            <th style="padding:10px 12px;">Параметр</th>
+                            <th style="padding:10px 12px; background:rgba(234,179,8,0.15); color:#fff;">👑 Litdeo 2.2 Apex</th>
+                            <th style="padding:10px 12px;">Luma Dream Machine</th>
+                            <th style="padding:10px 12px;">Higgsfield AI</th>
+                            <th style="padding:10px 12px;">Runway Gen-3</th>
+                            <th style="padding:10px 12px;">OpenAI Sora</th>
+                        </tr>
+                    </thead>
+                    <tbody style="color:#cbd5e1;">
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Макс. Разрешение</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">8K Master UHD</td>
+                            <td style="padding:10px 12px;">4K Upscaled</td>
+                            <td style="padding:10px 12px;">1080p Full HD</td>
+                            <td style="padding:10px 12px;">4K Studio</td>
+                            <td style="padding:10px 12px;">1080p Widescreen</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Плавность / FPS</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">60 / 120 FPS Quantum</td>
+                            <td style="padding:10px 12px;">24–30 FPS</td>
+                            <td style="padding:10px 12px;">30 FPS</td>
+                            <td style="padding:10px 12px;">30 FPS</td>
+                            <td style="padding:10px 12px;">30 FPS</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Физика тканей и волос</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">Higgsfield+ Sub-Pixel</td>
+                            <td style="padding:10px 12px;">Высокая</td>
+                            <td style="padding:10px 12px;">Специализированная</td>
+                            <td style="padding:10px 12px;">Средняя</td>
+                            <td style="padding:10px 12px;">Высокая</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Синтез Звука (Audio)</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">48kHz Spatial Stereo</td>
+                            <td style="padding:10px 12px;">Базовый SFX</td>
+                            <td style="padding:10px 12px;">Отсутствует</td>
+                            <td style="padding:10px 12px;">Базовый SFX</td>
+                            <td style="padding:10px 12px;">Без звука</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Поддержка форматов</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">30 Форматов (IMAX, 9:16...)</td>
+                            <td style="padding:10px 12px;">16:9, 9:16</td>
+                            <td style="padding:10px 12px;">9:16</td>
+                            <td style="padding:10px 12px;">16:9, 9:16, 1:1</td>
+                            <td style="padding:10px 12px;">16:9, 9:16</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Режиссерская камера (DoP)</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">DoP Supreme™ (25+ кинотраекторий, микшер движения, оптика 14–200mm)</td>
+                            <td style="padding:10px 12px;">Базовые векторы</td>
+                            <td style="padding:10px 12px;">DoP пресеты (без микшера)</td>
+                            <td style="padding:10px 12px;">Motion Brush</td>
+                            <td style="padding:10px 12px;">Только через промпт</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Фиксация персонажа (Soul ID)</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">Litdeo Soul™ (Soul ID + Культурные архетипы Степи + 7 кино-эстетик)</td>
+                            <td style="padding:10px 12px;">Отсутствует</td>
+                            <td style="padding:10px 12px;">Soul ID (платно в Diffuse)</td>
+                            <td style="padding:10px 12px;">Платные Custom Gen-3</td>
+                            <td style="padding:10px 12px;">Случайное лицо</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Очереди & Стоимость</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">Мгновенно 0 сек • Без очередей и платных подписок</td>
+                            <td style="padding:10px 12px;">Квоты и очереди</td>
+                            <td style="padding:10px 12px;">Подписка $19–$49/мес</td>
+                            <td style="padding:10px 12px;">Посекундно платно</td>
+                            <td style="padding:10px 12px;">Подписка $20–$200</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="padding:10px 12px; font-weight:700;">Языки интерфейса</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">100 Языков Мира на 100%</td>
+                            <td style="padding:10px 12px;">Только английский</td>
+                            <td style="padding:10px 12px;">Только английский</td>
+                            <td style="padding:10px 12px;">Английский</td>
+                            <td style="padding:10px 12px;">Английский</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px 12px; font-weight:700;">Эргономика Зрения</td>
+                            <td style="padding:10px 12px; background:rgba(234,179,8,0.08); font-weight:800; color:#4ade80;">Age Soft™ (1-99 лет)</td>
+                            <td style="padding:10px 12px;">Нет</td>
+                            <td style="padding:10px 12px;">Нет</td>
+                            <td style="padding:10px 12px;">Нет</td>
+                            <td style="padding:10px 12px;">Нет</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.04); border-radius:12px; padding:16px; font-size:0.8rem; color:#cbd5e1; line-height:1.6;">
+                <strong style="color:#ffd700;">🌟 Почему Litdeo превосходит Higgsfield AI:</strong><br>
+                Higgsfield стал популярен благодаря концепции <b>DoP (Director of Photography)</b> и модели <b>Soul</b>. В <b>Litdeo (автор Линар Серик)</b> мы развили эти идеи еще дальше:
+                <ul style="margin:6px 0 0 16px; padding:0;">
+                    <li><b>DoP Supreme™:</b> более 25 кинематографических траекторий (Vertigo Dolly Zoom, Crash Zoom, Bullet Time 360°, FPV дрон, Snorricam) с возможностью микширования вторичных движений.</li>
+                    <li><b>Litdeo Soul™ & Soul ID:</b> полная фиксация внешности персонажа (Казахский батыр, Томирис, Киберпанк, Аниме, Астронавт) и 7 эстетических вайбов (Quiet Luxury, 0.5x Selfie, Y2K, Kodak Portra).</li>
+                    <li><b>30 форматов экрана</b> (вместо 2 у Higgsfield), <b>100 языков интерфейса</b>, встроенный <b>48kHz звук</b> и <b>Age Soft™ эргономика</b>.</li>
+                </ul>
+            </div>
+
+            <div style="margin-top:20px; text-align:right;">
+                <button type="button" onclick="closeBenchmarkModal()" style="background:linear-gradient(135deg, #ffd700, #d4af37); color:#000; font-weight:800; border:none; padding:10px 24px; border-radius:10px; cursor:pointer;">Понятно</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAFETY POLICY & COPYRIGHT MODAL (Linar Serik & International Laws) -->
+    <div id="safetyPolicyModal" class="custom-modal-backdrop" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px;">
+        <div class="modal-card" style="background:#0c081e; border:1px solid rgba(56, 189, 248, 0.4); border-radius:20px; max-width:820px; width:100%; max-height:90vh; overflow-y:auto; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.8);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.8rem;">🛡️</span>
+                    <div>
+                        <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#38bdf8;">Правила Безопасности & Защита Авторских Прав</h3>
+                        <p style="margin:0; font-size:0.75rem; color:#94a3b8;">Создатель: Линар Серик (Linar Serik) • Sovereign Legal Framework</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeSafetyModal()" style="background:none; border:none; font-size:1.4rem; color:#94a3b8; cursor:pointer;">✕</button>
+            </div>
+
+            <div style="font-size:0.83rem; color:#cbd5e1; line-height:1.7; display:flex; flex-direction:column; gap:14px;">
+                <div style="background:rgba(56, 189, 248, 0.08); border-left:4px solid #38bdf8; padding:12px 16px; border-radius:0 10px 10px 0;">
+                    <strong style="color:#fff;">👑 Автор и Единственный Создатель Платформы:</strong><br>
+                    Архитектура нейросетевых движков, интерфейсы и программный комплекс <b>Litally & Litdeo</b> разработаны единолично автором <b>Линаром Сериком (Linar Serik)</b>. Все права защищены.
+                </div>
+
+                <div>
+                    <strong style="color:#ffd700;">⚖️ Законодательная база охраны авторских прав:</strong>
+                    <ul style="margin:6px 0 0 18px; padding:0;">
+                        <li><b>Закон Республики Казахстан № 6-I</b> «Об авторском праве и смежных правах» (от 10 июня 1996 года с изменениями и дополнениями).</li>
+                        <li><b>Закон РК № 418-V</b> «Об информатизации» и <b>Закон РК № 94-V</b> «О персональных данных и их защите».</li>
+                        <li><b>Бернская конвенция</b> об охране литературных и художественных произведений (Berne Convention, 1886/1971).</li>
+                        <li><b>Всемирная конвенция об авторском праве</b> и Договор ВОИС по авторскому праву (WIPO Copyright Treaty / WCT).</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <strong style="color:#f87171;">🚫 Правила Безопасности Генерации (AI Safety Policy):</strong>
+                    <ul style="margin:6px 0 0 18px; padding:0;">
+                        <li><b>Категорически запрещено:</b> генерация неконсенсуального интимного контента (18+), сцен насилия, жестокости, пропаганды экстремизма, ненависти и дискриминации.</li>
+                        <li><b>Абсолютная защита детей:</b> строгий фильтр Child Safety (CSAM) в соответствии с международными стандартами ООН и ВОЗ.</li>
+                        <li><b>Творческая свобода:</b> разрешено и поощряется создание кинематографических шедевров, научной фантастики, эпических баталий, исторических реконструкций, фэнтези и образовательных визуализаций.</li>
+                    </ul>
+                </div>
+            </div>
+
+    <!-- REAL COMPUTER VISION & FRAME SCANNER MODAL -->
+    <div id="visionScannerModal" class="custom-modal-backdrop" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(4,6,15,0.88); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); align-items:center; justify-content:center; padding:20px;">
+        <div class="modal-card" style="background:linear-gradient(135deg, #0b0f1e, #070913); border:1px solid rgba(56, 189, 248, 0.45); border-radius:24px; max-width:960px; width:100%; max-height:92vh; overflow-y:auto; padding:28px; box-shadow:0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(56,189,248,0.2);">
+            
+            <!-- Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:16px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, rgba(56,189,248,0.2), rgba(168,85,247,0.2)); border:1px solid #38bdf8; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">👁️</div>
+                    <div>
+                        <h3 style="margin:0; font-size:1.3rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:8px;">
+                            <span>Что ИИ РЕАЛЬНО видит в кадре</span>
+                            <span class="badge-pro" style="background:rgba(56,189,248,0.25); color:#38bdf8; border:1px solid rgba(56,189,248,0.5); font-size:0.65rem;">REAL COMPUTER VISION</span>
+                        </h3>
+                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#94a3b8;">Попиксельная спектральная декомпозиция, палитра, резкость микрорельефа и семантика</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeVisionScannerModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); width:36px; height:36px; border-radius:10px; color:#cbd5e1; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div style="display:grid; grid-template-columns: 320px 1fr; gap:24px; align-items:start;" id="visionModalGrid">
+                
+                <!-- Left: Frame Thumbnail & Quick Stats -->
+                <div>
+                    <div style="position:relative; border-radius:16px; overflow:hidden; border:2px solid rgba(56,189,248,0.4); box-shadow:0 12px 30px rgba(0,0,0,0.6); background:#000;">
+                        <img id="visionModalThumb" src="" alt="Кадр для анализа" style="width:100%; height:auto; display:block; object-fit:cover;">
+                        <div id="visionScanOverlayLine" style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg, transparent 40%, rgba(56,189,248,0.25) 50%, transparent 60%);"></div>
+                    </div>
+
+                    <!-- Metrics Badges -->
+                    <div style="margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:8px 10px; text-align:center;">
+                            <span style="font-size:0.68rem; color:#94a3b8; display:block;">Разрешение:</span>
+                            <strong id="visionResVal" style="color:#e2e8f0; font-family:'JetBrains Mono', monospace; font-size:0.85rem;">1920×1080</strong>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:8px 10px; text-align:center;">
+                            <span style="font-size:0.68rem; color:#94a3b8; display:block;">Мегапиксели:</span>
+                            <strong id="visionMpVal" style="color:#38bdf8; font-family:'JetBrains Mono', monospace; font-size:0.85rem;">2.07 Мп</strong>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:12px; display:flex; gap:8px;">
+                        <button type="button" id="btnCopyPaletteHex" onclick="copyVisionPaletteHex()" style="flex:1; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.4); color:#38bdf8; padding:8px 12px; border-radius:10px; font-size:0.75rem; font-weight:700; cursor:pointer;">📋 Копировать HEX</button>
+                    </div>
+                </div>
+
+                <!-- Right: Detailed Perception Breakdown -->
+                <div style="display:flex; flex-direction:column; gap:18px;">
+                    
+                    <!-- 1. Real Dominant Palette Swatches -->
+                    <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:#ffd700; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:10px;">
+                            🎨 Реальная спектральная палитра пикселей (Dominant HEX):
+                        </span>
+                        <div id="visionPaletteContainer" style="display:flex; flex-direction:column; gap:8px;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- 2. Optical Dynamics (Luminance, Contrast, Temp, Sharpness) -->
+                    <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:12px;">
+                            💡 Оптические характеристики и резкость микрорельефа:
+                        </span>
+                        
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                            <!-- Sharpness -->
+                            <div>
+                                <div style="display:flex; justify-content:space-between; font-size:0.72rem; margin-bottom:4px;">
+                                    <span style="color:#cbd5e1;">Резкость микрорельефа:</span>
+                                    <strong id="visionSharpnessScore" style="color:#4ade80;">72/100</strong>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px; overflow:hidden;">
+                                    <div id="visionSharpnessBar" style="background:linear-gradient(90deg, #10b981, #06b6d4); height:100%; width:72%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Brightness -->
+                            <div>
+                                <div style="display:flex; justify-content:space-between; font-size:0.72rem; margin-bottom:4px;">
+                                    <span style="color:#cbd5e1;">Оптическая яркость:</span>
+                                    <strong id="visionBrightnessScore" style="color:#ffd700;">10.2%</strong>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px; overflow:hidden;">
+                                    <div id="visionBrightnessBar" style="background:linear-gradient(90deg, #f59e0b, #ffd700); height:100%; width:10%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px; font-size:0.73rem; color:#94a3b8; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                            <span>Контраст (HDR): <strong id="visionContrastVal" style="color:#fff;">43.3:1</strong></span>
+                            <span>Цветовая температура: <strong id="visionColorTempVal" style="color:#fff;">~5700K</strong></span>
+                            <span>Композиция: <strong id="visionAnchorVal" style="color:#c084fc;">Центральный фокус</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- 3. Recognized Scene & Objects -->
+                    <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:8px;">
+                            🔍 Распознанные объекты и сцена:
+                        </span>
+                        <div style="margin-bottom:8px;">
+                            <span id="visionSceneCategoryTag" style="background:rgba(168,85,247,0.2); border:1px solid #c084fc; color:#e9d5ff; font-weight:700; font-size:0.78rem; padding:3px 10px; border-radius:8px; display:inline-block;">
+                                Ночной киберпанк мегаполис
+                            </span>
+                        </div>
+                        <div id="visionObjectsContainer" style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- 4. Textual Perception / Director's Review -->
+                    <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:#4ade80; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:8px;">
+                            🎭 Видение ИИ и Режиссерский план:
+                        </span>
+                        <div id="visionTextReport" style="font-size:0.8rem; color:#cbd5e1; line-height:1.55; max-height:180px; overflow-y:auto; padding-right:6px;">
+                            <!-- Text content -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="margin-top:24px; text-align:right;">
+                <button type="button" onclick="closeVisionScannerModal()" style="background:linear-gradient(135deg, #38bdf8, #0284c7); color:#000; font-weight:800; border:none; padding:10px 28px; border-radius:12px; cursor:pointer;">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LITALLY UPDATES & CAPABILITIES 100 LANGUAGES WIDGET -->
+    <script src="/static/js/litally_updates_widget.js"></script>
+</body>
+</html>

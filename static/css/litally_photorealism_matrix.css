@@ -1,0 +1,689 @@
+/**
+ * =============================================================================
+ * LITALLY PHOTOREALISM & 4K/8K VISUAL STUDIO MATRIX (v20.0)
+ * File: static/css/litally_photorealism_matrix.css
+ * =============================================================================
+ * Studio Capabilities:
+ * 1. 4K/8K Fullscreen Cinema Lightbox with dynamic ambient color aura.
+ * 2. Sub-Pixel Optical Zoom & Pan Loupe Inspector (up to 400% zoom).
+ * 3. Interactive Split-Screen Comparison Slider (Photorealism vs Anime vs 3D Pixar).
+ * 4. Neural EXIF & Anatomical/Automotive Telemetry Inspector.
+ * 5. High-Resolution Multi-Format Download Manager (4K, 1080p, Mobile 9:16, Desktop 16:9).
+ * 6. Responsive Hardware-Accelerated Design for Desktop, Tablet, and Mobile.
+ * =============================================================================
+ */
+
+/* ── 1. STUDIO ROOT DESIGN VARIABLES ────────────────────────────────────────── */
+:root {
+    --studio-bg-glass: rgba(12, 13, 16, 0.94);
+    --studio-surface-elevated: #1a1b1e;
+    --studio-surface-container: #222428;
+    --studio-surface-high: #2c2e33;
+    --studio-border-subtle: rgba(255, 255, 255, 0.08);
+    --studio-border-focus: rgba(66, 133, 244, 0.55);
+    --studio-accent-blue: #4285f4;
+    --studio-accent-purple: #9b72cb;
+    --studio-accent-gold: #d4af37;
+    --studio-accent-coral: #ea4335;
+    --studio-accent-teal: #00d2be;
+    --studio-text-primary: #f1f3f4;
+    --studio-text-secondary: #bdc1c6;
+    --studio-text-muted: #80868b;
+    --studio-font-sans: 'Plus Jakarta Sans', 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --studio-font-mono: 'JetBrains Mono', monospace;
+    --studio-radius-lg: 24px;
+    --studio-radius-md: 16px;
+    --studio-radius-sm: 10px;
+    --studio-radius-pill: 9999px;
+    --studio-shadow-depth: 0 24px 64px -12px rgba(0, 0, 0, 0.75), 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+    --studio-transition-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 2. 4K/8K FULLSCREEN CINEMA LIGHTBOX ─────────────────────────────────────── */
+.photorealism-lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--studio-bg-glass);
+    backdrop-filter: blur(36px) saturate(180%);
+    -webkit-backdrop-filter: blur(36px) saturate(180%);
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s var(--studio-transition-fluid), visibility 0.35s;
+    user-select: none;
+}
+
+.photorealism-lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Dynamic Ambient Color Backglow behind active artwork */
+.studio-ambient-dominant-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    height: 65vh;
+    background: radial-gradient(circle, rgba(66, 133, 244, 0.15) 0%, rgba(155, 114, 203, 0.08) 45%, transparent 75%);
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.8s ease;
+}
+
+/* Lightbox Header Bar */
+.studio-lightbox-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    background: rgba(18, 19, 22, 0.7);
+    border-bottom: 1px solid var(--studio-border-subtle);
+}
+
+.studio-header-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.studio-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, rgba(66, 133, 244, 0.15), rgba(155, 114, 203, 0.2));
+    border: 1px solid rgba(66, 133, 244, 0.3);
+    border-radius: var(--studio-radius-pill);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #8ab4f8;
+    letter-spacing: 0.03em;
+}
+
+.studio-active-title {
+    font-family: var(--studio-font-sans);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--studio-text-primary);
+    margin: 0;
+}
+
+.studio-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.studio-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--studio-surface-container);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-pill);
+    color: var(--studio-text-secondary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s var(--studio-transition-fluid);
+}
+
+.studio-tool-btn:hover {
+    background: var(--studio-surface-high);
+    color: var(--studio-text-primary);
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.studio-tool-btn.active {
+    background: rgba(66, 133, 244, 0.2);
+    border-color: var(--studio-accent-blue);
+    color: #8ab4f8;
+}
+
+.studio-btn-close {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--studio-surface-container);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: 50%;
+    color: var(--studio-text-primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.studio-btn-close:hover {
+    background: #d93025;
+    border-color: #d93025;
+    color: #fff;
+    transform: scale(1.08);
+}
+
+/* ── 3. MAIN CINEMA STAGE VIEWPORT ───────────────────────────────────────────── */
+.studio-lightbox-stage {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 24px;
+}
+
+.studio-image-display-frame {
+    position: relative;
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: var(--studio-radius-lg);
+    box-shadow: var(--studio-shadow-depth);
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.studio-display-img {
+    display: block;
+    max-width: 88vw;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--studio-radius-lg);
+    transition: transform 0.15s ease-out;
+}
+
+/* ── 4. SUB-PIXEL OPTICAL ZOOM & PAN LOUPE ────────────────────────────────────── */
+.studio-zoom-magnifier-lens {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 5px rgba(66, 133, 244, 0.35), 0 20px 40px rgba(0, 0, 0, 0.85);
+    pointer-events: none;
+    display: none;
+    z-index: 50;
+    background-repeat: no-repeat;
+    background-color: #0c0d10;
+}
+
+.studio-zoom-hud-indicator {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: var(--studio-radius-pill);
+    font-family: var(--studio-font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #8ab4f8;
+    letter-spacing: 0.05em;
+}
+
+/* ── 5. INTERACTIVE SPLIT-SCREEN COMPARISON SLIDER ───────────────────────────── */
+.studio-comparison-container {
+    position: relative;
+    max-width: 88vw;
+    max-height: 78vh;
+    border-radius: var(--studio-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--studio-shadow-depth);
+    display: none;
+}
+
+.studio-comparison-container.active {
+    display: block;
+}
+
+.comparison-image-before,
+.comparison-image-after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.comparison-image-before {
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    z-index: 2;
+}
+
+.comparison-image-after {
+    z-index: 1;
+}
+
+.comparison-slider-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: #fff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+    z-index: 10;
+    cursor: ew-resize;
+    transform: translateX(-50%);
+}
+
+.comparison-handle-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--studio-surface-elevated);
+    border: 2px solid #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.comparison-badge-label {
+    position: absolute;
+    top: 20px;
+    padding: 6px 14px;
+    background: rgba(18, 19, 22, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-pill);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--studio-text-primary);
+    z-index: 20;
+    pointer-events: none;
+}
+
+.label-left {
+    left: 20px;
+}
+
+.label-right {
+    right: 20px;
+}
+
+/* ── 6. NEURAL EXIF & PALEONTOLOGICAL METADATA DRAWER ────────────────────────── */
+.studio-meta-drawer {
+    position: absolute;
+    right: 24px;
+    bottom: 100px;
+    width: 360px;
+    max-height: 70vh;
+    background: rgba(22, 24, 29, 0.85);
+    backdrop-filter: blur(28px);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-lg);
+    box-shadow: var(--studio-shadow-depth);
+    padding: 24px;
+    z-index: 60;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s var(--studio-transition-fluid);
+}
+
+.studio-meta-drawer.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.meta-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--studio-border-subtle);
+}
+
+.meta-drawer-title {
+    font-family: var(--studio-font-sans);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--studio-text-primary);
+    margin: 0;
+}
+
+.meta-spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.meta-spec-card {
+    background: var(--studio-surface-container);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-sm);
+    padding: 10px 12px;
+}
+
+.spec-key {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--studio-text-muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+
+.spec-val {
+    font-family: var(--studio-font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8ab4f8;
+}
+
+.meta-narrative-box {
+    background: rgba(32, 35, 42, 0.6);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-sm);
+    padding: 14px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--studio-text-secondary);
+}
+
+.meta-narrative-box h5 {
+    margin: 0 0 8px 0;
+    color: var(--studio-accent-gold);
+    font-size: 0.92rem;
+}
+
+.palette-swatches-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.palette-swatch {
+    flex: 1;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.palette-swatch:hover {
+    transform: scale(1.15);
+}
+
+/* ── 7. BOTTOM EXPORT & RESOLUTION BAR ───────────────────────────────────────── */
+.studio-lightbox-dock {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(18, 19, 22, 0.8);
+    border-top: 1px solid var(--studio-border-subtle);
+}
+
+.dock-left-presets {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preset-chip {
+    padding: 6px 14px;
+    background: var(--studio-surface-container);
+    border: 1px solid var(--studio-border-subtle);
+    border-radius: var(--studio-radius-pill);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--studio-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.preset-chip:hover {
+    background: var(--studio-surface-high);
+    color: var(--studio-text-primary);
+}
+
+.dock-right-downloads {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-studio-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--studio-radius-pill);
+    font-family: var(--studio-font-sans);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s var(--studio-transition-fluid);
+}
+
+.btn-download-primary {
+    background: linear-gradient(135deg, var(--studio-accent-blue), var(--studio-accent-purple));
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.4);
+}
+
+.btn-download-primary:hover {
+    box-shadow: 0 8px 24px rgba(66, 133, 244, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-download-secondary {
+    background: var(--studio-surface-container);
+    border: 1px solid var(--studio-border-subtle);
+    color: var(--studio-text-primary);
+}
+
+.btn-download-secondary:hover {
+    background: var(--studio-surface-high);
+}
+
+/* ── 8. CHAT MEDIA CARD ENHANCEMENTS (IN-BUBBLE VISUALS) ─────────────────────── */
+.msg-bot-bubble img,
+.msg-bot-content img,
+.media-preview-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    cursor: zoom-in;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
+    margin: 8px 0;
+}
+
+.msg-bot-bubble img:hover,
+.msg-bot-content img:hover,
+.media-preview-img:hover {
+    transform: scale(1.018) translateY(-2px);
+    box-shadow: 0 22px 50px rgba(66, 133, 244, 0.35), 0 0 30px rgba(168, 85, 247, 0.25), 0 0 0 1px rgba(66, 133, 244, 0.5);
+}
+
+.studio-card-enhanced {
+    position: relative;
+    background: linear-gradient(145deg, rgba(20, 24, 35, 0.85), rgba(12, 14, 20, 0.95));
+    border: 1px solid rgba(66, 133, 244, 0.25);
+    border-radius: 18px;
+    padding: 12px;
+    margin: 16px 0;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.35s ease;
+}
+
+.studio-card-enhanced:hover {
+    border-color: rgba(66, 133, 244, 0.55);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(66, 133, 244, 0.2);
+}
+
+.media-badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #93c5fd;
+    background: rgba(30, 58, 138, 0.35);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.media-img-container {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+.media-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 14, 26, 0.82) 0%, rgba(10, 14, 26, 0.2) 60%, transparent 100%);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 16px;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.media-img-container:hover .media-hover-overlay {
+    opacity: 1;
+}
+
+.media-hover-hint {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.media-card-action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.media-studio-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.media-studio-action-btn:hover {
+    background: rgba(66, 133, 244, 0.25);
+    color: #60a5fa;
+    border-color: rgba(96, 165, 250, 0.5);
+    transform: translateY(-1px);
+}
+
+.media-download-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border: 1px solid rgba(96, 165, 250, 0.4);
+    border-radius: 10px;
+    color: #ffffff !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-left: auto;
+}
+
+.media-download-action-btn:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    transform: translateY(-1px);
+}
+
+/* ── 9. RESPONSIVE DESIGN (TABLET & MOBILE) ──────────────────────────────────── */
+@media (max-width: 900px) {
+    .studio-lightbox-header {
+        padding: 14px 18px;
+    }
+    
+    .studio-active-title {
+        font-size: 0.95rem;
+    }
+    
+    .studio-meta-drawer {
+        width: calc(100vw - 36px);
+        right: 18px;
+        bottom: 80px;
+    }
+    
+    .studio-lightbox-dock {
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 18px;
+    }
+    
+    .dock-left-presets,
+    .dock-right-downloads {
+        width: 100%;
+        justify-content: center;
+    }
+}

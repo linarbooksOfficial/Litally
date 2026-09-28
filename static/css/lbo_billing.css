@@ -1,0 +1,257 @@
+﻿/* =============================================================================
+   LBO BILLING PERIOD UI + UNLIMITED GOLD FRAME
+   static/css/lbo_billing.css
+   ============================================================================= */
+
+/* ── BILLING WRAPPER ── */
+.lbo-billing-wrap {
+    margin: 8px 0 6px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* ── TAB ROW ── */
+.lbo-bill-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 4px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 9px 9px 0 0;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom: none;
+}
+.lbo-bill-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 4px 2px;
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    line-height: 1.2;
+}
+.lbo-bill-tab:hover:not(:disabled) {
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+}
+.lbo-bill-tab.active {
+    background: linear-gradient(135deg,rgba(212,175,55,0.2),rgba(212,175,55,0.08));
+    border-color: rgba(212,175,55,0.35);
+    color: #ffd700;
+    box-shadow: 0 0 8px rgba(212,175,55,0.15);
+}
+.lbo-bill-tab-na,
+.lbo-bill-tab:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── PANEL ── */
+.lbo-bill-panels { border: 1px solid rgba(255,255,255,0.07); border-top: none; border-radius: 0 0 9px 9px; }
+.lbo-bill-panel  { display: none; }
+.lbo-bill-panel.active { display: block; }
+
+/* ── PRICE WRAP (non-monthly) ── */
+.lbo-bill-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.02);
+}
+
+/* ── GOLD RING — Monthly (master price) ── */
+.lbo-bill-gold-ring {
+    background: linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.03));
+    border-top: 1px solid rgba(212,175,55,0.2);
+    position: relative;
+    animation: lboGoldPulse 3s ease-in-out infinite;
+}
+@keyframes lboGoldPulse {
+    0%,100% { box-shadow: inset 0 0 0 1px rgba(212,175,55,0.15); }
+    50%      { box-shadow: inset 0 0 0 1px rgba(212,175,55,0.35), 0 0 12px rgba(212,175,55,0.1); }
+}
+
+/* ── PRICE NUMBER ── */
+.lbo-bill-pnum {
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.lbo-bill-mo {
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    margin-left: 1px;
+    align-self: flex-end;
+    padding-bottom: 3px;
+}
+.lbo-bill-period-note {
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    margin-left: auto;
+    align-self: flex-end;
+    padding-bottom: 3px;
+    white-space: nowrap;
+}
+.lbo-bill-na {
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    color: rgba(255,255,255,0.2) !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* ── ONE-TIME BLOCK (Basic) ── */
+.lbo-bill-onetime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: rgba(212,175,55,0.04);
+    border: 1px solid rgba(212,175,55,0.12);
+    border-radius: 9px;
+    margin: 8px 0 6px;
+}
+.lbo-bill-ot-label {
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(212,175,55,0.65);
+}
+.lbo-bill-ot-price {
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #d4af37;
+    letter-spacing: -0.02em;
+}
+
+/* =============================================================================
+   UNLIMITED TIER — GOLD FRAME + "Only 50 left" BADGE
+   ============================================================================= */
+
+.pricing-tier-card[data-tier-index="8"],
+.tier-card-unlimited {
+    border: 2px solid transparent !important;
+    background:
+        linear-gradient(#111318, #111318) padding-box,
+        linear-gradient(135deg, #d4af37 0%, #fff7a1 40%, #b8960c 60%, #ffd700 80%, #d4af37 100%) border-box !important;
+    box-shadow:
+        0 0 0 1px rgba(212,175,55,0.15),
+        0 0 30px rgba(212,175,55,0.18),
+        0 8px 40px rgba(0,0,0,0.55) !important;
+    animation: lboUnlimGlow 4s ease-in-out infinite !important;
+}
+@keyframes lboUnlimGlow {
+    0%,100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.15), 0 0 25px rgba(212,175,55,0.15), 0 8px 40px rgba(0,0,0,0.55); }
+    50%      { box-shadow: 0 0 0 1px rgba(212,175,55,0.4),  0 0 45px rgba(212,175,55,0.3),  0 8px 40px rgba(0,0,0,0.6);  }
+}
+
+/* "Only 50 left" badge */
+.lbo-unlimited-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #d4af37, #ffd700, #b8960c);
+    color: #000;
+    font-family: var(--font-sans,'Montserrat',sans-serif);
+    font-size: 0.54rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 0 0 10px 10px;
+    white-space: nowrap;
+    z-index: 20;
+    box-shadow: 0 3px 12px rgba(212,175,55,0.5);
+    animation: lboBadgePulse 2s ease-in-out infinite;
+}
+@keyframes lboBadgePulse {
+    0%,100% { box-shadow: 0 3px 12px rgba(212,175,55,0.4); }
+    50%      { box-shadow: 0 3px 20px rgba(212,175,55,0.7), 0 0 30px rgba(212,175,55,0.2); }
+}
+
+/* Gold shimmer sweep on Unlimited card */
+.pricing-tier-card[data-tier-index="8"]::after,
+.tier-card-unlimited::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; right: auto; bottom: 0;
+    width: 60%;
+    background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.08) 50%, transparent 100%);
+    pointer-events: none;
+    animation: lboUnlimSheen 5s ease-in-out infinite;
+    border-radius: inherit;
+}
+@keyframes lboUnlimSheen {
+    0%,100% { left: -100%; }
+    50%      { left: 150%;  }
+}
+
+/* Unlimited card name special color */
+.pricing-tier-card[data-tier-index="8"] .tier-card-name,
+.tier-card-unlimited .tier-card-name {
+    background: linear-gradient(135deg, #d4af37, #fff7a1, #ffd700) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: lboUnlimNameShimmer 3s linear infinite !important;
+    background-size: 200% auto !important;
+}
+@keyframes lboUnlimNameShimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Unlimited CTA gold */
+.pricing-tier-card[data-tier-index="8"] .tier-cta-button,
+.tier-card-unlimited .tier-cta-button {
+    background: linear-gradient(135deg, #d4af37, #ffd700, #b8960c) !important;
+    color: #000 !important;
+    border-color: transparent !important;
+    font-weight: 900 !important;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.35) !important;
+}
+.pricing-tier-card[data-tier-index="8"] .tier-cta-button:hover,
+.tier-card-unlimited .tier-cta-button:hover {
+    box-shadow: 0 6px 30px rgba(212,175,55,0.55) !important;
+    transform: scale(1.03) !important;
+}
+
+/* =============================================================================
+   CARD RENDER: inject billing tabs ABOVE cta button (override legacy price box)
+   ============================================================================= */
+
+/* Hide legacy price display when billing tabs are present */
+.has-billing-tabs .tier-price-box { display: none !important; }
+
+/* Billing tabs sit right after divider */
+.has-billing-tabs .tier-divider-line { margin-bottom: 0 !important; }
+
+/* Compact feature list when billing is shown */
+.has-billing-tabs .tier-features-list { max-height: 200px !important; }
+.has-billing-tabs .tier-features-matrix { max-height: 180px !important; overflow: hidden !important; }

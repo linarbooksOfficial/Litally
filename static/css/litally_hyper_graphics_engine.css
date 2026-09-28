@@ -1,0 +1,506 @@
+/**
+ * =============================================================================
+ * LITALLY HYPER-GRAPHICS QUANTUM VISUAL ENGINE 4K/8K (v40.0 DELUXE EDITION)
+ * File: static/css/litally_hyper_graphics_engine.css
+ * =============================================================================
+ * 20 SUPREME VISUAL CHERRIES ON TOP (20 ВИШЕНОК НА ТОРТЕ):
+ *  1. 🍒 Supernova Cursor Stardust Trail (Квантовый шлейф кометы за курсором)
+ *  2. 🍒 Fluid Laser Scroll Progress Beacon (Неоновый лазерный индикатор прокрутки)
+ *  3. 🍒 Floating Action Portal Dock (Кибер-люкс док-панель VisionOS внизу)
+ *  4. 🍒 Constellation Particle Network (Интерактивные созвездия)
+ *  5. 🍒 Prismatic Glass Edge Refraction (Радужная дисперсия на гранях стекла)
+ *  6. 🍒 Contour Border Beam Tracer (Бегущий неоновый луч по контуру карточек)
+ *  7. 🍒 3D Realistic Book Spine & Page Depth (3D-разворот страниц книги с тиснением)
+ *  8. 🍒 Anamorphic Cinematic Lens Flare (Анаморфотный кино-блик на заголовках)
+ *  9. 🍒 Supernova Sparkle Burst (Микро-вспышка сверхновой при клике)
+ * 10. 🍒 Gravitational Concentric Wave Rings (Двойные гравитационные кольца)
+ * 11. 🍒 Holographic Iridescent Badges (Голографические переливающиеся бейджи)
+ * 12. 🍒 Diamond Glint Sweep (Бриллиантовый световой зайчик на обложках)
+ * 13. 🍒 Floating Satellite Energy Orbs (Парящие сферы-спутники вокруг герба)
+ * 14. 🍒 Perspective Horizon Mesh Grid (Неоновая сетка квантового горизонта)
+ * 15. 🍒 Caustic Glass Sunlight Sweep (Каустические световые переливы)
+ * 16. 🍒 Sub-Pixel Filmic Micro-Grain (Тактильная пленочная микро-зернистость)
+ * 17. 🍒 Kinetic Floating Levitation (Кинетическая левитация элементов)
+ * 18. 🍒 Pure Deep OLED Obsidian Palette (Глубочайший OLED Obsidian контраст)
+ * 19. 🍒 Silent Cyberpunk Equalizer Visualizer (Беззвучный неоновый эквалайзер)
+ * 20. 🍒 3D Multi-Layer Parallax Crest (3D-герб Litally с параллаксом)
+ * =============================================================================
+ */
+
+/* ── 1. OLED OBSIDIAN TOKENS & SPECTRUM (Вишенка 18) ─────────────────────── */
+:root {
+    --oled-void: #000002;
+    --oled-abyss: #030306;
+    --oled-surface: #070810;
+    --oled-elevated: #0c0d18;
+    --oled-card: rgba(10, 12, 22, 0.76);
+    --oled-glass: rgba(13, 16, 30, 0.68);
+
+    --gold-sun: #ffd700;
+    --gold-warm: #f5c518;
+    --gold-amber: #e6a817;
+    --gold-deep: #d4af37;
+    --gold-glow: rgba(255, 215, 0, 0.25);
+
+    --cyan-laser: #38bdf8;
+    --cyan-glow: rgba(56, 189, 248, 0.35);
+    --violet-nebula: #a855f7;
+    --violet-glow: rgba(168, 85, 247, 0.3);
+
+    --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 2. FLUID LASER SCROLL PROGRESS BEACON (Вишенка 2) ──────────────────── */
+#hyperLaserScroll {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #ffd700 0%, #38bdf8 50%, #a855f7 100%);
+    box-shadow: 0 0 14px 2px rgba(255, 215, 0, 0.8), 0 0 6px 1px rgba(56, 189, 248, 0.9);
+    z-index: 100001;
+    pointer-events: none;
+    transition: width 0.08s linear;
+}
+
+/* ── 3. ANAMORPHOTIC CINEMATIC LENS FLARE (Вишенка 8) ────────────────────── */
+.hyper-anamorphic-flare {
+    position: relative;
+    display: inline-block;
+}
+.hyper-anamorphic-flare::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    right: -20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.8) 35%, #ffffff 50%, rgba(255, 215, 0, 0.8) 65%, transparent 100%);
+    transform: translateY(-50%) scaleX(0.7);
+    filter: drop-shadow(0 0 8px #38bdf8);
+    opacity: 0.75;
+    pointer-events: none;
+    animation: hyperFlareGleam 8s ease-in-out infinite;
+}
+@keyframes hyperFlareGleam {
+    0%, 100% { opacity: 0.4; transform: translateY(-50%) scaleX(0.65); }
+    50% { opacity: 0.95; transform: translateY(-50%) scaleX(1.05); }
+}
+
+/* ── 4. CONTOUR BORDER BEAM TRACER (Вишенка 6) ───────────────────────────── */
+.book-card,
+.custom-card,
+.pricing-card,
+.portal-card,
+.feature-card,
+.video-preset-card,
+.lbo-pricing-card {
+    position: relative;
+    overflow: hidden;
+}
+.hyper-border-beam {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 4;
+    padding: 1.5px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+}
+.hyper-border-beam::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, #ffd700 8%, #38bdf8 14%, transparent 22%);
+    animation: hyperBorderBeamRotate 4.5s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+}
+.book-card:hover .hyper-border-beam,
+.custom-card:hover .hyper-border-beam,
+.pricing-card:hover .hyper-border-beam,
+.portal-card:hover .hyper-border-beam,
+.video-preset-card:hover .hyper-border-beam,
+.lbo-pricing-card:hover .hyper-border-beam,
+.feature-card:hover .hyper-border-beam {
+    opacity: 1;
+}
+.book-card:hover .hyper-border-beam::before,
+.custom-card:hover .hyper-border-beam::before,
+.pricing-card:hover .hyper-border-beam::before,
+.portal-card:hover .hyper-border-beam::before,
+.video-preset-card:hover .hyper-border-beam::before,
+.lbo-pricing-card:hover .hyper-border-beam::before,
+.feature-card:hover .hyper-border-beam::before {
+    animation-play-state: running;
+}
+@keyframes hyperBorderBeamRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ── 5. PRISMATIC GLASS EDGE REFRACTION (Вишенка 5) ──────────────────────── */
+.book-card::before,
+.custom-card::before,
+.pricing-card::before,
+.portal-card::before,
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(56, 189, 248, 0.8) 25%,
+        rgba(168, 85, 247, 0.7) 50%,
+        rgba(16, 185, 129, 0.7) 75%,
+        rgba(255, 215, 0, 0.6) 100%
+    );
+    background-size: 200% auto;
+    animation: hyperPrismaticSheen 6s linear infinite;
+    z-index: 5;
+    pointer-events: none;
+}
+@keyframes hyperPrismaticSheen {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* ── 6. 3D REALISTIC BOOK SPINE & PAGE DEPTH (Вишенка 7) ─────────────────── */
+.book-card {
+    box-shadow: 
+        3px 3px 0 rgba(255, 255, 255, 0.05),
+        6px 6px 0 rgba(10, 12, 20, 0.8),
+        0 16px 40px -8px rgba(0, 0, 0, 0.85),
+        0 0 35px -5px rgba(255, 215, 0, 0.12) !important;
+    border-left: 3px solid rgba(212, 175, 55, 0.6) !important;
+}
+
+/* ── 7. DIAMOND GLINT SWEEP ON MEDIA (Вишенка 12) ────────────────────────── */
+.book-cover,
+.gallery-card-thumb,
+.media-preview-box {
+    position: relative;
+    overflow: hidden;
+}
+.book-cover::after,
+.gallery-card-thumb::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 60%;
+    height: 300%;
+    background: linear-gradient(
+        115deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 40%,
+        rgba(255, 255, 255, 0.45) 50%,
+        transparent 60%
+    );
+    transform: rotate(25deg);
+    animation: hyperDiamondGlint 7s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+    pointer-events: none;
+}
+@keyframes hyperDiamondGlint {
+    0%, 75% { transform: translate3d(-150%, -150%, 0) rotate(25deg); }
+    100% { transform: translate3d(350%, 350%, 0) rotate(25deg); }
+}
+
+/* ── 8. FLOATING SATELLITE ENERGY ORBS & SOLAR CORONA (Disabled per user request) ───────── */
+.hero-crest-box,
+.hyper-satellite-orb,
+.status-beacon {
+    display: none !important;
+}
+
+/* ── 9. PERSPECTIVE HORIZON MESH GRID (Вишенка 14) ───────────────────────── */
+.hyper-horizon-grid {
+    position: fixed;
+    bottom: -15vh;
+    left: -20vw;
+    width: 140vw;
+    height: 45vh;
+    background-image: 
+        linear-gradient(to right, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(400px) rotateX(65deg);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 85%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 85%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── 10. SUB-PIXEL FILMIC MICRO-GRAIN (Вишенка 16 — Zero-Lag Optimized) ──── */
+.hyper-filmic-grain {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.015;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+    transform: translateZ(0);
+}
+
+/* ── 11. HOLOGRAPHIC IRIDESCENT BADGES (Вишенка 11) ───────────────────────── */
+.badge-4k,
+.studio-logo-badge,
+.quality-badge,
+.badge-pro {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(56, 189, 248, 0.15) 50%, rgba(168, 85, 247, 0.15) 100%) !important;
+    border: 1px solid rgba(255, 215, 0, 0.45) !important;
+    backdrop-filter: blur(14px) !important;
+    animation: hyperBadgePulse 4s ease-in-out infinite alternate;
+}
+@keyframes hyperBadgePulse {
+    0% { border-color: rgba(255, 215, 0, 0.4); box-shadow: 0 0 12px rgba(255, 215, 0, 0.2); }
+    50% { border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 0 16px rgba(56, 189, 248, 0.25); }
+    100% { border-color: rgba(168, 85, 247, 0.45); box-shadow: 0 0 14px rgba(168, 85, 247, 0.2); }
+}
+
+/* ── 12. KINETIC FLOATING LEVITATION (Вишенка 17) ────────────────────────── */
+.hero-crest-box {
+    animation: hyperLevitate1 6s ease-in-out infinite;
+}
+@keyframes hyperLevitate1 {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+}
+
+/* ── 13. SILENT CYBERPUNK EQUALIZER VISUALIZER (Вишенка 19) ──────────────── */
+.hyper-silent-visualizer {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+    padding: 0 4px;
+    vertical-align: middle;
+}
+.hyper-silent-bar {
+    width: 3px;
+    background: linear-gradient(180deg, #ffd700 0%, #38bdf8 100%);
+    border-radius: 999px;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    animation: hyperSilentEq 1.2s ease-in-out infinite alternate;
+}
+.hyper-silent-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.hyper-silent-bar:nth-child(2) { height: 85%; animation-delay: 0.3s; }
+.hyper-silent-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.hyper-silent-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+.hyper-silent-bar:nth-child(5) { height: 50%; animation-delay: 0.15s; }
+
+@keyframes hyperSilentEq {
+    0% { height: 25%; }
+    100% { height: 95%; }
+}
+
+/* ── 14. FLOATING VISION-OS PORTAL DOCK (Disabled per user request) ──────────────────────── */
+.hyper-portal-dock,
+#hyperPortalDock {
+    display: none !important;
+}
+
+/* ── 15. GRAVITATIONAL CONCENTRIC WAVE RINGS (Вишенка 10) ─────────────────── */
+.hyper-wave-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 215, 0, 0.6);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+    transform: translate(-50%, -50%) scale(0);
+    animation: hyperConcentricRing 0.85s cubic-bezier(0, 0, 0.2, 1) forwards;
+    pointer-events: none;
+    z-index: 10;
+}
+.hyper-wave-ring-outer {
+    animation-delay: 0.12s;
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+@keyframes hyperConcentricRing {
+    to {
+        transform: translate(-50%, -50%) scale(3.5);
+        opacity: 0;
+    }
+}
+
+/* ── 16. SUPERNOVA SPARKLE BURST (Вишенка 9) ─────────────────────────────── */
+.hyper-sparkle-dot {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 8px #ffd700, 0 0 14px #38bdf8;
+    pointer-events: none;
+    z-index: 100000;
+    animation: hyperSparklePop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes hyperSparklePop {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+    100% { transform: translate3d(var(--tx, 0), var(--ty, 0), 0) scale(0); opacity: 0; }
+}
+
+/* ── 17. MOBILE RESPONSIVENESS FOR DOCK ───────────────────────────────────── */
+@media (max-width: 768px) {
+    .hyper-portal-dock {
+        bottom: 14px;
+        padding: 6px 10px;
+        gap: 4px;
+    }
+    .hyper-dock-item {
+        padding: 6px 10px;
+        font-size: 0.74rem;
+    }
+    .hyper-dock-item span:last-child {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIER 100X OMNISCIENT VISUAL UNIVERSE SUITE ("улучши графику еще в сто раз")
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 18. VOLUMETRIC GOD-RAYS (Disabled for zero GPU overdraw and silky 120 FPS) ── */
+.hyper-god-rays {
+    display: none !important;
+}
+
+/* ── 19. IMAX CINEMATIC VIGNETTE (Disabled to avoid multi-layer compositing lag) ── */
+.hyper-imax-vignette {
+    display: none !important;
+}
+
+/* ── 20. MOLTEN GOLD CHROME CONTOURS (Текучее жидкое золото на GPU) ──────── */
+.hyper-molten-gold {
+    position: relative;
+    border: 1px solid transparent !important;
+    background-clip: padding-box, border-box !important;
+    background-origin: padding-box, border-box !important;
+}
+.hyper-molten-gold::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #ffd700, #ff8c00, #38bdf8, #ffd700, #ffffff, #d4af37);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: moltenGoldFlow 6s ease infinite;
+}
+@keyframes moltenGoldFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ── 21. HOLOGRAPHIC 3D BOOK GYROSCOPE & GOLD-LEAF EDGE ───────────────────── */
+.book-gold-leaf {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    bottom: 10px;
+    width: 6px;
+    border-radius: 0 4px 4px 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        #ffd700 0px,
+        #ffd700 2px,
+        #996515 3px,
+        #d4af37 4px
+    );
+    box-shadow: 2px 0 6px rgba(255, 215, 0, 0.4);
+    opacity: 0.85;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+.book-card:hover .book-gold-leaf {
+    width: 10px;
+    box-shadow: 4px 0 14px rgba(255, 215, 0, 0.7);
+    opacity: 1;
+}
+
+/* ── 22. CHROMATIC ABERRATION DISPERSION ON HOVER ─────────────────────────── */
+.hyper-chromatic-hover {
+    transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+.hyper-chromatic-hover:hover {
+    text-shadow: -1.5px 0 rgba(255, 40, 100, 0.45), 1.5px 0 rgba(56, 189, 248, 0.45), 0 0 12px rgba(255, 215, 0, 0.5) !important;
+}
+
+/* ── 23. PRIMARY CTA RESPIRATION HALO (Гравитационное дыхание кнопок) ─────── */
+.hero-cta, .btn-primary, .btn-generate-video, .btn-topbar-new-chat {
+    animation: hyperRespirationPulse 4s ease-in-out infinite alternate !important;
+}
+@keyframes hyperRespirationPulse {
+    0% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 215, 0, 0.25);
+    }
+    50% {
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.75), 0 0 26px rgba(255, 215, 0, 0.5), 0 0 40px rgba(56, 189, 248, 0.25);
+    }
+    100% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 215, 0, 0.25);
+    }
+}
+
+/* ── 24. COMET-TAIL STARDUST PARTICLES ────────────────────────────────────── */
+.hyper-comet-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    background: radial-gradient(circle, #ffffff 0%, #ffd700 60%, rgba(56, 189, 248, 0.8) 100%);
+    box-shadow: 0 0 10px #ffd700, 0 0 18px #38bdf8;
+    animation: hyperCometFade 0.7s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+@keyframes hyperCometFade {
+    0% { transform: scale(1) translate3d(0, 0, 0); opacity: 1; }
+    100% { transform: scale(0.1) translate3d(var(--cx, 0), var(--cy, 0), 0); opacity: 0; }
+}
+
+/* ── 25. COSMIC STARDUST & CELESTIAL CONSTELLATION CANVAS (4K DEEP SPACE) ─── */
+#hyperStardustCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+}
+
+/* Meteor Shower Quick Action Button in Dock & Topbar */
+.hyper-meteor-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hyper-meteor-btn:hover {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 18px rgba(56, 189, 248, 0.6));
+    transform: scale(1.05);
+}
+
+

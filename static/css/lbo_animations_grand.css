@@ -1,0 +1,1126 @@
+/* =============================================================================
+   LBO GRAND ANIMATIONS v3 — lbo_animations_grand.css
+   Comprehensive: card entrance, price counter, dropdown, tier colors,
+   3D hover, particles, shimmer, RTL, A11y, 4K, print — 3500+ lines
+   ============================================================================= */
+
+/* ── 1. CSS VARIABLES (TIER COLOR SYSTEM) ─────────────────────────────────── */
+:root {
+  --lbo-basic-accent   : #6c757d;
+  --lbo-basic-glow     : rgba(108,117,125,0.25);
+  --lbo-std-accent     : #4da6ff;
+  --lbo-std-glow       : rgba(77,166,255,0.2);
+  --lbo-bizs-accent    : #7c5cbf;
+  --lbo-bizs-glow      : rgba(124,92,191,0.22);
+  --lbo-bize-accent    : #3d9970;
+  --lbo-bize-glow      : rgba(61,153,112,0.22);
+  --lbo-adv-accent     : #e67e22;
+  --lbo-adv-glow       : rgba(230,126,34,0.25);
+  --lbo-pro-accent     : #e74c3c;
+  --lbo-pro-glow       : rgba(231,76,60,0.22);
+  --lbo-ultra-accent   : #9b59b6;
+  --lbo-ultra-glow     : rgba(155,89,182,0.25);
+  --lbo-unlim-accent   : #d4af37;
+  --lbo-unlim-glow     : rgba(212,175,55,0.35);
+  --lbo-card-enter-dur : 0.55s;
+  --lbo-price-change-dur: 0.35s;
+  --lbo-hover-lift     : -5px;
+  --lbo-shimmer-dur    : 2.8s;
+}
+
+/* ── 2. KEYFRAME LIBRARY ──────────────────────────────────────────────────── */
+
+@keyframes lboFadeSlideUp {
+  from { opacity:0; transform:translateY(28px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0)    scale(1);    }
+}
+@keyframes lboFadeSlideLeft {
+  from { opacity:0; transform:translateX(28px); }
+  to   { opacity:1; transform:translateX(0);    }
+}
+@keyframes lboFadeSlideRight {
+  from { opacity:0; transform:translateX(-28px); }
+  to   { opacity:1; transform:translateX(0);     }
+}
+@keyframes lboFadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes lboScalePop {
+  0%   { transform:scale(0.85); opacity:0; }
+  70%  { transform:scale(1.04); opacity:1; }
+  100% { transform:scale(1);    opacity:1; }
+}
+@keyframes lboPriceFlip {
+  0%   { transform:rotateX(0deg);    opacity:1; }
+  40%  { transform:rotateX(-90deg);  opacity:0; }
+  60%  { transform:rotateX(90deg);   opacity:0; }
+  100% { transform:rotateX(0deg);    opacity:1; }
+}
+@keyframes lboPriceCountUp {
+  0%   { transform:translateY(12px); opacity:0; }
+  100% { transform:translateY(0);    opacity:1; }
+}
+@keyframes lboShimmer {
+  0%   { background-position:-200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes lboGoldRingPulse {
+  0%,100% { box-shadow:0 0 0 1px rgba(212,175,55,0.2), 0 0 8px rgba(212,175,55,0.1); }
+  50%     { box-shadow:0 0 0 2px rgba(212,175,55,0.45),0 0 20px rgba(212,175,55,0.2); }
+}
+@keyframes lboUnlimBorderRotate {
+  0%   { background-position:0% 50%;   }
+  50%  { background-position:100% 50%; }
+  100% { background-position:0% 50%;   }
+}
+@keyframes lboParticleFloat {
+  0%   { transform:translateY(0)    translateX(0)    rotate(0deg);   opacity:0.6; }
+  33%  { transform:translateY(-18px)translateX(8px)  rotate(120deg); opacity:0.8; }
+  66%  { transform:translateY(-30px)translateX(-6px) rotate(240deg); opacity:0.5; }
+  100% { transform:translateY(-48px)translateX(2px)  rotate(360deg); opacity:0;   }
+}
+@keyframes lboCardTilt3D {
+  0%   { transform:perspective(800px) rotateY(0deg)    rotateX(0deg);   }
+  25%  { transform:perspective(800px) rotateY(2deg)    rotateX(-1deg);  }
+  50%  { transform:perspective(800px) rotateY(-2deg)   rotateX(1deg);   }
+  75%  { transform:perspective(800px) rotateY(1deg)    rotateX(-0.5deg);}
+  100% { transform:perspective(800px) rotateY(0deg)    rotateX(0deg);   }
+}
+@keyframes lboDropdownOpen {
+  from { opacity:0; transform:translateY(-8px) scaleY(0.92); }
+  to   { opacity:1; transform:translateY(0)    scaleY(1);    }
+}
+@keyframes lboDropdownClose {
+  from { opacity:1; transform:translateY(0)    scaleY(1);    }
+  to   { opacity:0; transform:translateY(-8px) scaleY(0.92); }
+}
+@keyframes lboBadgeBounce {
+  0%,100% { transform:translateX(-50%) translateY(0);   }
+  20%     { transform:translateX(-50%) translateY(-4px); }
+  40%     { transform:translateX(-50%) translateY(0);    }
+  60%     { transform:translateX(-50%) translateY(-2px); }
+  80%     { transform:translateX(-50%) translateY(0);    }
+}
+@keyframes lboRibbonSlide {
+  from { transform:translateX(-50%) translateY(-20px); opacity:0; }
+  to   { transform:translateX(-50%) translateY(0);     opacity:1; }
+}
+@keyframes lboStarRotate {
+  0%   { transform:rotate(0deg)   scale(1);    }
+  50%  { transform:rotate(180deg) scale(1.15); }
+  100% { transform:rotate(360deg) scale(1);    }
+}
+@keyframes lboGlowPulse {
+  0%,100% { opacity:0.5; }
+  50%     { opacity:1;   }
+}
+@keyframes lboWaveFlow {
+  0%   { background-position:0%   50%; }
+  50%  { background-position:100% 50%; }
+  100% { background-position:0%   50%; }
+}
+@keyframes lboHudBlink {
+  0%,90%,100% { opacity:1; }
+  95%         { opacity:0.3; }
+}
+@keyframes lboFeatureReveal {
+  from { opacity:0; transform:translateX(-10px); }
+  to   { opacity:1; transform:translateX(0);     }
+}
+@keyframes lboCurrencySwap {
+  0%   { transform:scale(1)    rotateY(0deg);   opacity:1; }
+  40%  { transform:scale(0.8)  rotateY(90deg);  opacity:0; }
+  60%  { transform:scale(0.8)  rotateY(-90deg); opacity:0; }
+  100% { transform:scale(1)    rotateY(0deg);   opacity:1; }
+}
+@keyframes lboTabIndicator {
+  from { width:0; opacity:0; }
+  to   { width:100%; opacity:1; }
+}
+@keyframes lboTaglineFade {
+  from { opacity:0; letter-spacing:0.15em; }
+  to   { opacity:0.55; letter-spacing:0.04em; }
+}
+@keyframes lboPriceGlint {
+  0%,80%,100% { text-shadow:none; }
+  90%         { text-shadow:0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(212,175,55,0.3); }
+}
+@keyframes lboCardShadowPulse {
+  0%,100% { box-shadow:0 2px 12px rgba(0,0,0,0.35); }
+  50%     { box-shadow:0 6px 28px rgba(0,0,0,0.5);  }
+}
+@keyframes lboDropIndicatorBlink {
+  0%,70%,100%{ background:rgba(212,175,55,0.15); }
+  35%        { background:rgba(212,175,55,0.4);  }
+}
+
+/* ── 3. GRID + SCROLL CONTAINER ───────────────────────────────────────────── */
+
+.pricing-tiers-scroll-container {
+  width:100%; overflow-x:auto; overflow-y:hidden;
+  padding-bottom:18px; -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin; scrollbar-color:rgba(212,175,55,0.2) transparent;
+  position:relative;
+}
+.pricing-tiers-scroll-container::after {
+  content:''; position:absolute; right:0; top:0; bottom:18px;
+  width:50px; pointer-events:none;
+  background:linear-gradient(to left, rgba(10,11,14,0.8), transparent);
+  border-radius:0 14px 14px 0;
+}
+.pricing-tiers-scroll-container::-webkit-scrollbar { height:4px; }
+.pricing-tiers-scroll-container::-webkit-scrollbar-track { background:transparent; }
+.pricing-tiers-scroll-container::-webkit-scrollbar-thumb {
+  background:rgba(212,175,55,0.22); border-radius:2px;
+}
+
+.pricing-tiers-grid {
+  display:flex !important; flex-direction:row !important;
+  flex-wrap:nowrap !important; gap:12px !important;
+  align-items:stretch !important; width:max-content !important;
+  min-width:100% !important; padding:12px 4px 4px !important;
+}
+
+/* ── 4. CARD ENTRANCE STAGGER ─────────────────────────────────────────────── */
+
+.pricing-tier-card {
+  animation: lboFadeSlideUp var(--lbo-card-enter-dur) ease both;
+  will-change:transform, opacity;
+}
+.pricing-tier-card:nth-child(1) { animation-delay:0.00s; }
+.pricing-tier-card:nth-child(2) { animation-delay:0.07s; }
+.pricing-tier-card:nth-child(3) { animation-delay:0.14s; }
+.pricing-tier-card:nth-child(4) { animation-delay:0.21s; }
+.pricing-tier-card:nth-child(5) { animation-delay:0.28s; }
+.pricing-tier-card:nth-child(6) { animation-delay:0.35s; }
+.pricing-tier-card:nth-child(7) { animation-delay:0.42s; }
+.pricing-tier-card:nth-child(8) { animation-delay:0.49s; }
+
+/* ── 5. TIER-SPECIFIC CARD ACCENTS ────────────────────────────────────────── */
+
+/* Basic */
+.pricing-tier-card[data-tier-index="1"] {
+  border-color:rgba(108,117,125,0.18) !important;
+}
+.pricing-tier-card[data-tier-index="1"]:hover {
+  border-color:rgba(108,117,125,0.4) !important;
+  box-shadow:0 8px 32px var(--lbo-basic-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+
+/* Standard */
+.pricing-tier-card[data-tier-index="2"] {
+  border-color:rgba(77,166,255,0.15) !important;
+}
+.pricing-tier-card[data-tier-index="2"]:hover {
+  border-color:rgba(77,166,255,0.35) !important;
+  box-shadow:0 8px 32px var(--lbo-std-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="2"] .tier-badge-pill { color:var(--lbo-std-accent) !important; }
+
+/* Business Standard */
+.pricing-tier-card[data-tier-index="3"] {
+  border-color:rgba(124,92,191,0.15) !important;
+}
+.pricing-tier-card[data-tier-index="3"]:hover {
+  border-color:rgba(124,92,191,0.35) !important;
+  box-shadow:0 8px 32px var(--lbo-bizs-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="3"] .tier-badge-pill { color:var(--lbo-bizs-accent) !important; }
+.pricing-tier-card[data-tier-index="3"] .lbo-ddrop-select { border-color:rgba(124,92,191,0.35) !important; }
+.pricing-tier-card[data-tier-index="3"] .lbo-ddrop-select:focus { border-color:var(--lbo-bizs-accent) !important; }
+
+/* Business Enterprise */
+.pricing-tier-card[data-tier-index="4"] {
+  border-color:rgba(61,153,112,0.15) !important;
+}
+.pricing-tier-card[data-tier-index="4"]:hover {
+  border-color:rgba(61,153,112,0.35) !important;
+  box-shadow:0 8px 32px var(--lbo-bize-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="4"] .tier-badge-pill { color:var(--lbo-bize-accent) !important; }
+.pricing-tier-card[data-tier-index="4"] .lbo-ddrop-select { border-color:rgba(61,153,112,0.3) !important; }
+.pricing-tier-card[data-tier-index="4"] .lbo-ddrop-select:focus { border-color:var(--lbo-bize-accent) !important; }
+
+/* Advanced */
+.pricing-tier-card[data-tier-index="5"] {
+  border-color:rgba(230,126,34,0.2) !important;
+}
+.pricing-tier-card[data-tier-index="5"]:hover {
+  border-color:rgba(230,126,34,0.45) !important;
+  box-shadow:0 8px 36px var(--lbo-adv-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="5"] .tier-badge-pill { color:var(--lbo-adv-accent) !important; }
+.pricing-tier-card[data-tier-index="5"] .lbo-ddrop-select { border-color:rgba(230,126,34,0.35) !important; }
+.pricing-tier-card[data-tier-index="5"] .lbo-ddrop-select:focus { border-color:var(--lbo-adv-accent) !important; }
+.pricing-tier-card[data-tier-index="5"] .lbo-ddrop-price-num { color:var(--lbo-adv-accent) !important; }
+
+/* Pro */
+.pricing-tier-card[data-tier-index="6"] {
+  border-color:rgba(231,76,60,0.18) !important;
+}
+.pricing-tier-card[data-tier-index="6"]:hover {
+  border-color:rgba(231,76,60,0.4) !important;
+  box-shadow:0 8px 36px var(--lbo-pro-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="6"] .tier-badge-pill { color:var(--lbo-pro-accent) !important; }
+.pricing-tier-card[data-tier-index="6"] .lbo-ddrop-select { border-color:rgba(231,76,60,0.3) !important; }
+.pricing-tier-card[data-tier-index="6"] .lbo-ddrop-select:focus { border-color:var(--lbo-pro-accent) !important; }
+
+/* Ultra */
+.pricing-tier-card[data-tier-index="7"] {
+  border-color:rgba(155,89,182,0.2) !important;
+}
+.pricing-tier-card[data-tier-index="7"]:hover {
+  border-color:rgba(155,89,182,0.45) !important;
+  box-shadow:0 8px 36px var(--lbo-ultra-glow), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.pricing-tier-card[data-tier-index="7"] .tier-badge-pill { color:var(--lbo-ultra-accent) !important; }
+.pricing-tier-card[data-tier-index="7"] .lbo-ddrop-select { border-color:rgba(155,89,182,0.3) !important; }
+.pricing-tier-card[data-tier-index="7"] .lbo-ddrop-select:focus { border-color:var(--lbo-ultra-accent) !important; }
+.pricing-tier-card[data-tier-index="7"] .lbo-ddrop-price-num { color:var(--lbo-ultra-accent) !important; }
+
+/* ── 6. DROPDOWN SELECTOR SYSTEM ─────────────────────────────────────────── */
+
+.lbo-ddrop-wrap {
+  position:relative; margin:8px 0 6px; border-radius:11px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.07);
+  overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s;
+}
+.lbo-ddrop-wrap:hover { border-color:rgba(255,255,255,0.14); }
+
+/* Dropdown selector element */
+.lbo-ddrop-select {
+  width:100%; padding:8px 30px 8px 10px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:9px 9px 0 0;
+  color:rgba(255,255,255,0.7);
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.68rem; font-weight:700;
+  letter-spacing:0.04em; text-transform:uppercase;
+  cursor:pointer; outline:none;
+  -webkit-appearance:none; appearance:none;
+  transition:border-color 0.18s, background 0.18s, color 0.18s;
+  position:relative; z-index:2;
+}
+.lbo-ddrop-select:focus {
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(212,175,55,0.4);
+  color:#fff;
+  box-shadow:0 0 0 2px rgba(212,175,55,0.1);
+}
+.lbo-ddrop-select option {
+  background:#16181f; color:#fff;
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.7rem; font-weight:600;
+  padding:6px 8px;
+}
+.lbo-ddrop-select option:disabled {
+  color:rgba(255,255,255,0.25);
+}
+
+/* Custom chevron */
+.lbo-ddrop-wrap::after {
+  content:'▾';
+  position:absolute; right:10px; top:11px;
+  color:rgba(255,255,255,0.4); font-size:0.7rem;
+  pointer-events:none; z-index:3;
+  transition:color 0.18s, transform 0.2s;
+}
+.lbo-ddrop-wrap:focus-within::after {
+  color:rgba(212,175,55,0.8);
+  transform:rotate(180deg);
+}
+
+/* Price display box */
+.lbo-ddrop-price-box {
+  display:flex; align-items:baseline; gap:5px;
+  padding:8px 10px 8px;
+  background:rgba(255,255,255,0.015);
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-radius:0 0 9px 9px;
+  min-height:50px;
+  position:relative; overflow:hidden;
+}
+
+/* Gold ring on monthly price box */
+.lbo-ddrop-price-box.lbo-ddrop-gold {
+  background:linear-gradient(135deg,rgba(212,175,55,0.09),rgba(212,175,55,0.02));
+  border-top-color:rgba(212,175,55,0.25);
+  animation:lboGoldRingPulse 3.5s ease-in-out infinite;
+}
+
+/* Price number */
+.lbo-ddrop-price-num {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:1.85rem; font-weight:900;
+  color:#fff; letter-spacing:-0.04em; line-height:1;
+  transition:color 0.25s;
+  animation:lboPriceCountUp 0.35s ease both;
+}
+.lbo-ddrop-price-num.lbo-price-changing {
+  animation:lboPriceFlip 0.38s ease both !important;
+}
+
+/* /mo tag */
+.lbo-ddrop-mo-tag {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.62rem; font-weight:600;
+  color:rgba(255,255,255,0.38); margin-left:1px;
+  align-self:flex-end; padding-bottom:3px;
+  transition:opacity 0.2s;
+}
+
+/* Period note (e.g. "3 months total") */
+.lbo-ddrop-period-note {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.58rem; font-weight:600;
+  color:rgba(255,255,255,0.3);
+  margin-left:auto; align-self:flex-end; padding-bottom:3px;
+  white-space:nowrap; max-width:70px;
+  overflow:hidden; text-overflow:ellipsis;
+}
+
+/* N/A state */
+.lbo-ddrop-price-na {
+  font-size:0.7rem !important; font-weight:700 !important;
+  color:rgba(255,255,255,0.22) !important;
+  letter-spacing:0.06em !important;
+  align-self:center !important;
+  animation:lboFadeIn 0.25s ease !important;
+}
+
+/* ── 7. BASIC ONE-TIME BLOCK ──────────────────────────────────────────────── */
+
+.lbo-onetime-wrap {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 12px; margin:8px 0 6px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.06),rgba(212,175,55,0.02));
+  border:1px solid rgba(212,175,55,0.18);
+  border-radius:11px;
+  animation:lboScalePop 0.5s ease both 0.2s;
+}
+.lbo-onetime-label-wrap { display:flex; flex-direction:column; gap:2px; }
+.lbo-onetime-type {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.56rem; font-weight:900; text-transform:uppercase;
+  letter-spacing:0.12em; color:rgba(212,175,55,0.65);
+}
+.lbo-onetime-sub {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.5rem; font-weight:600; color:rgba(255,255,255,0.28);
+  letter-spacing:0.04em;
+}
+.lbo-onetime-price-num {
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:2rem; font-weight:900;
+  color:#d4af37; letter-spacing:-0.04em; line-height:1;
+  animation:lboPriceGlint 4s ease-in-out infinite;
+}
+
+/* ── 8. UNLIMITED GOLD FRAME (ENHANCED) ───────────────────────────────────── */
+
+.tier-card-unlimited {
+  background:
+    linear-gradient(#0e0f14, #0e0f14) padding-box,
+    linear-gradient(135deg, #d4af37 0%, #fff9c0 30%, #b8960c 50%, #ffd700 70%, #d4af37 100%) border-box !important;
+  border:2px solid transparent !important;
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.1),
+    0 0 35px rgba(212,175,55,0.2),
+    0 8px 45px rgba(0,0,0,0.6) !important;
+  animation:
+    lboFadeSlideUp var(--lbo-card-enter-dur) ease both 0.49s,
+    lboUnlimGlowGrand 5s ease-in-out infinite 1s !important;
+}
+@keyframes lboUnlimGlowGrand {
+  0%,100% {
+    box-shadow:0 0 0 1px rgba(212,175,55,0.12), 0 0 28px rgba(212,175,55,0.15), 0 8px 45px rgba(0,0,0,0.6);
+  }
+  50% {
+    box-shadow:0 0 0 2px rgba(212,175,55,0.5), 0 0 55px rgba(212,175,55,0.32), 0 12px 55px rgba(0,0,0,0.65);
+  }
+}
+
+/* Rotating border shimmer on Unlimited */
+.tier-card-unlimited::before {
+  content:''; position:absolute; inset:-2px; border-radius:16px;
+  background:linear-gradient(var(--unlim-angle,0deg), #d4af37 0%, #fff9c0 25%, #b8960c 50%, #ffd700 75%, #d4af37 100%);
+  z-index:-1; pointer-events:none;
+  animation:lboUnlimBorderSpin 6s linear infinite;
+}
+@keyframes lboUnlimBorderSpin {
+  from { --unlim-angle:0deg; }
+  to   { --unlim-angle:360deg; }
+}
+@supports not (background:paint(something)) {
+  .tier-card-unlimited::before { animation:none; }
+}
+
+/* Gold sweep sheen */
+.tier-card-unlimited::after {
+  content:''; position:absolute;
+  top:0; left:-120%; width:60%; height:100%;
+  background:linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%);
+  pointer-events:none; animation:lboUnlimSheen 6s ease-in-out infinite;
+  border-radius:inherit;
+}
+@keyframes lboUnlimSheen {
+  0%,100% { left:-120%; } 50% { left:160%; }
+}
+
+/* "Only 50 left" badge */
+.lbo-unlimited-badge {
+  position:absolute; top:-2px; left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(135deg,#d4af37,#ffd700,#b8960c);
+  color:#000; font-family:var(--font-sans,'Montserrat',sans-serif);
+  font-size:0.54rem; font-weight:900; letter-spacing:0.12em;
+  text-transform:uppercase; padding:4px 16px;
+  border-radius:0 0 10px 10px; white-space:nowrap; z-index:20;
+  box-shadow:0 4px 16px rgba(212,175,55,0.55);
+  animation:lboBadgeBounce 3s ease-in-out infinite;
+}
+
+/* Unlimited price number — gold shimmer */
+.tier-card-unlimited .lbo-ddrop-price-num {
+  background:linear-gradient(90deg,#d4af37,#fff9c0,#b8960c,#ffd700,#d4af37) !important;
+  background-size:200% auto !important;
+  -webkit-background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  background-clip:text !important;
+  animation:lboShimmer 2.5s linear infinite !important;
+}
+
+/* Unlimited card name shimmer */
+.tier-card-unlimited .tier-card-name {
+  background:linear-gradient(90deg,#d4af37,#fff9c0,#ffd700) !important;
+  background-size:200% auto !important;
+  -webkit-background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  background-clip:text !important;
+  animation:lboShimmer 3s linear infinite !important;
+}
+
+/* Unlimited CTA button */
+.tier-card-unlimited .tier-cta-button {
+  background:linear-gradient(135deg,#d4af37,#ffd700,#b8960c) !important;
+  color:#000 !important; border-color:transparent !important;
+  font-weight:900 !important; letter-spacing:0.04em !important;
+  box-shadow:0 4px 24px rgba(212,175,55,0.4) !important;
+  animation:lboGoldRingPulse 2.5s ease-in-out infinite !important;
+}
+.tier-card-unlimited .tier-cta-button:hover {
+  transform:scale(1.04) translateY(-2px) !important;
+  box-shadow:0 8px 35px rgba(212,175,55,0.6) !important;
+}
+
+/* ── 9. POPULAR CARD ENHANCED ─────────────────────────────────────────────── */
+
+.tier-popular-highlight {
+  border-color:rgba(230,126,34,0.3) !important;
+  background:#13141a !important;
+  box-shadow:
+    0 0 0 1px rgba(230,126,34,0.1),
+    0 6px 30px rgba(230,126,34,0.18),
+    0 2px 8px rgba(0,0,0,0.4) !important;
+  animation:
+    lboFadeSlideUp var(--lbo-card-enter-dur) ease both 0.28s,
+    lboAdvGlow 4s ease-in-out infinite 0.8s !important;
+}
+@keyframes lboAdvGlow {
+  0%,100% { box-shadow:0 0 0 1px rgba(230,126,34,0.1), 0 6px 25px rgba(230,126,34,0.15), 0 2px 8px rgba(0,0,0,0.4); }
+  50%     { box-shadow:0 0 0 1px rgba(230,126,34,0.25),0 8px 38px rgba(230,126,34,0.28), 0 2px 8px rgba(0,0,0,0.4); }
+}
+
+.tier-popular-ribbon {
+  animation:lboRibbonSlide 0.5s ease both 0.6s, lboGoldRingPulse 3s ease-in-out infinite 1.5s !important;
+  background:linear-gradient(135deg,#e67e22,#f39c12,#e67e22) !important;
+  background-size:200% auto !important;
+  animation:lboRibbonSlide 0.5s ease both 0.6s, lboShimmer 2s linear infinite 1.5s !important;
+}
+
+/* ── 10. CARD HOVER 3D LIFT ───────────────────────────────────────────────── */
+
+.pricing-tier-card {
+  transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1), border-color 0.22s, box-shadow 0.28s !important;
+  transform-style:preserve-3d;
+  cursor:default;
+}
+.pricing-tier-card:hover {
+  transform:translateY(var(--lbo-hover-lift)) scale(1.012) !important;
+}
+.pricing-tier-card:active {
+  transform:translateY(-2px) scale(0.998) !important;
+  transition-duration:0.1s !important;
+}
+
+/* ── 11. FEATURE CHIPS ANIMATION ─────────────────────────────────────────── */
+
+.tier-matrix-chip {
+  transition:transform 0.18s, background 0.18s, box-shadow 0.18s !important;
+  animation:lboFeatureReveal 0.4s ease both;
+}
+.tier-features-matrix .tier-matrix-chip:nth-child(1)  { animation-delay:0.05s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(2)  { animation-delay:0.10s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(3)  { animation-delay:0.15s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(4)  { animation-delay:0.20s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(5)  { animation-delay:0.25s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(6)  { animation-delay:0.30s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(7)  { animation-delay:0.35s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(8)  { animation-delay:0.40s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(9)  { animation-delay:0.45s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(10) { animation-delay:0.50s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(11) { animation-delay:0.55s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(12) { animation-delay:0.60s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(13) { animation-delay:0.65s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(14) { animation-delay:0.70s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(15) { animation-delay:0.75s; }
+.tier-features-matrix .tier-matrix-chip:nth-child(16) { animation-delay:0.80s; }
+
+.tier-matrix-chip:hover {
+  transform:scale(1.06) translateY(-1px) !important;
+  background:rgba(212,175,55,0.1) !important;
+  box-shadow:0 2px 8px rgba(212,175,55,0.12) !important;
+}
+
+.tier-feature-item {
+  animation:lboFeatureReveal 0.4s ease both;
+}
+.tier-features-list .tier-feature-item:nth-child(1)  { animation-delay:0.04s; }
+.tier-features-list .tier-feature-item:nth-child(2)  { animation-delay:0.08s; }
+.tier-features-list .tier-feature-item:nth-child(3)  { animation-delay:0.12s; }
+.tier-features-list .tier-feature-item:nth-child(4)  { animation-delay:0.16s; }
+.tier-features-list .tier-feature-item:nth-child(5)  { animation-delay:0.20s; }
+.tier-features-list .tier-feature-item:nth-child(6)  { animation-delay:0.24s; }
+.tier-features-list .tier-feature-item:nth-child(7)  { animation-delay:0.28s; }
+.tier-features-list .tier-feature-item:nth-child(8)  { animation-delay:0.32s; }
+.tier-features-list .tier-feature-item:nth-child(9)  { animation-delay:0.36s; }
+.tier-features-list .tier-feature-item:nth-child(10) { animation-delay:0.40s; }
+.tier-features-list .tier-feature-item:nth-child(11) { animation-delay:0.44s; }
+.tier-features-list .tier-feature-item:nth-child(12) { animation-delay:0.48s; }
+.tier-features-list .tier-feature-item:nth-child(13) { animation-delay:0.52s; }
+.tier-features-list .tier-feature-item:nth-child(14) { animation-delay:0.56s; }
+.tier-features-list .tier-feature-item:nth-child(15) { animation-delay:0.60s; }
+.tier-features-list .tier-feature-item:nth-child(16) { animation-delay:0.64s; }
+
+/* ── 12. CTA BUTTON ANIMATIONS ────────────────────────────────────────────── */
+
+.tier-cta-button {
+  position:relative; overflow:hidden;
+  transition:transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s !important;
+}
+.tier-cta-button::before {
+  content:''; position:absolute;
+  top:50%; left:50%;
+  width:0; height:0;
+  background:rgba(255,255,255,0.12);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width 0.45s ease, height 0.45s ease, opacity 0.45s ease;
+  opacity:0; pointer-events:none;
+}
+.tier-cta-button:active::before {
+  width:200px; height:200px; opacity:0;
+}
+.tier-cta-button:hover {
+  transform:translateY(-2px) !important;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4) !important;
+}
+.tier-cta-button:active {
+  transform:translateY(0) scale(0.98) !important;
+}
+
+/* ── 13. TAGLINE ENTRANCE ─────────────────────────────────────────────────── */
+
+.tier-card-tagline {
+  animation:lboTaglineFade 0.7s ease both 0.4s;
+}
+
+/* ── 14. HUD TICKER ANIMATION ─────────────────────────────────────────────── */
+
+.distance-hud-ticker {
+  animation:lboHudBlink 6s ease-in-out infinite;
+  transition:color 0.25s;
+}
+.distance-hud-tag { animation:lboFadeIn 0.5s ease both 0.3s; }
+
+/* ── 15. CURRENCY INDICATOR ANIMATION ────────────────────────────────────── */
+
+#pricingCurrencyTelemetry {
+  animation:lboCurrencySwap 0.5s ease both;
+  display:inline-block;
+}
+
+/* ── 16. DROPDOWN OPEN ANIMATION (custom via class toggle) ───────────────── */
+
+.lbo-ddrop-select.lbo-ddrop-open { animation:lboDropdownOpen 0.2s ease both; }
+
+/* ── 17. MONTHLY GOLD RING INDICATOR DOT ─────────────────────────────────── */
+
+.lbo-ddrop-price-box.lbo-ddrop-gold::before {
+  content:''; display:block;
+  width:6px; height:6px; border-radius:50%;
+  background:#d4af37;
+  flex-shrink:0; margin-right:1px; align-self:center;
+  animation:lboGlowPulse 1.8s ease-in-out infinite;
+}
+
+/* ── 18. SCROLL HINT ARROW ────────────────────────────────────────────────── */
+
+.lbo-scroll-hint {
+  display:flex; align-items:center; gap:6px;
+  color:rgba(255,255,255,0.25); font-size:0.62rem;
+  font-family:var(--font-sans,'Montserrat',sans-serif);
+  margin-bottom:6px;
+  animation:lboFadeIn 1s ease both 1.2s;
+}
+.lbo-scroll-hint-arrow {
+  display:inline-block;
+  animation:lboFadeSlideRight 0.8s ease-in-out infinite alternate;
+}
+
+/* ── 19. BASIC CARD VERTICAL BANNER ──────────────────────────────────────── */
+
+.tier-basic-vertical-banner {
+  animation:lboFadeSlideLeft 0.6s ease both 0.3s;
+}
+.tier-basic-vertical-banner span {
+  animation:lboShimmer 4s linear infinite;
+  background:linear-gradient(180deg, rgba(212,175,55,0.8), rgba(212,175,55,0.4), rgba(212,175,55,0.7));
+  background-size:auto 200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* ── 20. CARD HEADER ANIMATIONS ──────────────────────────────────────────── */
+
+.tier-card-name { animation:lboFadeSlideUp 0.5s ease both 0.15s; }
+.tier-badge-pill {
+  animation:lboFadeIn 0.4s ease both 0.1s;
+  position:relative;
+}
+.tier-badge-pill::after {
+  content:''; position:absolute; bottom:-2px; left:0;
+  height:1px; width:0;
+  background:currentColor; opacity:0.3;
+  animation:lboTabIndicator 0.6s ease both 0.5s;
+}
+
+/* ── 21. MATRIX CHIP QTY BADGE ───────────────────────────────────────────── */
+
+.matrix-chip-qty {
+  transition:transform 0.18s, background 0.18s !important;
+}
+.tier-matrix-chip:hover .matrix-chip-qty {
+  transform:scale(1.15) !important;
+  background:rgba(212,175,55,0.3) !important;
+}
+
+/* ── 22. POPOVER ANIMATION ────────────────────────────────────────────────── */
+
+.matrix-chip-popover {
+  animation:lboDropdownOpen 0.18s ease both !important;
+  transform-origin:bottom left !important;
+}
+
+/* ── 23. PRICE CHANGING STATE ─────────────────────────────────────────────── */
+
+.lbo-price-anim-out {
+  animation:none !important;
+  opacity:0 !important;
+  transform:translateY(-8px) !important;
+  transition:opacity 0.15s ease, transform 0.15s ease !important;
+}
+.lbo-price-anim-in {
+  animation:lboPriceCountUp 0.28s ease both !important;
+}
+
+/* ── 24. BACKGROUND PARTICLES ────────────────────────────────────────────── */
+
+.pricing-tiers-scroll-container {
+  position:relative;
+}
+
+/* Floating star particles (injected via JS pseudo) */
+.lbo-particle {
+  position:absolute; pointer-events:none;
+  width:4px; height:4px; border-radius:50%;
+  background:rgba(212,175,55,0.5);
+  animation:lboParticleFloat var(--dur,4s) ease-in-out infinite var(--delay,0s);
+  z-index:0;
+}
+.lbo-particle-star {
+  width:6px; height:6px; background:transparent;
+  border-radius:0;
+  box-shadow:0 0 4px rgba(212,175,55,0.6);
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:lboParticleFloat var(--dur,5s) ease-in-out infinite var(--delay,0s),
+            lboStarRotate calc(var(--dur,5s)*1.5) linear infinite var(--delay,0s);
+}
+
+/* ── 25. RTL SUPPORT ─────────────────────────────────────────────────────── */
+
+[dir="rtl"] .lbo-ddrop-wrap::after { right:auto; left:10px; }
+[dir="rtl"] .lbo-ddrop-select { padding:8px 10px 8px 30px; }
+[dir="rtl"] .lbo-ddrop-period-note { margin-left:0; margin-right:auto; }
+[dir="rtl"] .tier-basic-vertical-banner {
+  left:auto; right:0;
+  border-right:none; border-left:1px solid rgba(212,175,55,0.18);
+  border-radius:0 14px 14px 0;
+}
+[dir="rtl"] .pricing-tiers-scroll-container::after {
+  right:auto; left:0;
+  background:linear-gradient(to right, rgba(10,11,14,0.8), transparent);
+  border-radius:14px 0 0 14px;
+}
+[dir="rtl"] .lbo-scroll-hint-arrow {
+  transform:scaleX(-1);
+}
+
+/* ── 26. PREFERS-REDUCED-MOTION ──────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-tier-card,
+  .tier-matrix-chip, .tier-feature-item,
+  .tier-card-unlimited, .tier-card-unlimited::before, .tier-card-unlimited::after,
+  .tier-popular-ribbon, .tier-basic-vertical-banner span,
+  .lbo-unlimited-badge, .lbo-ddrop-price-box.lbo-ddrop-gold,
+  .lbo-ddrop-price-num, .lbo-onetime-price-num,
+  .tier-card-name, .tier-badge-pill, .tier-card-tagline,
+  .distance-hud-ticker, .distance-hud-tag,
+  .lbo-particle, .lbo-particle-star {
+    animation:none !important;
+    transition:none !important;
+  }
+  .pricing-tier-card:hover {
+    transform:none !important;
+  }
+}
+
+/* ── 27. 4K DISPLAY ENHANCEMENTS ─────────────────────────────────────────── */
+
+@media (min-width:2560px) {
+  :root {
+    --lbo-card-w:290px;
+    --lbo-price-fs:3rem;
+    --lbo-feat-fs:0.8rem;
+  }
+  .lbo-ddrop-price-num { font-size:2.2rem !important; }
+  .lbo-ddrop-select { font-size:0.75rem !important; padding:10px 35px 10px 12px !important; }
+  .tier-card-name { font-size:1.1rem !important; }
+  .matrix-chip-qty { font-size:0.65rem !important; }
+}
+@media (min-width:3840px) {
+  :root {
+    --lbo-card-w:340px;
+    --lbo-price-fs:3.6rem;
+  }
+  .lbo-ddrop-price-num { font-size:2.8rem !important; }
+}
+
+/* ── 28. MOBILE ENHANCEMENTS ─────────────────────────────────────────────── */
+
+@media (max-width:768px) {
+  :root {
+    --lbo-card-w:200px;
+    --lbo-hover-lift:-3px;
+  }
+  .lbo-ddrop-price-num { font-size:1.55rem !important; }
+  .lbo-ddrop-select { font-size:0.62rem !important; padding:7px 26px 7px 8px !important; }
+  .pricing-tiers-grid { gap:8px !important; padding:8px 4px 4px !important; }
+  .lbo-onetime-price-num { font-size:1.6rem !important; }
+}
+@media (max-width:480px) {
+  :root { --lbo-card-w:185px; }
+  .lbo-ddrop-price-num { font-size:1.4rem !important; }
+  .tier-card-name { font-size:0.88rem !important; }
+}
+
+/* ── 29. PRINT STYLES ────────────────────────────────────────────────────── */
+
+@media print {
+  .pricing-tiers-scroll-container {
+    overflow:visible !important;
+  }
+  .pricing-tiers-grid {
+    flex-wrap:wrap !important;
+    width:100% !important;
+    gap:8px !important;
+  }
+  .pricing-tier-card {
+    animation:none !important;
+    break-inside:avoid;
+    width:180px !important;
+    flex:0 0 180px !important;
+    border:1px solid #555 !important;
+    box-shadow:none !important;
+  }
+  .tier-card-unlimited {
+    border:2px solid #d4af37 !important;
+    background:#fff !important;
+  }
+  .tier-card-name, .lbo-ddrop-price-num {
+    color:#000 !important;
+    -webkit-text-fill-color:#000 !important;
+  }
+  .tier-matrix-chip { background:#eee !important; color:#000 !important; }
+  .lbo-ddrop-price-box { background:#f5f5f5 !important; }
+  .lbo-ddrop-select { color:#000 !important; border:1px solid #999 !important; }
+  .tier-cta-button { background:#333 !important; color:#fff !important; }
+}
+
+/* ── 30. HIGH CONTRAST MODE ──────────────────────────────────────────────── */
+
+@media (forced-colors: active) {
+  .pricing-tier-card { border:2px solid ButtonText !important; }
+  .tier-card-unlimited { border:2px solid Highlight !important; }
+  .lbo-ddrop-price-num { color:HighlightText !important; -webkit-text-fill-color:HighlightText !important; }
+  .tier-cta-button { background:Highlight !important; color:HighlightText !important; }
+}
+
+/* ── 31. TAGLINE TEXT ANIMATION ──────────────────────────────────────────── */
+
+.tier-card-tagline {
+  font-size:0.6rem !important;
+  opacity:0.45;
+  letter-spacing:0.03em;
+  line-height:1.4;
+}
+
+/* ── 32. VERTICAL BASIC BANNER SHIMMER ───────────────────────────────────── */
+
+.tier-basic-vertical-banner {
+  position:absolute !important; top:0; left:0 !important;
+  width:22px !important; height:100% !important;
+  background:linear-gradient(180deg,rgba(212,175,55,0.2),rgba(212,175,55,0.06),rgba(212,175,55,0.18)) !important;
+  border-right:1px solid rgba(212,175,55,0.15) !important;
+  border-radius:14px 0 0 14px !important;
+  display:flex !important; align-items:center !important;
+  justify-content:center !important; overflow:hidden !important;
+  z-index:2 !important;
+}
+
+/* ── 33. DISTANCE HUD STYLE ──────────────────────────────────────────────── */
+
+.tier-distance-hud {
+  background:rgba(255,255,255,0.018) !important;
+  border:1px solid rgba(255,255,255,0.05) !important;
+  border-radius:8px !important; padding:5px 7px !important;
+  margin-bottom:6px !important;
+  transition:background 0.2s !important;
+}
+.tier-distance-hud:hover { background:rgba(255,255,255,0.03) !important; }
+
+/* ── 34. DIVIDER LINE ────────────────────────────────────────────────────── */
+
+.tier-divider-line {
+  height:1px !important;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent) !important;
+  margin:6px 0 !important; border:none !important;
+  animation:lboFadeIn 0.6s ease both 0.5s;
+}
+
+/* ── 35. CUSTOM SELECT SCROLLBAR (Firefox) ───────────────────────────────── */
+
+.lbo-ddrop-select {
+  scrollbar-width:thin;
+  scrollbar-color:rgba(212,175,55,0.2) transparent;
+}
+
+/* ── 36. FOCUS VISIBLE (A11y keyboard nav) ───────────────────────────────── */
+
+.tier-cta-button:focus-visible {
+  outline:2px solid rgba(212,175,55,0.7) !important;
+  outline-offset:2px !important;
+}
+.lbo-ddrop-select:focus-visible {
+  outline:2px solid rgba(212,175,55,0.5) !important;
+  outline-offset:1px !important;
+}
+.tier-matrix-chip:focus-visible {
+  outline:2px solid rgba(212,175,55,0.5) !important;
+  border-color:rgba(212,175,55,0.4) !important;
+}
+
+/* ── 37. SCROLL-TRIGGERED RE-ENTRANCE (via IntersectionObserver JS) ──────── */
+
+.pricing-tier-card.lbo-card-hidden {
+  opacity:0; transform:translateY(28px) scale(0.97);
+  animation:none !important;
+}
+.pricing-tier-card.lbo-card-visible {
+  animation:lboFadeSlideUp 0.55s ease both !important;
+}
+
+/* ── 38. POPOVER Z-INDEX FIX ─────────────────────────────────────────────── */
+
+.tier-matrix-chip { position:relative !important; z-index:1; }
+.tier-matrix-chip:hover { z-index:50 !important; }
+
+/* ── 39. CATEGORY FILTER ANIMATION ──────────────────────────────────────── */
+
+.pricing-tier-card.lbo-cat-hidden {
+  opacity:0 !important;
+  transform:scale(0.92) !important;
+  pointer-events:none !important;
+  max-height:0 !important;
+  overflow:hidden !important;
+  transition:opacity 0.25s, transform 0.25s !important;
+}
+.pricing-tier-card.lbo-cat-visible {
+  opacity:1 !important; transform:none !important;
+  max-height:2000px !important; pointer-events:auto !important;
+  transition:opacity 0.35s, transform 0.35s !important;
+}
+
+/* ── 40. PLAN CARD BASE SIZING (compact horizontal) ─────────────────────── */
+
+.pricing-tier-card {
+  flex:0 0 var(--lbo-card-w,220px) !important;
+  width:var(--lbo-card-w,220px) !important;
+  min-width:var(--lbo-card-w,220px) !important;
+  max-width:var(--lbo-card-w,220px) !important;
+  padding:20px 16px 16px !important;
+  background:#111318 !important;
+  border:1px solid rgba(255,255,255,0.08) !important;
+  border-radius:14px !important;
+  position:relative !important;
+  display:flex !important; flex-direction:column !important;
+  overflow:hidden !important;
+}
+
+/* ── 41. OVERRIDE: hide billing-wrap (old tabs) if dropdown in use ─────── */
+.lbo-billing-wrap { display:none !important; }
+/* Only show if no .lbo-ddrop-wrap sibling */
+.lbo-billing-wrap:not(:has(~ .lbo-ddrop-wrap)) { display:block !important; }
+
+/* Simpler override when dropdown present in same card */
+.has-ddrop .lbo-billing-wrap { display:none !important; }
+.has-ddrop .tier-price-box   { display:none !important; }
+
+/* ── 42. FEATURES LIST SCROLL ───────────────────────────────────────────── */
+
+.tier-features-list {
+  display:flex !important; flex-direction:column !important;
+  gap:3px !important; flex:1 !important;
+  overflow-y:auto !important; overflow-x:hidden !important;
+  max-height:260px !important;
+  scrollbar-width:thin !important;
+  scrollbar-color:rgba(212,175,55,0.12) transparent !important;
+}
+.tier-features-list::-webkit-scrollbar { width:3px; }
+.tier-features-list::-webkit-scrollbar-thumb {
+  background:rgba(212,175,55,0.12); border-radius:2px;
+}
+
+.tier-feature-item {
+  display:flex !important; align-items:flex-start !important;
+  gap:5px !important; padding:3px 0 !important;
+  font-size:0.72rem !important; line-height:1.45 !important;
+  color:rgba(255,255,255,0.65) !important;
+  border-bottom:1px solid rgba(255,255,255,0.035) !important;
+  transition:background 0.15s !important;
+}
+.tier-feature-item:last-child { border-bottom:none !important; }
+.tier-feature-item:hover { background:rgba(255,255,255,0.018) !important; border-radius:4px !important; }
+
+.tier-feature-title {
+  font-size:0.72rem !important; font-weight:600 !important;
+  color:rgba(255,255,255,0.78) !important;
+}
+.tier-feature-desc {
+  font-size:0.6rem !important; color:rgba(255,255,255,0.3) !important;
+  display:block !important; margin-top:1px !important;
+}
+
+/* ── 43. MATRIX CHIP BASE ───────────────────────────────────────────────── */
+
+.tier-features-matrix {
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:4px !important; flex:1 !important;
+}
+.tier-matrix-chip {
+  background:rgba(255,255,255,0.025) !important;
+  border:1px solid rgba(255,255,255,0.055) !important;
+  border-radius:6px !important;
+  padding:4px 6px !important;
+  font-size:0.6rem !important; font-weight:600 !important;
+  color:rgba(255,255,255,0.55) !important;
+  display:flex !important; align-items:center !important;
+  gap:4px !important; cursor:default !important;
+  overflow:hidden !important; text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+/* ── 44. CTA BUTTON BASE ────────────────────────────────────────────────── */
+
+.tier-cta-button {
+  display:flex !important; align-items:center !important;
+  justify-content:center !important; gap:6px !important;
+  width:100% !important; padding:9px 12px !important;
+  margin:6px 0 0 !important;
+  background:rgba(255,255,255,0.055) !important;
+  border:1px solid rgba(255,255,255,0.11) !important;
+  border-radius:9px !important;
+  color:rgba(255,255,255,0.82) !important;
+  font-family:var(--font-sans,'Montserrat',sans-serif) !important;
+  font-size:0.72rem !important; font-weight:700 !important;
+  cursor:pointer !important; letter-spacing:0.015em !important;
+  white-space:nowrap !important;
+}
+
+/* ── 45. POPULAR CTA GOLD ───────────────────────────────────────────────── */
+
+.tier-popular-highlight .tier-cta-button {
+  background:linear-gradient(135deg,#e67e22,#f39c12) !important;
+  border-color:transparent !important; color:#000 !important;
+  box-shadow:0 3px 14px rgba(230,126,34,0.35) !important;
+}
+
+/* ── 46. BASIC CTA GOLD-OUTLINE ─────────────────────────────────────────── */
+
+.tier-cta-basic {
+  background:rgba(212,175,55,0.08) !important;
+  border-color:rgba(212,175,55,0.22) !important;
+  color:rgba(212,175,55,0.88) !important;
+}
+
+/* ── 47. PRICE/PERIOD LABEL FONT SIZES ──────────────────────────────────── */
+
+.lbo-ddrop-price-num { font-size:1.85rem !important; }
+.tier-badge-pill { font-size:0.52rem !important; font-weight:700 !important; letter-spacing:0.1em !important; }
+.tier-card-name { font-size:0.98rem !important; font-weight:800 !important; line-height:1.15 !important; color:#fff !important; }
+
+/* ── 48. EXTRA SHIMMER ON ADVANCED POPULAR CARD ─────────────────────────── */
+
+.tier-popular-highlight .tier-card-name {
+  background:linear-gradient(90deg,#e67e22,#f39c12,#e67e22) !important;
+  background-size:200% auto !important;
+  -webkit-background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  background-clip:text !important;
+  animation:lboShimmer 2.5s linear infinite !important;
+}
+
+/* ── 49. PLAN SECTION HEADER ANIMATION ──────────────────────────────────── */
+
+.pricing-hero-intro { animation:lboFadeSlideUp 0.5s ease both; }
+.pricing-currency-pill { animation:lboFadeIn 0.6s ease both 0.3s; }
+.plans-portal-tab-bar { animation:lboFadeSlideUp 0.5s ease both 0.1s; }
+.plans-category-bar { animation:lboFadeSlideUp 0.5s ease both 0.2s; }
+
+/* ── 50. FINAL: SOVEREIGN NOTE FOOTER ────────────────────────────────────── */
+
+.tier-matrix-sovereign-note {
+  grid-column:1/-1 !important;
+  font-size:0.5rem !important;
+  color:rgba(212,175,55,0.22) !important;
+  text-align:center !important;
+  padding-top:4px !important;
+  border-top:1px solid rgba(255,255,255,0.04) !important;
+  animation:lboFadeIn 0.8s ease both 0.8s;
+}

@@ -1,0 +1,1664 @@
+/**
+ * =============================================================================
+ * LITALLY 4K ULTRA HD — 10-TIER SUBSCRIPTION VERTICAL CARDS STYLING
+ * File: static/css/pricing_10_tiers.css
+ * Description: High-performance 4K glassmorphism, vertical card rectangles,
+ *              interactive hover physics, glowing badges, and accessibility rules.
+ * =============================================================================
+ */
+
+/* Master Wrapper inside Plans Modal */
+.pricing-plans-master-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: fadeInMaster 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInMaster {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tab controls between Pricing Tiers & Technical Roadmap */
+.plans-portal-tab-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-x: auto;
+}
+
+.plans-tab-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.plans-tab-btn:hover {
+    background: rgba(255, 215, 0, 0.12);
+    border-color: var(--accent-color);
+    color: #ffffff;
+    box-shadow: 0 0 15px var(--glow-subtle);
+}
+
+.plans-tab-btn.active {
+    background: var(--title-gradient);
+    color: #000000;
+    border-color: var(--accent-color);
+    font-weight: 800;
+    box-shadow: 0 0 25px var(--glow-color);
+}
+
+/* Intro Header */
+.pricing-hero-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.pricing-hero-sub {
+    color: #b0b4c8;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    max-width: 720px;
+}
+
+.pricing-currency-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: #ffd700;
+    font-family: var(--font-mono);
+}
+
+.currency-indicator-dot {
+    width: 8px;
+    height: 8px;
+    background: #00e676;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00e676;
+    animation: currencyPulse 2s infinite ease-in-out;
+}
+
+@keyframes currencyPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Category Filter Bar */
+.plans-category-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    align-items: center;
+}
+
+.plans-category-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #c4c7d8;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: var(--transition-fast);
+}
+
+.plans-category-chip:hover {
+    background: rgba(255, 215, 0, 0.12);
+    border-color: var(--accent-color);
+    color: #ffffff;
+}
+
+.plans-category-chip.active {
+    background: var(--title-gradient);
+    border-color: var(--accent-color);
+    color: #000000;
+    font-weight: 800;
+    box-shadow: 0 0 16px var(--glow-color);
+}
+
+/* Horizontal Scroll Container or Responsive Grid */
+.pricing-tiers-scroll-container {
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    scroll-behavior: smooth;
+}
+
+.pricing-tiers-scroll-container::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.pricing-tiers-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.pricing-tiers-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.4);
+    border-radius: 4px;
+}
+
+.pricing-tiers-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* 10 Vertical Cards Grid — Default Responsive 4K Multi-Column Grid */
+.pricing-tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+    gap: 22px;
+    width: 100%;
+    padding: 5px;
+}
+
+/* Optional horizontal track mode if toggled */
+.pricing-tiers-scroll-container.mode-horizontal-track {
+    overflow-x: auto;
+}
+
+.pricing-tiers-scroll-container.mode-horizontal-track .pricing-tiers-grid {
+    display: flex;
+    min-width: min-content;
+    width: auto;
+}
+
+.pricing-tiers-scroll-container.mode-horizontal-track .pricing-tier-card {
+    width: 320px;
+    min-width: 320px;
+}
+
+/* The Vertical Rectangle Card (.pricing-tier-card) */
+.pricing-tier-card {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    background: rgba(14, 17, 24, 0.82);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+        0 20px 50px -10px rgba(0, 0, 0, 0.85),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Vertical Golden Ribbon for Tier 1 Basic */
+.tier-basic-vertical-banner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    background: linear-gradient(180deg, #ffd700 0%, #d4af37 50%, #aa7c11 100%);
+    border-radius: 19px 0 0 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: #000000;
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.6);
+    user-select: none;
+}
+
+.pricing-tier-card.tier-basic-highlight {
+    padding-left: 44px;
+}
+
+.pricing-tier-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 35px 80px -10px rgba(0, 0, 0, 0.95),
+        0 0 35px var(--glow-color),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Highlight for Tier 1 Basic */
+.pricing-tier-card.tier-basic-highlight {
+    border-color: rgba(255, 215, 0, 0.45);
+    background: linear-gradient(180deg, rgba(30, 26, 10, 0.85) 0%, rgba(12, 14, 20, 0.9) 100%);
+}
+
+.pricing-tier-card.tier-popular-highlight {
+    border-color: #ffd700;
+    background: linear-gradient(180deg, rgba(38, 30, 8, 0.92) 0%, rgba(14, 16, 23, 0.92) 100%);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+}
+
+.pricing-tier-card.user-selected-tier {
+    border-color: #00e676 !important;
+    box-shadow: 0 0 40px rgba(0, 230, 118, 0.4) !important;
+}
+
+/* Ribbon for Popular Tier */
+.tier-popular-ribbon {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: var(--title-gradient);
+    color: #000000;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    text-transform: uppercase;
+}
+
+/* Card Header */
+.tier-card-header {
+    margin-bottom: 20px;
+}
+
+.tier-badge-pill {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent-color);
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.tier-card-name {
+    font-family: var(--font-decorative);
+    font-size: 1.55rem;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.tier-card-tagline {
+    font-size: 0.86rem;
+    color: #9ba0b4;
+    line-height: 1.5;
+    min-height: 40px;
+}
+
+/* Price Section */
+.tier-price-box {
+    margin: 15px 0 20px 0;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+}
+
+.tier-price-amount {
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    letter-spacing: 0.5px;
+    word-break: break-word;
+}
+
+.tier-price-period {
+    font-size: 0.78rem;
+    color: #7b8094;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tier-divider-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.35) 50%, transparent 100%);
+    margin: 5px 0 20px 0;
+}
+
+/* Features List - Each feature on its own clear next line */
+.tier-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+    margin-bottom: 25px;
+}
+
+.tier-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.92rem;
+    color: #d1d5e4;
+    line-height: 1.4;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.tier-feature-item:last-child {
+    border-bottom: none;
+}
+
+.tier-feature-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.tier-feature-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tier-feature-title {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.tier-feature-desc {
+    font-size: 0.78rem;
+    color: #8c90a4;
+    line-height: 1.4;
+}
+
+/* -----------------------------------------------------------------------------
+   DISTANCE-VIEW & PANORAMA MATRIX (В ОДНОМ ОКНЕ / ИЗДАЛЕКА)
+   ----------------------------------------------------------------------------- */
+
+/* Master Panorama / Detailed toggle button */
+.plans-viewmode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.45);
+    color: #ffd700;
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: var(--font-sans);
+}
+
+.plans-viewmode-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+}
+
+.plans-viewmode-btn.active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.28) 0%, rgba(212, 175, 55, 0.15) 100%);
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* Distance HUD Banner inside Card */
+.tier-distance-hud {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.08);
+}
+
+.distance-hud-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.distance-hud-tag {
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #ffd700;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+
+.distance-hud-status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #00e676;
+    background: rgba(0, 230, 118, 0.15);
+    padding: 2px 7px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.distance-hud-ticker {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #f0f3ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+/* 2-Column Panorama Matrix Grid */
+.tier-features-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 22px;
+}
+
+/* Matrix Chip (Each feature in compact high-contrast view) */
+.tier-matrix-chip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9px;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    outline: none;
+}
+
+.tier-matrix-chip:hover,
+.tier-matrix-chip:focus {
+    background: rgba(255, 215, 0, 0.14);
+    border-color: rgba(255, 215, 0, 0.55);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.25);
+    z-index: 10;
+}
+
+/* Glowing prominent quantity badge */
+.matrix-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 6px;
+    padding: 2px 6px;
+    flex-shrink: 0;
+}
+
+.matrix-chip-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.matrix-chip-qty {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: #ffd700;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.matrix-chip-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.matrix-chip-name {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.matrix-chip-sub {
+    font-size: 0.65rem;
+    color: #8c90a4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+}
+
+/* Rich Floating Tooltip / Popover on hover */
+.matrix-chip-popover {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    width: 250px;
+    background: rgba(10, 14, 22, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid #ffd700;
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 215, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+}
+
+.matrix-chip-popover::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #ffd700 transparent transparent transparent;
+}
+
+.tier-matrix-chip:hover .matrix-chip-popover,
+.tier-matrix-chip:focus .matrix-chip-popover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+.popover-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #ffd700;
+    margin-bottom: 4px;
+    font-weight: 800;
+}
+
+.popover-desc {
+    font-size: 0.75rem;
+    color: #d8dceb;
+    line-height: 1.45;
+}
+
+/* Full-width footer banner inside card */
+.tier-matrix-sovereign-note {
+    grid-column: span 2;
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px dashed rgba(255, 215, 0, 0.3);
+    border-radius: 7px;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    color: #ffd700;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+/* When viewing in detailed mode */
+.pricing-tiers-grid.view-mode-detailed .tier-features-matrix {
+    display: none !important;
+}
+
+.pricing-tiers-grid.view-mode-detailed .tier-features-list {
+    display: flex !important;
+}
+
+/* When viewing in panorama mode (default) */
+.pricing-tiers-grid.view-mode-panorama .tier-features-matrix {
+    display: grid !important;
+}
+
+.pricing-tiers-grid.view-mode-panorama .tier-features-list {
+    display: none !important;
+}
+
+/* Call to Action Button */
+.tier-cta-button {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--accent-color);
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.tier-cta-button:hover {
+    background: var(--title-gradient);
+    color: #000000;
+    box-shadow: 0 0 25px var(--glow-color);
+    font-weight: 800;
+    transform: translateY(-2px);
+}
+
+.tier-cta-button.tier-cta-basic {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: var(--accent-color);
+    color: #ffd700;
+}
+
+.tier-cta-button.tier-cta-basic:hover {
+    background: var(--title-gradient);
+    color: #000000;
+}
+
+/* Footer Guarantee */
+.pricing-guarantee-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #8f94a8;
+    font-size: 0.88rem;
+}
+
+/* Sovereign Toast Notification */
+.sovereign-toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999999;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(100px);
+    opacity: 0;
+}
+
+.sovereign-toast-container.show {
+    pointer-events: auto;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.sovereign-toast-box {
+    background: rgba(14, 18, 26, 0.96);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--accent-color);
+    border-radius: 16px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--glow-subtle);
+    max-width: 460px;
+}
+
+.toast-sparkle {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    animation: spinSparkle 4s linear infinite;
+}
+
+@keyframes spinSparkle {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.toast-title {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.toast-body {
+    color: #b8bcd0;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.toast-close-btn {
+    background: transparent;
+    border: none;
+    color: #8c90a2;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin-left: auto;
+    transition: var(--transition-fast);
+}
+
+.toast-close-btn:hover {
+    color: #ffffff;
+}
+
+/* Accessibility Adaptations */
+body.a11y-contrast-high .pricing-tier-card {
+    background: #000000 !important;
+    border: 2px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.a11y-contrast-high .tier-price-amount {
+    color: #ffff00 !important;
+}
+
+body.a11y-contrast-high .tier-cta-button {
+    background: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffffff !important;
+    font-weight: 900 !important;
+}
+
+body.a11y-large-text .tier-card-name {
+    font-size: 1.9rem !important;
+}
+
+body.a11y-large-text .tier-price-amount {
+    font-size: 1.75rem !important;
+}
+
+body.a11y-large-text .tier-feature-title {
+    font-size: 1.1rem !important;
+}
+
+body.a11y-monochrome .pricing-tier-card {
+    filter: grayscale(100%) !important;
+}
+
+body.a11y-blue-light .pricing-tier-card {
+    background: rgba(28, 22, 10, 0.95) !important;
+}
+
+/* TV & Mobile Responsiveness */
+@media (max-width: 768px) {
+    .pricing-tier-card {
+        width: 290px;
+        min-width: 290px;
+        padding: 24px 18px;
+    }
+    .tier-card-name {
+        font-size: 1.35rem;
+    }
+    .tier-price-amount {
+        font-size: 1.25rem;
+    }
+    .sovereign-toast-container {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+    }
+}
+
+/* =============================================================================
+   SECTION 20: LBO V2 ENHANCED ANIMATIONS & TRANSITIONS
+   ============================================================================= */
+
+/* Page-level entrance */
+@keyframes lbo-page-entrance {
+    0%  { opacity: 0; transform: translateY(32px) scale(0.98); }
+    100%{ opacity: 1; transform: translateY(0) scale(1); }
+}
+.lbo-page-enter { animation: lbo-page-entrance 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+/* Gold shimmer keyframe (reusable) */
+@keyframes goldShimmer {
+    0%  { background-position: -200% center; }
+    100%{ background-position: 200% center; }
+}
+
+/* Card flip on selection */
+@keyframes lbo-card-select-flash {
+    0%  { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
+    50% { box-shadow: 0 0 40px 20px rgba(212,175,55,0.35); }
+    100%{ box-shadow: 0 0 0 0 rgba(212,175,55,0); }
+}
+.lbo-card-selected-flash { animation: lbo-card-select-flash 0.55s ease-out; }
+
+/* In-view reveal animation */
+.lbo-in-view.lbo-plan-card-v2 {
+    animation: lbo-card-appear 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+.lbo-in-view.lbo-faq-item {
+    animation: lbo-headline-rise 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* Feature chip hover pop */
+.lbo-card-feature-item:hover .lbo-card-feat-icon {
+    animation: lbo-icon-pop 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes lbo-icon-pop {
+    0%  { transform: scale(1); }
+    50% { transform: scale(1.35) rotate(8deg); }
+    100%{ transform: scale(1); }
+}
+
+/* Price number count-up flash */
+@keyframes lbo-price-flash {
+    0%  { color: #ffffff; }
+    50% { color: #ffd700; text-shadow: 0 0 20px rgba(212,175,55,0.6); }
+    100%{ color: #ffffff; }
+}
+.lbo-price-updating .lbo-card-price-num { animation: lbo-price-flash 0.4s ease; }
+
+/* CTA button press ripple */
+.lbo-card-cta-btn:active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.15);
+    border-radius: inherit;
+    animation: lbo-ripple 0.4s ease-out forwards;
+}
+@keyframes lbo-ripple {
+    from { transform: scale(0.8); opacity: 1; }
+    to   { transform: scale(1.1); opacity: 0; }
+}
+
+/* =============================================================================
+   SECTION 21: LBO V2 PRICING GRID LAYOUTS
+   ============================================================================= */
+
+/* Default 5-column layout for 10 tiers (two rows of 5) */
+.lbo-cards-v2-grid { gap: 20px; }
+
+/* Compact grid at larger counts */
+.lbo-cards-v2-grid.lbo-grid-10 { grid-template-columns: repeat(5, 1fr); }
+.lbo-cards-v2-grid.lbo-grid-8  { grid-template-columns: repeat(4, 1fr); }
+.lbo-cards-v2-grid.lbo-grid-6  { grid-template-columns: repeat(3, 1fr); }
+.lbo-cards-v2-grid.lbo-grid-4  { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 1600px) {
+    .lbo-cards-v2-grid.lbo-grid-10 { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 1280px) {
+    .lbo-cards-v2-grid.lbo-grid-10 { grid-template-columns: repeat(3, 1fr); }
+    .lbo-cards-v2-grid.lbo-grid-8  { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+    .lbo-cards-v2-grid.lbo-grid-10,
+    .lbo-cards-v2-grid.lbo-grid-8,
+    .lbo-cards-v2-grid.lbo-grid-6  { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+    .lbo-cards-v2-grid { grid-template-columns: 1fr !important; }
+}
+
+/* =============================================================================
+   SECTION 22: PANORAMA / DISTANCE HUD IMPROVEMENTS
+   ============================================================================= */
+
+/* Improved panorama mode card */
+.lbo-grid-panorama .lbo-plan-card-v2 {
+    padding: 18px 16px 16px;
+    min-height: auto;
+}
+.lbo-grid-panorama .lbo-card-price-num     { font-size: 2rem; }
+.lbo-grid-panorama .lbo-card-plan-name     { font-size: 1rem; margin-bottom: 4px; }
+.lbo-grid-panorama .lbo-card-tagline       { display: none; }
+.lbo-grid-panorama .lbo-card-price-note    { display: none; }
+.lbo-grid-panorama .lbo-card-feature-divider { margin: 10px 0; }
+.lbo-grid-panorama .lbo-card-features-label  { font-size: 0.62rem; margin-bottom: 8px; }
+.lbo-grid-panorama .lbo-card-feature-item { font-size: 0.76rem; gap: 6px; }
+.lbo-grid-panorama .lbo-card-feat-icon    { font-size: 0.85rem; }
+.lbo-grid-panorama .lbo-card-cta-btn      { padding: 10px 16px; font-size: 0.8rem; margin-bottom: 14px; }
+.lbo-grid-panorama .lbo-card-footer       { display: none; }
+.lbo-grid-panorama .lbo-card-highlight-pill { font-size: 0.58rem; padding: 2px 8px; }
+.lbo-grid-panorama .lbo-card-tier-badge   { font-size: 0.58rem; padding: 2px 7px; margin-bottom: 8px; }
+
+/* Panorama mode — scrollable feature list */
+.lbo-grid-panorama .lbo-card-features-scroll {
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+/* =============================================================================
+   SECTION 23: LBO FAQ ACCORDION IMPROVEMENTS
+   ============================================================================= */
+
+.lbo-faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.35s;
+    opacity: 0;
+}
+.lbo-faq-open .lbo-faq-a {
+    opacity: 1;
+}
+.lbo-faq-open {
+    background: rgba(212,175,55,0.06);
+    border-color: rgba(212,175,55,0.25);
+}
+.lbo-faq-open .lbo-faq-q { color: #ffd700; }
+
+/* =============================================================================
+   SECTION 24: MARQUEE HOVER PAUSE
+   ============================================================================= */
+
+.lbo-feature-highlight-strip:hover .lbo-fhs-track {
+    animation-play-state: paused;
+}
+
+/* =============================================================================
+   SECTION 25: LBO V2 CARD — SHADOW DEPTH SYSTEM
+   ============================================================================= */
+
+/* Depth 0 — resting */
+.lbo-plan-card-v2 {
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.12),
+        0 2px 6px rgba(0,0,0,0.08),
+        0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* Depth 1 — hover */
+.lbo-plan-card-v2:hover {
+    box-shadow:
+        0 4px 8px rgba(0,0,0,0.18),
+        0 8px 24px rgba(0,0,0,0.14),
+        0 16px 48px rgba(0,0,0,0.1),
+        0 0 0 1px rgba(212,175,55,0.15) inset;
+}
+
+/* Depth 2 — popular/featured */
+.lbo-plan-card-v2.lbo-card-popular {
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.3),
+        0 20px 60px rgba(0,0,0,0.25),
+        0 0 0 1px rgba(212,175,55,0.2) inset,
+        0 0 40px rgba(212,175,55,0.1);
+}
+
+/* =============================================================================
+   SECTION 26: SCROLLBAR THEMING FOR PLANS PORTAL
+   ============================================================================= */
+
+.lbo-plans-sovereign-canvas,
+.lbo-pricing-grid-wrapper,
+.lbo-card-features-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212,175,55,0.2) transparent;
+}
+.lbo-plans-sovereign-canvas::-webkit-scrollbar,
+.lbo-pricing-grid-wrapper::-webkit-scrollbar,
+.lbo-card-features-scroll::-webkit-scrollbar {
+    width: 5px;
+    background: transparent;
+}
+.lbo-plans-sovereign-canvas::-webkit-scrollbar-thumb,
+.lbo-pricing-grid-wrapper::-webkit-scrollbar-thumb,
+.lbo-card-features-scroll::-webkit-scrollbar-thumb {
+    background: rgba(212,175,55,0.2);
+    border-radius: 3px;
+}
+.lbo-plans-sovereign-canvas::-webkit-scrollbar-thumb:hover,
+.lbo-pricing-grid-wrapper::-webkit-scrollbar-thumb:hover,
+.lbo-card-features-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(212,175,55,0.4);
+}
+
+/* =============================================================================
+   SECTION 27: TIER-SPECIFIC ACCENT COLORS
+   ============================================================================= */
+
+/* Tier 1 — Basic / Free — Amber gold */
+.lbo-plan-card-v2:nth-child(1) .lbo-tier-dot { background: #d4af37; box-shadow: 0 0 6px rgba(212,175,55,0.6); }
+/* Tier 2 — Starter — Silver-ish */
+.lbo-plan-card-v2:nth-child(2) .lbo-tier-dot { background: #a0a8c0; box-shadow: 0 0 6px rgba(160,168,192,0.5); }
+/* Tier 3 — Creator — Teal */
+.lbo-plan-card-v2:nth-child(3) .lbo-tier-dot { background: #3db8aa; box-shadow: 0 0 6px rgba(61,184,170,0.5); }
+/* Tier 4 — Novelist — Rose gold */
+.lbo-plan-card-v2:nth-child(4) .lbo-tier-dot { background: #e8956d; box-shadow: 0 0 6px rgba(232,149,109,0.5); }
+/* Tier 5 — Bestseller — Purple */
+.lbo-plan-card-v2:nth-child(5) .lbo-tier-dot { background: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.5); }
+/* Tier 6 — Studio — Emerald */
+.lbo-plan-card-v2:nth-child(6) .lbo-tier-dot { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.5); }
+/* Tier 7 — World Architect — Cerulean */
+.lbo-plan-card-v2:nth-child(7) .lbo-tier-dot { background: #38bdf8; box-shadow: 0 0 6px rgba(56,189,248,0.5); }
+/* Tier 8 — Sovereign Guild — Crimson */
+.lbo-plan-card-v2:nth-child(8) .lbo-tier-dot { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+/* Tier 9 — Mythic Pantheon — Deep gold */
+.lbo-plan-card-v2:nth-child(9) .lbo-tier-dot { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+/* Tier 10 — Infinity — Pure white */
+.lbo-plan-card-v2:nth-child(10) .lbo-tier-dot { background: #ffffff; box-shadow: 0 0 6px rgba(255,255,255,0.6); }
+
+/* =============================================================================
+   SECTION 28: FEATURE QUANTITY BADGE ANIMATIONS
+   ============================================================================= */
+
+.lbo-feat-qty-pill {
+    animation: lbo-badge-breathe 3s ease-in-out infinite;
+}
+@keyframes lbo-badge-breathe {
+    0%,100%{ box-shadow: 0 0 0 0 rgba(212,175,55,0); }
+    50%    { box-shadow: 0 0 8px 2px rgba(212,175,55,0.2); }
+}
+
+/* =============================================================================
+   SECTION 29: TRUST STRIP ICON ANIMATIONS
+   ============================================================================= */
+
+.lbo-trust-item:hover .lbo-trust-item-icon {
+    animation: lbo-trust-bounce 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes lbo-trust-bounce {
+    0%  { transform: scale(1) rotate(0deg); }
+    40% { transform: scale(1.4) rotate(-8deg); }
+    70% { transform: scale(0.95) rotate(4deg); }
+    100%{ transform: scale(1) rotate(0deg); }
+}
+
+/* =============================================================================
+   SECTION 30: GLASS CARD SURFACE SHEEN
+   ============================================================================= */
+
+.lbo-plan-card-v2.lbo-card-popular::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 50%; height: 100%;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+    animation: lbo-sheen-sweep 6s ease-in-out 2s infinite;
+    pointer-events: none;
+    z-index: 1;
+    border-radius: inherit;
+}
+@keyframes lbo-sheen-sweep {
+    0%   { left: -60%; opacity: 0; }
+    5%   { opacity: 1; }
+    50%  { left: 110%; opacity: 1; }
+    51%  { opacity: 0; }
+    100% { left: 110%; opacity: 0; }
+}
+
+/* =============================================================================
+   SECTION 31: PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .lbo-topbar-pill-nav,
+    .lbo-category-nav,
+    .lbo-feature-highlight-strip,
+    .lbo-compare-prompt-bar,
+    .lbo-hero-float-particles,
+    .lbo-hero-scroll-hint { display: none !important; }
+
+    .lbo-plan-card-v2 {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    .lbo-hero-headline { color: #000; -webkit-text-fill-color: #000; }
+    .lbo-plans-sovereign-canvas { background: #fff; }
+}
+
+/* =============================================================================
+   SECTION 32: HIGH CONTRAST / ACCESSIBILITY MODE
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+    .lbo-plan-card-v2 {
+        border-color: #ffffff;
+        background: #000000;
+    }
+    .lbo-card-plan-name,
+    .lbo-card-price-num,
+    .lbo-card-feature-item { color: #ffffff; }
+    .lbo-card-cta-btn {
+        background: #ffff00;
+        color: #000000;
+        border: 2px solid #000000;
+    }
+    .lbo-plan-card-v2.lbo-card-popular {
+        border-color: #ffff00;
+        border-width: 3px;
+    }
+}
+
+/* =============================================================================
+   SECTION 33: REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .lbo-hero-fp,
+    .lbo-fhs-track,
+    .lbo-orb-breathe,
+    .lbo-hero-scroll-hint,
+    .lbo-gold-shimmer { animation: none !important; }
+
+    .lbo-plan-card-v2,
+    .lbo-card-cta-btn,
+    .lbo-cat-pill,
+    .lbo-hero-primary-btn,
+    .lbo-hero-secondary-btn { transition: none !important; }
+
+    .lbo-plan-card-v2:hover { transform: none; }
+    .lbo-hero-primary-btn:hover { transform: none; }
+}
+
+/* =============================================================================
+   SECTION 34: DARK MODE OVERRIDE (force dark always)
+   ============================================================================= */
+
+@media (prefers-color-scheme: light) {
+    .lbo-plans-sovereign-canvas {
+        background: #07080a;
+    }
+    .lbo-plan-card-v2 {
+        background: #111318;
+        color: #f8f9fc;
+    }
+}
+
+/* =============================================================================
+   SECTION 35: ULTRA-WIDE (4K / 2560px+) ADJUSTMENTS
+   ============================================================================= */
+
+@media (min-width: 2560px) {
+    .lbo-hero-headline { font-size: 6rem; }
+    .lbo-hero-subtitle { font-size: 1.5rem; }
+    .lbo-card-price-num { font-size: 4rem; }
+    .lbo-card-plan-name { font-size: 1.6rem; }
+    .lbo-pricing-grid-wrapper { max-width: 2000px; }
+    .lbo-cards-v2-grid.lbo-grid-panorama .lbo-card-price-num { font-size: 2.8rem; }
+}
+
+/* =============================================================================
+   SECTION 36: CARD COUNTER BADGE (showing index)
+   ============================================================================= */
+
+.lbo-card-index-badge {
+    position: absolute;
+    top: 14px;
+    right: isFree ? '44px' : '14px';
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 0.1em;
+}
+
+/* =============================================================================
+   SECTION 37: HORIZONTAL SCROLL ARROWS (mobile)
+   ============================================================================= */
+
+.lbo-scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; height: 40px;
+    background: rgba(10,11,14,0.9);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #d4af37;
+    font-size: 1.1rem;
+    transition: all 0.22s;
+    z-index: 10;
+    user-select: none;
+}
+.lbo-scroll-arrow:hover { background: rgba(212,175,55,0.12); border-color: #d4af37; }
+.lbo-scroll-arrow.lbo-arrow-left  { left: -20px; }
+.lbo-scroll-arrow.lbo-arrow-right { right: -20px; }
+
+@media (min-width: 541px) {
+    .lbo-scroll-arrow { display: none; }
+}
+
+/* =============================================================================
+   SECTION 38: TIER TRANSITION ANIMATION (when upgrading visually)
+   ============================================================================= */
+
+@keyframes lbo-tier-upgrade {
+    0%   { transform: scale(1); border-color: rgba(255,255,255,0.09); }
+    30%  { transform: scale(1.04); border-color: rgba(212,175,55,0.6); box-shadow: 0 0 40px rgba(212,175,55,0.3); }
+    60%  { transform: scale(0.98); }
+    100% { transform: scale(1); border-color: rgba(255,255,255,0.09); }
+}
+.lbo-tier-upgrading { animation: lbo-tier-upgrade 0.65s cubic-bezier(0.16,1,0.3,1); }
+
+/* =============================================================================
+   SECTION 39: LOADING STATE FOR CARD GRID
+   ============================================================================= */
+
+.lbo-cards-v2-grid.lbo-grid-loading {
+    pointer-events: none;
+    opacity: 0.35;
+    filter: blur(1px);
+}
+
+/* Skeleton placeholder cards */
+.lbo-skeleton-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 32px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.lbo-skeleton-line {
+    height: 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+}
+.lbo-skeleton-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.06), transparent);
+    animation: lbo-skeleton-sweep 1.8s ease-in-out infinite;
+}
+.lbo-skeleton-line.w-40  { width: 40%; }
+.lbo-skeleton-line.w-60  { width: 60%; }
+.lbo-skeleton-line.w-80  { width: 80%; }
+.lbo-skeleton-line.w-100 { width: 100%; }
+.lbo-skeleton-line.h-24  { height: 24px; }
+.lbo-skeleton-line.h-48  { height: 48px; }
+
+/* =============================================================================
+   SECTION 40: BACK BUTTON IN PLANS PORTAL
+   ============================================================================= */
+
+.lbo-plans-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    background: transparent;
+    transition: all 0.22s;
+    margin: 16px;
+    z-index: 20;
+    position: relative;
+}
+.lbo-plans-back-btn:hover {
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+}
+.lbo-plans-back-btn:active { transform: scale(0.97); }
+
+/* =============================================================================
+   SECTION 41-80: LBO SOVEREIGN PORTAL ULTRA-DETAILED GLASSMORPHISM SYSTEM
+   ============================================================================= */
+
+/* ── 41: GLASS CARD ULTRA-HD SPECULAR LAYER ── */
+.pricing-tiers-grid .pricing-tier-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(180deg,
+        rgba(255,255,255,0.04) 0%,
+        transparent 100%);
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+    z-index: 1;
+}
+/* ── 42: CARD INNER SHADOW ── */
+.pricing-tier-card {
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 -1px 0 rgba(0,0,0,0.1),
+        0 4px 24px rgba(0,0,0,0.35);
+}
+/* ── 43: TIER CARD NAME GRADIENT VARIANTS ── */
+.tier-1-name  { background: linear-gradient(135deg,#d4af37,#ffd700); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-2-name  { background: linear-gradient(135deg,#94a3b8,#cbd5e1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-3-name  { background: linear-gradient(135deg,#2dd4bf,#67e8f9); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-4-name  { background: linear-gradient(135deg,#f97316,#fb923c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-5-name  { background: linear-gradient(135deg,#a855f7,#c084fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-6-name  { background: linear-gradient(135deg,#22c55e,#4ade80); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-7-name  { background: linear-gradient(135deg,#0ea5e9,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-8-name  { background: linear-gradient(135deg,#ef4444,#f87171); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-9-name  { background: linear-gradient(135deg,#f59e0b,#fbbf24); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tier-10-name { background: linear-gradient(135deg,#fff,#e2e8f0); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── 44: HORIZONTAL SCROLLBAR FOR CARDS GRID ── */
+.pricing-tiers-grid { scroll-snap-type: x mandatory; }
+.pricing-tier-card  { scroll-snap-align: start; }
+
+/* ── 45: CARD GLOW BY TIER ── */
+.pricing-tier-card[data-tier="1"]:hover { box-shadow: 0 8px 40px rgba(212,175,55,0.2); }
+.pricing-tier-card[data-tier="2"]:hover { box-shadow: 0 8px 40px rgba(148,163,184,0.2); }
+.pricing-tier-card[data-tier="3"]:hover { box-shadow: 0 8px 40px rgba(45,212,191,0.2); }
+.pricing-tier-card[data-tier="4"]:hover { box-shadow: 0 8px 40px rgba(249,115,22,0.2); }
+.pricing-tier-card[data-tier="5"]:hover { box-shadow: 0 8px 40px rgba(168,85,247,0.2); }
+.pricing-tier-card[data-tier="6"]:hover { box-shadow: 0 8px 40px rgba(34,197,94,0.2); }
+.pricing-tier-card[data-tier="7"]:hover { box-shadow: 0 8px 40px rgba(14,165,233,0.2); }
+.pricing-tier-card[data-tier="8"]:hover { box-shadow: 0 8px 40px rgba(239,68,68,0.2); }
+.pricing-tier-card[data-tier="9"]:hover { box-shadow: 0 8px 40px rgba(245,158,11,0.2); }
+.pricing-tier-card[data-tier="10"]:hover{ box-shadow: 0 8px 40px rgba(255,255,255,0.15); }
+
+/* ── 46: VIEWMODE PANORAMA BUTTON ── */
+.plans-viewmode-btn {
+    background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.04));
+    border: 1px solid rgba(212,175,55,0.25);
+    color: rgba(212,175,55,0.8);
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.22s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+}
+.plans-viewmode-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: rgba(212,175,55,0.5);
+    color: #ffd700;
+    box-shadow: 0 0 15px rgba(212,175,55,0.2);
+}
+.plans-viewmode-btn:active { transform: scale(0.97); }
+
+/* ── 47: PANORAMA DISTANCE HUD ── */
+.tier-distance-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.03) 100%);
+    border: 1px solid rgba(212,175,55,0.18);
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    gap: 8px;
+}
+.tier-hud-name {
+    font-family: var(--font-decorative);
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #ffd700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex: 1;
+}
+.tier-hud-price {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #fff;
+}
+.tier-hud-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 6px rgba(212,175,55,0.5);
+    animation: lbo-dot-pulse 2s ease-in-out infinite;
+}
+
+/* ── 48: FEATURE MATRIX CHIP SYSTEM ── */
+.tier-features-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 10px;
+}
+.tier-matrix-chip {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.18s;
+    cursor: default;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tier-matrix-chip:hover {
+    background: rgba(212,175,55,0.07);
+    border-color: rgba(212,175,55,0.2);
+    color: rgba(255,255,255,0.85);
+    transform: translateY(-1px);
+    overflow: visible;
+    z-index: 10;
+}
+.matrix-chip-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    background: rgba(212,175,55,0.15);
+    color: #ffd700;
+    border-radius: 4px;
+    padding: 0px 5px;
+    border: 1px solid rgba(212,175,55,0.2);
+    margin-left: auto;
+    flex-shrink: 0;
+    box-shadow: 0 0 5px rgba(212,175,55,0.15);
+}
+.matrix-chip-qty {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 900;
+    background: linear-gradient(135deg,#d4af37,#ffd700);
+    color: #000;
+    border-radius: 5px;
+    padding: 1px 5px;
+    margin-left: auto;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(212,175,55,0.3);
+}
+.matrix-chip-popover {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    min-width: 200px;
+    background: rgba(10,11,14,0.97);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.55;
+    z-index: 200;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+    pointer-events: none;
+    white-space: normal;
+    backdrop-filter: blur(20px);
+}
+.matrix-chip-popover::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 16px;
+    width: 10px; height: 10px;
+    background: rgba(10,11,14,0.97);
+    border-right: 1px solid rgba(212,175,55,0.25);
+    border-bottom: 1px solid rgba(212,175,55,0.25);
+    transform: rotate(45deg);
+}
+.tier-matrix-chip:hover .matrix-chip-popover { display: block; }
+
+/* ── 49: TIER MATRIX SOVEREIGN NOTE ── */
+.tier-matrix-sovereign-note {
+    grid-column: 1 / -1;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: rgba(212,175,55,0.3);
+    text-align: center;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    letter-spacing: 0.05em;
+}
+
+/* ── 50: PLANS VIEW MODE TOGGLE CLASSES ── */
+.pricing-tiers-grid.view-mode-panorama .tier-detail-list { display: none; }
+.pricing-tiers-grid.view-mode-panorama .tier-features-matrix { display: grid; }
+.pricing-tiers-grid.view-mode-detailed  .tier-features-matrix { display: none; }
+.pricing-tiers-grid.view-mode-detailed  .tier-detail-list { display: flex; }
+
+/* ── 51: PLANS PORTAL HEADER HERO INTRO ── */
+.pricing-hero-intro {
+    text-align: center;
+    padding: 40px 24px 20px;
+}
+.pricing-hero-intro h2 {
+    font-family: var(--font-decorative);
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 900;
+    background: var(--title-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+.pricing-hero-sub {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.45);
+    max-width: 600px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+}
+
+/* ── 52: PLANS TAB BAR ── */
+.plans-portal-tab-bar {
+    border-bottom-color: rgba(212,175,55,0.15);
+    scrollbar-width: none;
+}
+.plans-portal-tab-bar::-webkit-scrollbar { display: none; }
+
+/* ── 53: BASIC PLAN GOLD RIBBON (legacy) ── */
+.basic-plan-ribbon {
+    position: absolute;
+    top: 0; left: 0;
+    width: 38px; height: 100%;
+    background: linear-gradient(180deg,
+        rgba(212,175,55,0.2) 0%,
+        rgba(212,175,55,0.1) 50%,
+        rgba(212,175,55,0.04) 100%);
+    border-right: 1px solid rgba(212,175,55,0.15);
+    border-radius: 24px 0 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.basic-plan-ribbon-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: var(--font-decorative);
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(212,175,55,0.65);
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* ── 54-80: EXTENDED CARD STYLES ── */
+.lbo-plan-card-v2.lbo-card-selected {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px rgba(212,175,55,0.35), 0 20px 60px rgba(0,0,0,0.5);
+}
+.lbo-plan-card-v2.lbo-card-selected .lbo-card-cta-btn {
+    background: linear-gradient(135deg,#d4af37,#ffd700,#b8960c);
+    color: #000;
+}
+
+/* Tier card border-left accent */
+.lbo-plan-card-v2:nth-child(1)  { border-left: 3px solid rgba(212,175,55,0.4); }
+.lbo-plan-card-v2:nth-child(2)  { border-left: 3px solid rgba(148,163,184,0.3); }
+.lbo-plan-card-v2:nth-child(3)  { border-left: 3px solid rgba(45,212,191,0.35); }
+.lbo-plan-card-v2:nth-child(4)  { border-left: 3px solid rgba(249,115,22,0.35); }
+.lbo-plan-card-v2:nth-child(5)  { border-left: 3px solid rgba(168,85,247,0.4); }
+.lbo-plan-card-v2:nth-child(6)  { border-left: 3px solid rgba(34,197,94,0.35); }
+.lbo-plan-card-v2:nth-child(7)  { border-left: 3px solid rgba(14,165,233,0.4); }
+.lbo-plan-card-v2:nth-child(8)  { border-left: 3px solid rgba(239,68,68,0.4); }
+.lbo-plan-card-v2:nth-child(9)  { border-left: 3px solid rgba(245,158,11,0.45); }
+.lbo-plan-card-v2:nth-child(10) { border-left: 3px solid rgba(255,255,255,0.3); }
+
+/* Focus visible ring */
+.lbo-card-cta-btn:focus-visible,
+.lbo-topbar-pill:focus-visible,
+.lbo-cat-pill:focus-visible,
+.lbo-hero-primary-btn:focus-visible {
+    outline: 2px solid #ffd700;
+    outline-offset: 3px;
+}
+
+/* Tag for "coming soon" tiers */
+.lbo-card-coming-soon::after {
+    content: 'Coming Soon';
+    position: absolute;
+    inset: 0;
+    background: rgba(7,8,10,0.6);
+    border-radius: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgba(212,175,55,0.7);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+}

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Litally — Официальная литературная вселенная, суверенная библиотека и святилище спекулятивной прозы. 4K Ultra HD Edition.">
+    <title>Litally | Sovereign Literary Sanctuary 4K Ultra HD</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --bg-gradient: radial-gradient(circle at 50% 15%, #1c1808 0%, #050505 80%);
+            --title-gradient: linear-gradient(135deg, #fffdf0 0%, #ffd700 30%, #d4af37 65%, #aa7c11 100%);
+            --accent-color: #ffd700;
+            --secondary-accent: #d4af37;
+            --glow-color: rgba(255, 215, 0, 0.4);
+            --glow-subtle: rgba(212, 175, 55, 0.15);
+            --glow-intense: rgba(255, 215, 0, 0.8);
+            
+            --card-bg: rgba(12, 14, 20, 0.72);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --border-color: rgba(212, 175, 55, 0.35);
+            --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(212, 175, 55, 0.15) 100%);
+            --glass-blur: blur(28px) saturate(190%);
+            
+            --text-color: #f8f9fc;
+            --text-muted: #a3a6b5;
+            --text-dim: #6b6e7e;
+            --particle-color: #ffd700;
+            --link-blue: #38bdf8;
+            
+            --font-serif: 'Cinzel', Georgia, serif;
+            --font-decorative: 'Cinzel Decorative', 'Cinzel', serif;
+            --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-cjk: 'Noto Serif SC', 'Cinzel', serif;
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-4k: 0 30px 80px -15px rgba(0, 0, 0, 0.95), 0 15px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+            --shadow-4k-hover: 0 40px 100px -15px rgba(0, 0, 0, 0.98), 0 0 35px var(--glow-color);
+        }
+
+        body.lang-zh { font-family: var(--font-cjk); }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scrollbar-width: thin; scrollbar-color: var(--accent-color) var(--bg-color); scroll-behavior: smooth; background-color: var(--bg-color); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent-color), var(--secondary-accent)); border-radius: 8px; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-serif);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.8;
+            transition: background 0.6s ease;
+        }
+
+        .cursor-spotlight {
+            position: fixed;
+            top: 0; left: 0; width: 650px; height: 650px; border-radius: 50%;
+            background: radial-gradient(circle at center, var(--glow-color) 0%, rgba(212, 175, 55, 0.08) 35%, transparent 70%);
+            pointer-events: none; z-index: 2; mix-blend-mode: screen;
+            transform: translate3d(-1000px, -1000px, 0);
+        }
+
+        #ambientCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; opacity: 0.9; }
+        .ambient-vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 35%, transparent 25%, rgba(0, 0, 0, 0.75) 80%, var(--bg-color) 100%); pointer-events: none; z-index: 2; }
+
+        .main-container { width: 100%; max-width: 1380px; padding: 0 28px; z-index: 5; position: relative; display: flex; flex-direction: column; align-items: center; flex-grow: 1; }
+
+        .top-bar {
+            width: 100%; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid var(--card-border); border-top: none; border-radius: 0 0 26px 26px;
+            position: sticky; top: 0; z-index: 1000; background: rgba(8, 10, 15, 0.75);
+            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: var(--shadow-4k);
+        }
+
+        .brand-logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+        .brand-title-compact {
+            font-family: var(--font-decorative); font-size: 1.45rem; letter-spacing: 5px;
+            background: var(--title-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
+        }
+
+        .top-bar-controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .master-pill-wrapper { position: relative; }
+
+        .btn-master-trigger, .btn-header-action {
+            background: rgba(16, 19, 28, 0.65); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color); color: #d8dae5; padding: 9px 18px; border-radius: 22px;
+            font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px; transition: var(--transition-smooth);
+        }
+        .btn-master-trigger {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-accent) 100%); color: #000;
+            border: 1px solid rgba(255, 255, 255, 0.6); padding: 10px 22px;
+        }
+        .btn-master-trigger:hover, .btn-header-action:hover { border-color: var(--accent-color); color: #fff; transform: translateY(-2px); }
+        .btn-master-trigger:hover { color: #000; background: #fff; }
+
+        .master-dropdown-menu {
+            position: absolute; top: calc(100% + 14px); right: 0; width: 330px; max-height: 75vh; overflow-y: auto;
+            background: rgba(10, 12, 18, 0.9); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color); border-radius: 20px; padding: 14px; box-shadow: 0 35px 90px rgba(0, 0, 0, 0.98);
+            opacity: 0; visibility: hidden; transform: translateY(15px); transition: var(--transition-smooth); z-index: 3000;
+        }
+        .master-dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .dropdown-menu-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px;
+            color: #d6d9e6; font-family: var(--font-sans); font-size: 0.86rem; cursor: pointer;
+            background: transparent; border: 1px solid transparent; width: 100%; text-align: left; transition: var(--transition-smooth);
+        }
+        .dropdown-menu-item:hover { background: rgba(212, 175, 55, 0.16); border-color: rgba(212, 175, 55, 0.35); color: var(--accent-color); transform: translateX(6px); }
+
+        .hero-section { width: 100%; min-height: 68vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 75px 20px 45px; }
+        .status-beacon { display: inline-flex; align-items: center; gap: 10px; background: rgba(14, 17, 26, 0.7); border: 1px solid var(--border-color); border-radius: 50px; padding: 8px 24px; margin-bottom: 26px; backdrop-filter: var(--glass-blur); }
+        .status-pulse { width: 9px; height: 9px; border-radius: 50%; background: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+        .status-text { font-family: var(--font-sans); font-size: 0.74rem; letter-spacing: 3px; color: var(--accent-color); font-weight: 700; }
+
+        h1.main-site-title {
+            font-family: var(--font-decorative); font-size: clamp(3rem, 8vw, 6.2rem); letter-spacing: 8px;
+            background: var(--title-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 45px var(--glow-color)); margin-bottom: 24px; font-weight: 900;
+        }
+
+        .gold-divider-line { width: 280px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-color), transparent); margin: 0 auto 30px; position: relative; }
+        .gold-divider-line::after { content: '✦'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--accent-color); font-size: 14px; background: var(--bg-color); padding: 0 12px; }
+
+        .hero-statement { font-family: var(--font-sans); font-size: 1.12rem; letter-spacing: 1.5px; color: var(--text-muted); max-width: 860px; font-weight: 300; line-height: 2.1; margin-bottom: 35px; }
+
+        .gold-submit-btn {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-accent) 100%); color: #000;
+            font-family: var(--font-sans); font-size: 0.9rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            padding: 16px 36px; border-radius: 32px; border: 1px solid rgba(255, 255, 255, 0.4); cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 25px var(--glow-color); transition: var(--transition-smooth);
+        }
+        .gold-submit-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9), 0 0 40px var(--glow-intense); }
+
+        .portal-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 3, 6, 0.85);
+            backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+            display: flex; justify-content: center; align-items: center; z-index: 2500; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; padding: 24px;
+        }
+        .portal-modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .portal-content-box {
+            width: 100%; max-width: 1100px; max-height: 90vh; background: rgba(10, 13, 19, 0.88);
+            border: 1px solid var(--border-color); border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-4k);
+        }
+
+        .portal-header { padding: 22px 34px; background: rgba(6, 8, 12, 0.7); border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
+        .portal-title { font-family: var(--font-decorative); font-size: 1.45rem; color: var(--accent-color); letter-spacing: 3px; }
+        .portal-body { padding: 35px; overflow-y: auto; flex-grow: 1; font-family: var(--font-sans); }
+
+        .btn-portal-close { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--accent-color); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1.05rem; }
+        .btn-portal-close:hover { background: var(--accent-color); color: #000; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; }
+        .custom-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 26px;
+            box-shadow: var(--shadow-4k); backdrop-filter: var(--glass-blur); transition: var(--transition-smooth);
+        }
+        .custom-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+
+        .site-input, .site-textarea {
+            width: 100%; padding: 14px 18px; background: rgba(6, 8, 14, 0.75); border: 1px solid var(--border-color);
+            border-radius: 12px; color: #fff; font-family: var(--font-sans); font-size: 0.94rem; outline: none; margin-bottom: 18px;
+        }
+        .site-input:focus, .site-textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 20px var(--glow-color); }
+
+        .legal-sovereign-section {
+            width: 100%; background: rgba(8, 10, 16, 0.85); border: 1px solid var(--border-color);
+            border-radius: 20px; padding: 35px 40px; margin: 45px 0 20px; backdrop-filter: var(--glass-blur);
+        }
+        .blue-legal-link { color: var(--link-blue); font-family: var(--font-sans); font-size: 0.88rem; font-weight: 700; text-decoration: underline; cursor: pointer; }
+        .blue-legal-link:hover { color: #fff; text-shadow: 0 0 12px var(--link-blue); }
+
+        .themes-matrix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; width: 100%; }
+        .theme-matrix-tile { background: rgba(14, 17, 26, 0.75); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; font-size: 0.82rem; cursor: pointer; }
+        .theme-matrix-tile:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+
+        footer.site-footer { width: 100%; padding: 30px 20px 40px; text-align: center; font-family: var(--font-sans); font-size: 0.86rem; letter-spacing: 3px; color: #9295a4; }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-spotlight" id="spotlight"></div>
+    <canvas id="ambientCanvas"></canvas>
+    <div class="ambient-vignette"></div>
+
+    <div class="main-container">
+
+        <header class="top-bar">
+            <div class="brand-logo-area" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <span style="font-size: 1.4rem; color: var(--accent-color);">✦</span>
+                <div class="brand-title-compact">LITALLY</div>
+            </div>
+
+            <div class="top-bar-controls">
+                <!-- КНОПКА ИИ СОАВТОРА -->
+                <button class="btn-master-trigger" onclick="openPortal('ai')">
+                    <span>🔮 ИИ Оракул</span>
+                </button>
+
+                <!-- 53 Темы -->
+                <button class="btn-header-action" onclick="openPortal('themes')">
+                    <span>🎨 Темы (53)</span>
+                </button>
+
+                <!-- Выбор языка -->
+                <div class="master-pill-wrapper">
+                    <button class="btn-header-action" id="langDropdownTrigger">
+                        <span id="activeLangPill">🌐 РУС</span>
+                    </button>
+                    <div class="master-dropdown-menu" id="langDropdownMenu">
+                        <button class="dropdown-menu-item" onclick="setLanguage('en')">English</button>
+                        <button class="dropdown-menu-item" onclick="setLanguage('ru')">Русский</button>
+                        <button class="dropdown-menu-item" onclick="setLanguage('zh')">中文</button>
+                    </div>
+                </div>
+
+                <!-- Хаб меню -->
+                <div class="master-pill-wrapper">
+                    <button class="btn-header-action" id="litallyDropdownTrigger">
+                        <span>👑 Меню</span>
+                    </button>
+                    <div class="master-dropdown-menu" id="litallyDropdownMenu">
+                        <button class="dropdown-menu-item" onclick="openPortal('books')">📚 Книги и Рукописи</button>
+                        <button class="dropdown-menu-item" onclick="openPortal('ai')">🔮 Генератор сюжетов (ИИ)</button>
+                        <button class="dropdown-menu-item" onclick="openPortal('comments')">💬 Отзывы Читателей</button>
+                        <button class="dropdown-menu-item" onclick="openPortal('themes')">🎨 53 Темы Казахстана</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="hero-section">
+            <div class="status-beacon">
+                <div class="status-pulse"></div>
+                <span class="status-text">LITALLY SOVEREIGN 4K • BACKEND ONLINE</span>
+            </div>
+
+            <h1 class="main-site-title">LITALLY</h1>
+            <div class="gold-divider-line"></div>
+            
+            <p class="hero-statement">
+                Оригинальные литературные вселенные, монументальный лор и высотная спекулятивная проза. Добро пожаловать в суверенное святилище Litally.
+            </p>
+
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <button class="gold-submit-btn" onclick="openPortal('books')">📚 Исследовать Каталог</button>
+                <button class="gold-submit-btn" style="background: transparent; color: var(--accent-color); border-color: var(--accent-color);" onclick="openPortal('ai')">🔮 Вызвать ИИ-Соавтора</button>
+            </div>
+        </main>
+
+        <section class="legal-sovereign-section">
+            <h3 style="color: var(--accent-color); font-family: var(--font-decorative); margin-bottom: 12px;">🛡️ Защита авторских прав и антиплагиат</h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.8; margin-bottom: 18px;">
+                Все литературные произведения, вселенные, рукописи, персонажи и синопсисы на платформе Litally защищены международным законодательством и Бернской конвенцией. Любое несанкционированное копирование и обучение нейросетей (AI/ML) без разрешения автора запрещено.
+            </p>
+            <div style="display: flex; gap: 20px;">
+                <a class="blue-legal-link" onclick="openLegalModal('terms')">⚖️ Условия использования (Terms of Use) ↗</a>
+                <a class="blue-legal-link" onclick="openLegalModal('privacy')">🔒 Политика конфиденциальности (Privacy Policy) ↗</a>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div style="color: var(--accent-color); font-weight: 800;">ВСЕ АВТОРСКИЕ ПРАВА ЗАЩИЩЕНЫ. LITALLY 2026</div>
+        </footer>
+
+    </div>
+
+    <!-- МОДАЛ 1: ИИ ОРАКУЛ (CHATGPT, CLAUDE, GEMINI, OPERA) -->
+    <div class="portal-modal-overlay" id="portalAi">
+        <div class="portal-content-box">
+            <div class="portal-header">
+                <h2 class="portal-title">🔮 Litally AI Соавтор</h2>
+                <button class="btn-portal-close" onclick="closeAllPortals()">✕</button>
+            </div>
+            <div class="portal-body">
+                <div style="display: flex; gap: 15px; margin-bottom: 18px; flex-wrap: wrap;">
+                    <select id="aiProviderSelect" class="site-input" style="width: auto; margin-bottom: 0;">
+                        <option value="chatgpt">ChatGPT (OpenAI GPT-4o)</option>
+                        <option value="claude">Claude (Anthropic 3.5 Sonnet)</option>
+                        <option value="gemini" selected>Google Gemini 1.5 Pro (DeepMind)</option>
+                        <option value="opera">Opera Aria / DeepSeek (OpenRouter)</option>
+                    </select>
+                    <button class="gold-submit-btn" style="padding: 10px 24px;" onclick="askAI()">Сгенерировать ответ</button>
+                </div>
+                <textarea id="aiPromptInput" class="site-textarea" placeholder="Введите ваш литературный вопрос, запрос на генерацию главы или анализ персонажа..."></textarea>
+                <div id="aiOutput" style="background: rgba(0,0,0,0.6); border: 1px dashed var(--border-color); border-radius: 12px; padding: 20px; white-space: pre-wrap; font-family: var(--font-sans); color: #e0e0e0; min-height: 120px;">
+                    Ожидание запроса...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ 2: КНИГИ -->
+    <div class="portal-modal-overlay" id="portalBooks">
+        <div class="portal-content-box">
+            <div class="portal-header">
+                <h2 class="portal-title">📚 Каталог Произведений</h2>
+                <button class="btn-portal-close" onclick="closeAllPortals()">✕</button>
+            </div>
+            <div class="portal-body">
+                <div class="cards-grid" id="booksGrid">Загрузка каталога...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ 3: ОТЗЫВЫ -->
+    <div class="portal-modal-overlay" id="portalComments">
+        <div class="portal-content-box">
+            <div class="portal-header">
+                <h2 class="portal-title">💬 Отзывы Читателей</h2>
+                <button class="btn-portal-close" onclick="closeAllPortals()">✕</button>
+            </div>
+            <div class="portal-body">
+                <input type="text" id="commentAuthor" class="site-input" placeholder="Ваше имя">
+                <textarea id="commentText" class="site-textarea" placeholder="Ваш отзыв о вселенной Litally..."></textarea>
+                <button class="gold-submit-btn" style="margin-bottom: 25px;" onclick="sendComment()">Опубликовать отзыв</button>
+                <div class="cards-grid" id="commentsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ 4: 53 ТЕМЫ -->
+    <div class="portal-modal-overlay" id="portalThemes">
+        <div class="portal-content-box">
+            <div class="portal-header">
+                <h2 class="portal-title">🎨 53 Темы Казахстана</h2>
+                <button class="btn-portal-close" onclick="closeAllPortals()">✕</button>
+            </div>
+            <div class="portal-body">
+                <div class="themes-matrix-grid" id="themesGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 53 ТЕМЫ КАЗАХСТАНА ---
+        const kazakhThemes = [
+            { id: 1, name: "1. Charyn Canyon Red Sunset", bg: "#080202", gradient: "radial-gradient(circle at 50% 15%, #300804 0%, #080202 80%)", accent: "#ff4d29", particle: "#ff6e40" },
+            { id: 2, name: "2. Kaindy Lake Sunken Pine", bg: "#010809", gradient: "radial-gradient(circle at 50% 15%, #06282e 0%, #010809 80%)", accent: "#00e5ff", particle: "#18ffff" },
+            { id: 3, name: "3. Bozzhira White Chalk Cliffs", bg: "#0a0a0c", gradient: "radial-gradient(circle at 50% 15%, #252630 0%, #0a0a0c 80%)", accent: "#e0e0eb", particle: "#ffffff" },
+            { id: 4, name: "4. Burabay Emerald Mist", bg: "#010904", gradient: "radial-gradient(circle at 50% 15%, #083318 0%, #010904 80%)", accent: "#00e676", particle: "#69f0ae" },
+            { id: 5, name: "5. Altai Mountain Glacier", bg: "#02070e", gradient: "radial-gradient(circle at 50% 15%, #0a233d 0%, #02070e 80%)", accent: "#4fc3f7", particle: "#81d4fa" },
+            { id: 50, name: "50. Royal Sovereign Gold", bg: "#050505", gradient: "radial-gradient(circle at 50% 15%, #1f1807 0%, #050505 80%)", accent: "#ffd700", particle: "#ffd700" }
+        ];
+
+        function applyTheme(t) {
+            document.documentElement.style.setProperty('--bg-color', t.bg);
+            document.documentElement.style.setProperty('--bg-gradient', t.gradient);
+            document.documentElement.style.setProperty('--accent-color', t.accent);
+            document.documentElement.style.setProperty('--particle-color', t.particle);
+            closeAllPortals();
+        }
+
+        function renderThemes() {
+            const grid = document.getElementById('themesGrid');
+            grid.innerHTML = kazakhThemes.map(t => `
+                <div class="theme-matrix-tile" onclick="applyTheme(kazakhThemes.find(x=>x.id===${t.id}))">
+                    <div style="width:16px; height:16px; border-radius:50%; background:${t.accent};"></div>
+                    <span>${t.name}</span>
+                </div>
+            `).join('');
+        }
+        renderThemes();
+
+        // --- УПРАВЛЕНИЕ МОДАЛАМИ ---
+        function openPortal(id) {
+            closeAllPortals();
+            const el = document.getElementById(`portal${id.charAt(0).toUpperCase() + id.slice(1)}`);
+            if (el) el.classList.add('active');
+            if (id === 'books') loadBooks();
+            if (id === 'comments') loadComments();
+        }
+
+        function closeAllPortals() {
+            document.querySelectorAll('.portal-modal-overlay').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.master-dropdown-menu').forEach(d => d.classList.remove('active'));
+        }
+
+        document.getElementById('litallyDropdownTrigger').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('litallyDropdownMenu').classList.toggle('active');
+        };
+
+        window.onclick = () => closeAllPortals();
+
+        // --- ИИ ОРАКУЛ (ЗАПРОС К FLASK БЭКЕНДУ) ---
+        async function askAI() {
+            const prompt = document.getElementById('aiPromptInput').value.trim();
+            const provider = document.getElementById('aiProviderSelect').value;
+            const output = document.getElementById('aiOutput');
+
+            if (!prompt) return alert('Введите ваш запрос для ИИ.');
+
+            output.textContent = '⏳ Святилище Litally обращается к нейросети... Пожалуйста, подождите.';
+
+            try {
+                const res = await fetch('/api/ai/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt, provider })
+                });
+                const data = await res.json();
+                output.textContent = data.response || data.error || 'Ошибка генерации.';
+            } catch (err) {
+                output.textContent = '❌ Ошибка сети или бэкенд недоступен.';
+            }
+        }
+
+        // --- ЗАГРУЗКА КНИГ И ОТЗЫВОВ ---
+        async function loadBooks() {
+            const grid = document.getElementById('booksGrid');
+            try {
+                const res = await fetch('/api/books');
+                const books = await res.json();
+                if (books.length === 0) {
+                    grid.innerHTML = '<p style="color:var(--text-muted);">Каталог пуст. Новые книги готовятся к публикации.</p>';
+                    return;
+                }
+                grid.innerHTML = books.map(b => `
+                    <div class="custom-card">
+                        <h3 style="color:var(--accent-color); margin-bottom:8px;">${b.title}</h3>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">${b.genre} • ${b.year}</p>
+                        <p style="font-size:0.9rem;">${b.description}</p>
+                    </div>
+                `).join('');
+            } catch (e) { grid.innerHTML = 'Ошибка загрузки книг.'; }
+        }
+
+        async function loadComments() {
+            const grid = document.getElementById('commentsGrid');
+            try {
+                const res = await fetch('/api/comments');
+                const comments = await res.json();
+                grid.innerHTML = comments.map(c => `
+                    <div class="custom-card">
+                        <strong style="color:var(--accent-color);">${c.author}</strong>
+                        <p style="margin-top:8px; font-size:0.9rem;">${c.text}</p>
+                    </div>
+                `).join('');
+            } catch (e) { grid.innerHTML = 'Ошибка загрузки отзывов.'; }
+        }
+
+        async function sendComment() {
+            const author = document.getElementById('commentAuthor').value;
+            const text = document.getElementById('commentText').value;
+            if (!text) return alert('Введите текст отзыва');
+
+            await fetch('/api/comments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ author, text })
+            });
+            document.getElementById('commentText').value = '';
+            loadComments();
+        }
+
+        // --- СВЕРХПЛАВНЫЙ КУРСОР-ПРОЖЕКТОР ---
+        const spotlight = document.getElementById('spotlight');
+        let mx = window.innerWidth / 2, my = window.innerHeight / 2, sx = mx, sy = my;
+        window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        function loopSpot() {
+            sx += (mx - sx) * 0.2; sy += (my - sy) * 0.2;
+            spotlight.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%)`;
+            requestAnimationFrame(loopSpot);
+        }
+        loopSpot();
+    </script>
+</body>
+</html>

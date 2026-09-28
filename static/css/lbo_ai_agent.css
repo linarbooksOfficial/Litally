@@ -1,0 +1,738 @@
+/* =============================================================================
+   LBO OMNI-AI AGENT STYLES (v4.6 QUANTUM EDITION)
+   File: static/css/lbo_ai_agent.css
+   Theme: Liquid Glassmorphism, 4K Retinal Clarity, Holographic Cyber-Gold
+   ============================================================================= */
+
+/* ── 1. PORTAL CONTAINER & LIQUID GLASS BOX ───────────────────────────────── */
+
+.lbo-ai-portal-box {
+    max-width: 1100px !important;
+    width: 95vw !important;
+    height: 88vh !important;
+    max-height: 920px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: rgba(10, 12, 18, 0.88) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.28) !important;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+    animation: lboAiPortalEnter 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes lboAiPortalEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ── 2. HEADER & HOLOGRAM AVATAR ─────────────────────────────────────────── */
+
+.lbo-ai-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 16px 24px !important;
+    background: linear-gradient(180deg, rgba(20, 24, 36, 0.95) 0%, rgba(12, 15, 24, 0.8) 100%) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.18) !important;
+}
+
+.lbo-ai-brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lbo-ai-hologram-avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(6, 8, 14, 0.9) 70%);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+}
+
+.lbo-ai-avatar-core {
+    color: #ffd700;
+    font-size: 1.3rem;
+    animation: lboAiAvatarPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes lboAiAvatarPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+    50% { transform: scale(1.18) rotate(180deg); opacity: 1; text-shadow: 0 0 14px #ffd700; }
+}
+
+.lbo-ai-avatar-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px dashed rgba(34, 211, 238, 0.45);
+    animation: lboAiRingSpin 9s linear infinite;
+}
+
+@keyframes lboAiRingSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.lbo-ai-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-cinzel, 'Cinzel', serif);
+    font-size: 1.25rem !important;
+    color: #ffffff;
+}
+
+.lbo-ai-status-pill {
+    font-family: var(--font-sans, sans-serif);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(34, 211, 238, 0.15);
+    color: #22d3ee;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+}
+
+.lbo-ai-shield-pill {
+    font-family: var(--font-sans, sans-serif);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(212, 175, 55, 0.15);
+    color: #ffd700;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.lbo-ai-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lbo-ai-action-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #d1d5db;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lbo-ai-action-btn:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* ── 3. CONTROLS BAR: MODEL, PERSONA, TELEMETRY ──────────────────────────── */
+
+.lbo-ai-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px 24px;
+    background: rgba(8, 10, 16, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lbo-ai-control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lbo-ai-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.85);
+    letter-spacing: 0.5px;
+}
+
+.lbo-ai-select {
+    background: rgba(18, 22, 34, 0.85);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lbo-ai-select:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.lbo-ai-telemetry-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.telemetry-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: lboAiDotBlink 2s ease-in-out infinite;
+}
+
+@keyframes lboAiDotBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ── 4. QUICK PROMPTS CHIPS BAR ──────────────────────────────────────────── */
+
+.lbo-ai-chips-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: rgba(12, 15, 22, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.2) transparent;
+}
+
+.lbo-ai-chips-bar::-webkit-scrollbar {
+    height: 4px;
+}
+.lbo-ai-chips-bar::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.25);
+    border-radius: 4px;
+}
+
+.lbo-ai-chip {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: 20px;
+    color: #e5e7eb;
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.lbo-ai-chip:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: #ffd700;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.lbo-ai-chip-icon {
+    font-size: 0.85rem;
+}
+
+/* ── 5. MESSAGES VIEWPORT ────────────────────────────────────────────────── */
+
+.lbo-ai-messages-viewport {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.2) transparent;
+}
+
+.lbo-ai-messages-viewport::-webkit-scrollbar {
+    width: 6px;
+}
+.lbo-ai-messages-viewport::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.25);
+    border-radius: 4px;
+}
+
+/* Welcome Card */
+.lbo-ai-welcome-card {
+    margin: auto;
+    max-width: 720px;
+    text-align: center;
+    padding: 36px 28px;
+    background: rgba(16, 20, 30, 0.6);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lbo-ai-welcome-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffd700;
+    margin-bottom: 12px;
+}
+
+.lbo-ai-welcome-title {
+    font-family: var(--font-cinzel, 'Cinzel', serif);
+    font-size: 1.55rem;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.lbo-ai-welcome-desc {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.94rem;
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+.lbo-ai-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    text-align: left;
+}
+
+.lbo-ai-feat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.8rem;
+    color: #d1d5db;
+}
+
+.lbo-ai-feat-card strong {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+/* Message Rows */
+.lbo-ai-message-row {
+    display: flex;
+    gap: 14px;
+    max-width: 90%;
+    animation: lboAiMsgFade 0.28s ease both;
+}
+
+@keyframes lboAiMsgFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.lbo-ai-msg-user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.lbo-ai-msg-bot {
+    align-self: flex-start;
+}
+
+.lbo-ai-msg-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.lbo-ai-msg-user .lbo-ai-msg-avatar {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #60a5fa;
+}
+
+.lbo-ai-msg-bot .lbo-ai-msg-avatar {
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(10, 14, 22, 0.9) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #ffd700;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.lbo-ai-msg-content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.lbo-ai-msg-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.lbo-ai-msg-user .lbo-ai-msg-header {
+    justify-content: flex-end;
+}
+
+.lbo-ai-msg-author {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.lbo-ai-msg-speak-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0 4px;
+    transition: color 0.15s;
+}
+.lbo-ai-msg-speak-btn:hover {
+    color: #ffd700;
+}
+
+/* Bubbles */
+.lbo-ai-msg-bubble {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    word-break: break-word;
+}
+
+.lbo-ai-msg-user .lbo-ai-msg-bubble {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.lbo-ai-msg-bot .lbo-ai-msg-bubble {
+    background: rgba(14, 18, 28, 0.82);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    color: #e2e8f0;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* Markdown typography inside bubbles */
+.lbo-ai-msg-bubble h2.lbo-ai-h2 { font-size: 1.22rem; margin: 12px 0 8px 0; color: #ffd700; font-family: var(--font-cinzel, 'Cinzel', serif); }
+.lbo-ai-msg-bubble h3.lbo-ai-h3 { font-size: 1.1rem; margin: 10px 0 6px 0; color: #22d3ee; }
+.lbo-ai-msg-bubble h4.lbo-ai-h4 { font-size: 0.98rem; margin: 8px 0 4px 0; color: #f59e0b; }
+
+.lbo-ai-quote {
+    border-left: 3px solid #d4af37;
+    padding-left: 12px;
+    margin: 8px 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-style: italic;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 0 8px 8px 0;
+}
+
+.lbo-ai-inline-code {
+    background: rgba(0, 0, 0, 0.45);
+    color: #38bdf8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85em;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.lbo-ai-code-wrapper {
+    margin: 12px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #080a10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lbo-ai-code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-mono, monospace);
+}
+
+.lbo-ai-copy-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+.lbo-ai-copy-btn:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+.lbo-ai-code-block {
+    padding: 12px;
+    margin: 0;
+    overflow-x: auto;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #e0e7ff;
+}
+
+/* Table styling */
+.lbo-ai-table-wrap {
+    overflow-x: auto;
+    margin: 12px 0;
+}
+.lbo-ai-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+.lbo-ai-table th {
+    background: rgba(212, 175, 55, 0.15);
+    color: #ffd700;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+}
+.lbo-ai-table td {
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Typing indicator */
+.lbo-ai-typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+}
+.lbo-ai-typing-indicator span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffd700;
+    animation: lboAiDotPulse 1.2s infinite ease-in-out;
+}
+.lbo-ai-typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.lbo-ai-typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes lboAiDotPulse {
+    0%, 100% { transform: scale(0.6); opacity: 0.4; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.lbo-ai-cursor {
+    display: inline-block;
+    color: #ffd700;
+    font-weight: 700;
+    animation: lboAiCursorBlink 0.7s infinite;
+}
+
+@keyframes lboAiCursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ── 6. BOTTOM INPUT BAR ─────────────────────────────────────────────────── */
+
+.lbo-ai-input-wrapper {
+    padding: 16px 24px 14px 24px;
+    background: linear-gradient(180deg, rgba(12, 15, 24, 0.85) 0%, rgba(8, 10, 16, 0.98) 100%);
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.lbo-ai-input-box {
+    display: flex;
+    gap: 10px;
+    background: rgba(18, 22, 34, 0.85);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 16px;
+    padding: 8px 12px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.08);
+    transition: all 0.2s ease;
+}
+
+.lbo-ai-input-box:focus-within {
+    border-color: #ffd700;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+.lbo-ai-textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: var(--font-sans, sans-serif);
+    font-size: 0.92rem;
+    resize: none;
+    line-height: 1.5;
+}
+
+.lbo-ai-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.lbo-ai-send-btn {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+}
+
+.lbo-ai-send-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+}
+
+.lbo-ai-footer-note {
+    text-align: center;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+}
+
+/* ── 7. FLOATING QUICK-TRIGGER BUTTON (Disabled per user request) ────────────────────────────────────── */
+
+.lbo-floating-ai-trigger,
+#lboFloatingAiWidget {
+    display: none !important;
+}
+
+.lbo-floating-avatar {
+    color: #000000;
+    font-size: 1.7rem;
+    font-weight: 900;
+}
+
+.lbo-floating-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(34, 211, 238, 0.6);
+    animation: lboFloatingPulseAnim 2.5s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes lboFloatingPulseAnim {
+    0% { transform: scale(0.9); opacity: 0.9; }
+    100% { transform: scale(1.45); opacity: 0; }
+}
+
+.lbo-floating-tooltip {
+    position: absolute;
+    right: 74px;
+    background: rgba(10, 12, 18, 0.95);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.lbo-floating-ai-trigger:hover .lbo-floating-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ── 8. RESPONSIVE MOBILE & 4K ADAPTATIONS ────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .lbo-ai-portal-box {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+    }
+    .lbo-ai-header { padding: 12px 16px !important; }
+    .lbo-ai-controls-bar { padding: 8px 16px !important; }
+    .lbo-ai-chips-bar { padding: 8px 16px !important; }
+    .lbo-ai-messages-viewport { padding: 16px !important; }
+    .lbo-ai-message-row { max-width: 96% !important; }
+    .lbo-floating-ai-trigger {
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .lbo-ai-portal-box {
+        max-width: 1440px !important;
+        max-height: 1100px !important;
+    }
+    .lbo-ai-msg-bubble {
+        font-size: 1.15rem !important;
+        padding: 18px 24px !important;
+    }
+    .lbo-ai-textarea {
+        font-size: 1.1rem !important;
+    }
+}

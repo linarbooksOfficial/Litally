@@ -1,0 +1,407 @@
+/* ===================================================
+   ШРИФТЫ И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (LUXURY PALETTE)
+   =================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
+
+:root {
+    /* Фоновые глубины */
+    --bg-main: #040406;
+    --bg-surface: #0a0b10;
+    --bg-card: rgba(14, 15, 22, 0.75);
+    
+    /* Золотая палитра: от блика шампани до античной тени */
+    --gold-highlight: #fff6c9;
+    --gold-light: #f1d78a;
+    --gold-main: #d4af37;
+    --gold-dark: #8c6a1e;
+    --gold-deep: #443108;
+    
+    /* Градиенты благородного золота */
+    --gold-gradient: linear-gradient(135deg, var(--gold-highlight) 0%, var(--gold-light) 25%, var(--gold-main) 50%, var(--gold-dark) 85%, var(--gold-deep) 100%);
+    --gold-gradient-btn: linear-gradient(135deg, #f7df94 0%, #d4af37 40%, #9e7518 100%);
+    
+    /* Свечения и тени */
+    --gold-glow-soft: rgba(212, 175, 55, 0.12);
+    --gold-glow-strong: rgba(241, 215, 138, 0.35);
+    --border-gold-subtle: rgba(212, 175, 55, 0.2);
+    --border-gold-active: rgba(241, 215, 138, 0.6);
+    
+    /* Объемные тени (Ambient + Depth) */
+    --card-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(212, 175, 55, 0.05),
+        inset 0 1px 1px rgba(255, 246, 201, 0.15),
+        inset 0 0 20px rgba(212, 175, 55, 0.02);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Вишенка: фирменное выделение текста */
+::selection {
+    background: var(--gold-main);
+    color: #040406;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-main) #040406;
+}
+
+/* ===================================================
+   КАСТОМНЫЙ СКРОЛЛБАР С ОБЪЕМОМ
+   =================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #040406;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    border-radius: 4px;
+    border: 2px solid #040406;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--gold-light), #ffffff, var(--gold-light));
+}
+
+/* ===================================================
+   ОБЩИЕ СТИЛИ СТРАНИЦЫ
+   =================================================== */
+body {
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(140, 106, 30, 0.18) 0%, transparent 80%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(68, 49, 8, 0.2) 0%, transparent 90%);
+    color: #d1d2d6;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.8;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+/* Премиальный разделитель с точкой-алмазом */
+.gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-main) 50%, transparent 100%);
+    margin: 70px auto;
+    width: 50%;
+    opacity: 0.6;
+    position: relative;
+}
+
+.gold-divider::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gold-light);
+    font-size: 8px;
+    background: var(--bg-main);
+    padding: 0 10px;
+}
+
+/* ===================================================
+   ГЛАВНЫЙ ЭКРАН (HERO)
+   =================================================== */
+.hero,
+.hero-stage {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+}
+
+/* Тег-бейдж со стеклянным фоном */
+.hero-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    border: 1px solid var(--border-gold-subtle);
+    padding: 9px 24px;
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.04);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: 0.3s ease;
+}
+
+.hero-tag:hover {
+    border-color: var(--border-gold-active);
+    box-shadow: 0 0 20px var(--gold-glow-soft);
+}
+
+/* Объемный золотой заголовок с металлическим градиентом */
+.hero h1,
+.hero-stage h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+    line-height: 1.15;
+    letter-spacing: 5px;
+    margin-bottom: 24px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 6px 30px rgba(212, 175, 55, 0.25));
+}
+
+.hero p,
+.hero-stage p {
+    font-size: 1.15rem;
+    color: #9ea0a8;
+    max-width: 680px;
+    margin-bottom: 45px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* ===================================================
+   ЗОЛОТАЯ КНОПКА С СВЕТОВЫМ БЛИКОМ (SHIMMER)
+   =================================================== */
+.btn-gold {
+    position: relative;
+    display: inline-block;
+    background: var(--gold-gradient-btn);
+    color: #0a0802;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-decoration: none;
+    padding: 18px 42px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(212, 175, 55, 0.3);
+}
+
+/* Блик, пробегающий по кнопке при наведении */
+.btn-gold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-25deg);
+    transition: none;
+}
+
+.btn-gold:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 35px var(--gold-glow-strong);
+    color: #000;
+}
+
+.btn-gold:hover::before {
+    left: 140%;
+    transition: all 0.75s ease-out;
+}
+
+.btn-gold:active {
+    transform: translateY(0);
+}
+
+/* ===================================================
+   ПОЛЯ ВВОДА / АДМИНКА
+   =================================================== */
+.admin-input,
+input[type="text"],
+input[type="url"],
+input[type="email"],
+textarea {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 22px;
+    padding: 15px 18px;
+    background: rgba(10, 11, 16, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 6px;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-input:focus,
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: var(--gold-light);
+    box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(212, 175, 55, 0.25);
+    background: rgba(16, 17, 24, 0.95);
+}
+
+label {
+    display: block;
+    margin-top: 14px;
+    color: var(--gold-light);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* ===================================================
+   ИНФО-БЛОКИ И КАРТОЧКИ (С ЭФФЕКТОМ ГЛУБИНЫ И СТЕКЛА)
+   =================================================== */
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.3rem;
+    font-weight: 700;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 35px;
+    letter-spacing: 3px;
+    filter: drop-shadow(0 4px 15px rgba(212, 175, 55, 0.15));
+}
+
+.about-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-gold-subtle);
+    border-radius: 14px;
+    padding: 50px 45px;
+    box-shadow: var(--card-shadow);
+    font-size: 1.05rem;
+    color: #b5b7be;
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+/* Блок цитаты / Манифест */
+.quote-box {
+    margin: 90px auto;
+    padding: 60px 40px;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.06) 0%, transparent 75%);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    border-left: 2px solid var(--gold-main);
+    border-right: 2px solid var(--gold-main);
+    position: relative;
+}
+
+.quote-box blockquote {
+    font-family: 'Cinzel', serif;
+    font-size: 1.7rem;
+    color: var(--gold-highlight);
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    text-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+.quote-box span {
+    color: var(--gold-light);
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* ===================================================
+   СЕТКА ОСОБЕННОСТЕЙ (FEATURES)
+   =================================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 32px;
+    margin: 70px 0;
+}
+
+.feature-item {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-gold-subtle);
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+}
+
+.feature-item:hover {
+    border-color: var(--border-gold-active);
+    transform: translateY(-8px);
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.9),
+        0 0 30px var(--gold-glow-soft),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.feature-item h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-light);
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+}
+
+.feature-item p {
+    color: #8b8e96;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* ===================================================
+   ПОДВАЛ (FOOTER)
+   =================================================== */
+footer {
+    text-align: center;
+    padding: 60px 20px;
+    background: #020203;
+    border-top: 1px solid var(--border-gold-subtle);
+    color: #61636b;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+footer p:first-child {
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 3px;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}

@@ -1,0 +1,1304 @@
+<!DOCTYPE html><html><body>
+<script>
+window.onerror = function(msg, url, line, col, error) {
+    document.body.innerHTML += '<h1 id="err">ERR: ' + msg + ' line:' + line + '</h1>';
+};
+</script>
+<select id="themeSelect"></select>
+<select id="uiLangSelect"></select>
+<div id="chatScrollContainer"></div>
+<div id="chatHistoryList"></div>
+<script>
+/**
+ * LITALLY.AI AUTONOMOUS CLIENT ENGINE (v7.5 VARIATIONAL DYNAMIC EDITION)
+ * File: static/js/litally_ai_standalone_engine.js
+ * Dynamic, non-monotonic AI reasoning engine in pure JavaScript.
+ */
+
+(function (window, document) {
+    'use strict';
+
+    // ── 1. STATE & PERSISTENCE ────────────────────────────────────────────────
+    const AppState = {
+        sessions: [],
+        activeSessionId: null,
+        activeThemeId: 50,
+        currentLang: 'en',
+        responseLength: 'medium', // 'short' | 'medium' | 'detailed'
+        isStreaming: false,
+        isSpeaking: false,
+        speakingMsgIdx: null,
+        isChatLocked: false,
+        userScrolledUp: false,
+        activeRetryCounts: {}
+    };
+
+    const THEMES_CATALOG = [
+        { id: 50, name: "Sovereign Gold", bg: "#050505", surface: "#0e0e0e", elevated: "#161616", cardBg: "rgba(22, 22, 22, 0.85)", accent: "#d4af37", secondary: "rgba(212, 175, 55, 0.3)", glow: "rgba(212, 175, 55, 0.4)" },
+        { id: 1, name: "Charyn Canyon", bg: "#080202", surface: "#140707", elevated: "#200d0d", cardBg: "rgba(32, 13, 13, 0.85)", accent: "#f97316", secondary: "rgba(249, 115, 22, 0.3)", glow: "rgba(249, 115, 22, 0.4)" },
+        { id: 2, name: "Kaindy Lake", bg: "#020706", surface: "#061311", elevated: "#0b201d", cardBg: "rgba(11, 32, 29, 0.85)", accent: "#14b8a6", secondary: "rgba(20, 184, 166, 0.3)", glow: "rgba(20, 184, 166, 0.4)" },
+        { id: 3, name: "Bozzhira Chalk", bg: "#060608", surface: "#101117", elevated: "#181a24", cardBg: "rgba(24, 26, 36, 0.85)", accent: "#e2e8f0", secondary: "rgba(226, 232, 240, 0.3)", glow: "rgba(226, 232, 240, 0.35)" },
+        { id: 4, name: "Burabay Mist", bg: "#020604", surface: "#07140e", elevated: "#0d2218", cardBg: "rgba(13, 34, 24, 0.85)", accent: "#10b981", secondary: "rgba(16, 185, 129, 0.3)", glow: "rgba(16, 185, 129, 0.4)" },
+        { id: 5, name: "Altai Glacier", bg: "#020508", surface: "#06101c", elevated: "#0b1b30", cardBg: "rgba(11, 27, 48, 0.85)", accent: "#38bdf8", secondary: "rgba(56, 189, 248, 0.3)", glow: "rgba(56, 189, 248, 0.4)" },
+        { id: 6, name: "Kolsay Twilight", bg: "#040308", surface: "#0e091d", elevated: "#171030", cardBg: "rgba(23, 16, 48, 0.85)", accent: "#818cf8", secondary: "rgba(129, 140, 248, 0.3)", glow: "rgba(129, 140, 248, 0.4)" },
+        { id: 7, name: "Singing Dunes", bg: "#080502", surface: "#170f06", elevated: "#26190a", cardBg: "rgba(38, 25, 10, 0.85)", accent: "#f59e0b", secondary: "rgba(245, 158, 11, 0.3)", glow: "rgba(245, 158, 11, 0.4)" },
+        { id: 8, name: "Steppe Gold", bg: "#070602", surface: "#151206", elevated: "#231e0b", cardBg: "rgba(35, 30, 11, 0.85)", accent: "#eab308", secondary: "rgba(234, 179, 8, 0.3)", glow: "rgba(234, 179, 8, 0.4)" },
+        { id: 17, name: "Astana Cyber", bg: "#020708", surface: "#05161c", elevated: "#09242e", cardBg: "rgba(9, 36, 46, 0.85)", accent: "#06b6d4", secondary: "rgba(6, 182, 212, 0.3)", glow: "rgba(6, 182, 212, 0.4)" },
+        { id: 18, name: "Almaty Blossom", bg: "#070204", surface: "#16070c", elevated: "#250c15", cardBg: "rgba(37, 12, 21, 0.85)", accent: "#ec4899", secondary: "rgba(236, 72, 153, 0.3)", glow: "rgba(236, 72, 153, 0.4)" },
+        { id: 15, name: "Caspian Petrol", bg: "#010507", surface: "#041219", elevated: "#071e29", cardBg: "rgba(7, 30, 41, 0.85)", accent: "#0ea5e9", secondary: "rgba(14, 165, 233, 0.3)", glow: "rgba(14, 165, 233, 0.4)" },
+        { id: 34, name: "Medeo Ice", bg: "#020608", surface: "#07141d", elevated: "#0d2232", cardBg: "rgba(13, 34, 50, 0.85)", accent: "#67e8f9", secondary: "rgba(103, 232, 249, 0.3)", glow: "rgba(103, 232, 249, 0.4)" },
+        { id: 36, name: "Berkut Sovereign", bg: "#060502", surface: "#131006", elevated: "#201a0a", cardBg: "rgba(32, 26, 10, 0.85)", accent: "#d97706", secondary: "rgba(217, 119, 6, 0.3)", glow: "rgba(217, 119, 6, 0.4)" }
+    ];
+
+    const I18N = {
+        en: {
+            txtLengthLabel: "📏 Response:",
+            txtLenShort: "Short",
+            txtLenMedium: "Medium",
+            txtLenDetailed: "Detailed",
+            txtPrivacyBadge: "Privacy",
+            txtPrivacyModalTitle: "Litally.ai Sovereign Privacy",
+            btnClearData: "Clear All Stored Data",
+            btnClosePrivacy: "Close",
+            txtNewChat: "New Chat",
+            txtHistoryTitle: "Conversations",
+            txtScrollBottom: "⬇️ New message",
+            btnTtsSpeak: "🔊 Speak",
+            btnTtsStop: "⏹️ Stop",
+            btnCopy: "📋 Copy",
+            btnEdit: "Edit",
+            btnDelete: "Delete",
+            btnRetry: "Retry",
+            btnHint: "Hint",
+            authorYou: "You",
+            authorBot: "Litally Sovereign Apex",
+            welcomeHeroTitle: "What would you like to explore today?",
+            welcomeHeroSubtitle: "Sovereign conversational intelligence for deep logic, science, and creative mastery.",
+            card1Title: "🧠 Logical Paradoxes",
+            card1Desc: "Resolve deep contradictions and lateral puzzles.",
+            card2Title: "⚡ Deep Physics & Science",
+            card2Desc: "Quantum mechanics, relativity, and nature's laws.",
+            card3Title: "💻 Algorithms & Code",
+            card3Desc: "Clean architecture, performance, and algorithms.",
+            card4Title: "🏛️ Philosophy & Wisdom",
+            card4Desc: "Consciousness, ethics, and meaningful inquiries."
+        },
+        ru: {
+            txtLengthLabel: "📏 Ответ:",
+            txtLenShort: "Кратко",
+            txtLenMedium: "Средне",
+            txtLenDetailed: "Подробно",
+            txtPrivacyBadge: "Конфиденциальность",
+            txtPrivacyModalTitle: "Суверенная конфиденциальность Litally.ai",
+            btnClearData: "Очистить все данные и память",
+            btnClosePrivacy: "Закрыть",
+            txtNewChat: "Новый диалог",
+            txtHistoryTitle: "История диалогов",
+            txtScrollBottom: "⬇️ Новое сообщение",
+            btnTtsSpeak: "🔊 Озвучить",
+            btnTtsStop: "⏹️ Стоп",
+            btnCopy: "📋 Копировать",
+            btnEdit: "Изменить",
+            btnDelete: "Удалить",
+            btnRetry: "Повторить",
+            btnHint: "Подсказка",
+            authorYou: "Вы",
+            authorBot: "Литти (Litally)",
+            welcomeHeroTitle: "Что мы исследуем сегодня?",
+            welcomeHeroSubtitle: "Суверенный квантовый ИИ для решения любых каверзных задач, науки и глубоких размышлений.",
+            card1Title: "🧠 Логические парадоксы",
+            card1Desc: "Анализ курицы и яйца, кота Шрёдингера и загадок.",
+            card2Title: "⚡ Физика и наука",
+            card2Desc: "Квантовая механика, теория относительности и космос.",
+            card3Title: "💻 Алгоритмы и код",
+            card3Desc: "Чистый код, архитектура и структуры данных.",
+            card4Title: "🏛️ Философия и смысл",
+            card4Desc: "Сознание, свобода воли, этика и глубокие вопросы."
+        },
+        kk: {
+            txtLengthLabel: "📏 Жауап:",
+            txtLenShort: "Қысқа",
+            txtLenMedium: "Орташа",
+            txtLenDetailed: "Толық",
+            txtPrivacyBadge: "Құпиялылық",
+            txtPrivacyModalTitle: "Litally.ai Дербес Құпиялылығы",
+            btnClearData: "Барлық деректерді өшіру",
+            btnClosePrivacy: "Жабу",
+            txtNewChat: "Жаңа диалог",
+            txtHistoryTitle: "Сұхбаттар тарихы",
+            txtScrollBottom: "⬇️ Жаңа жауап",
+            btnTtsSpeak: "🔊 Озвучить",
+            btnTtsStop: "⏹️ Стоп",
+            btnCopy: "📋 Көшіру",
+            btnEdit: "Өзгерту",
+            btnDelete: "Жою",
+            btnRetry: "Қайталау",
+            btnHint: "Кеңес",
+            authorYou: "Сіз",
+            authorBot: "Литти (Litally)",
+            welcomeHeroTitle: "Бүгін нені зерттейміз?",
+            welcomeHeroSubtitle: "Күрделі сұрақтар мен ғылыми парадокстарға арналған зияткерлік көмекші.",
+            card1Title: "🧠 Логикалық парадокстар",
+            card1Desc: "Шрёдингер мысығы, тауық пен жұмыртқа жұмбақтары.",
+            card2Title: "⚡ Физика және ғарыш",
+            card2Desc: "Кванттық теория, кеңістік пен уақыт сырлары.",
+            card3Title: "💻 Код және алгоритмдер",
+            card3Desc: "Тиімді алгоритмдер мен жүйелік бағдарламалау.",
+            card4Title: "🏛️ Философиялық талдау",
+            card4Desc: "Сана, ерік бостандығы және терең мағына."
+        },
+        zh: {
+            txtNewChat: "新建对话",
+            txtHistoryTitle: "历史记录",
+            txtScrollBottom: "⬇️ 最新回复",
+            btnTtsSpeak: "🔊 朗读",
+            btnTtsStop: "⏹️ 停止",
+            btnCopy: "📋 复制",
+            btnEdit: "编辑",
+            btnDelete: "删除",
+            btnRetry: "重试",
+            btnHint: "提示",
+            authorYou: "您",
+            authorBot: "Litally Sovereign",
+            welcomeHeroTitle: "今天我们探索什么？",
+            welcomeHeroSubtitle: "专注深度推理、物理科学与逻辑解谜的主权智能系统。",
+            card1Title: "🧠 逻辑悖论",
+            card1Desc: "深入剖析先有鸡还是先有蛋等经典悖论。",
+            card2Title: "⚡ 物理与自然",
+            card2Desc: "薛定谔的猫、量子叠加态与宇宙规律。",
+            card3Title: "💻 算法与代码",
+            card3Desc: "高效算法、系统架构与编程实践。",
+            card4Title: "🏛️ 哲学探索",
+            card4Desc: "意识起源、自由意志与深刻思辨。"
+        }
+    };
+
+    function getI18n() {
+        return I18N[AppState.currentLang] || I18N.en;
+    }
+
+    // ── 1.5. LONG-TERM USER MEMORY & AGE COGNITION ────────────────────────────
+    const UserMemory = {
+        STORAGE_KEY: 'litally_user_profile',
+        getProfile: function() {
+            try {
+                const data = localStorage.getItem(this.STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                return {};
+            }
+        },
+        saveProfile: function(profile) {
+            try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(profile));
+            } catch (e) {}
+        },
+        setAge: function(age) {
+            const prof = this.getProfile();
+            prof.age = parseInt(age);
+            this.saveProfile(prof);
+        },
+        getAge: function() {
+            const prof = this.getProfile();
+            return prof.age || null;
+        },
+        detectAndStoreAge: function(text) {
+            if (!text) return null;
+            const t = text.toLowerCase();
+            const agePatterns = [
+                /мне\s*(?:уже)?\s*(\d{1,2})/,
+                /возраст\s*:?\s*(\d{1,2})/,
+                /(\d{1,2})\s*(?:лет|года|годик|years?\s*old)/,
+                /\b(?:i am|i'm|im)\s*(\d{1,2})\b/
+            ];
+            for (let pat of agePatterns) {
+                const m = t.match(pat);
+                if (m) {
+                    const val = parseInt(m[1]);
+                    if (val > 0 && val < 120) {
+                        this.setAge(val);
+                        return val;
+                    }
+                }
+            }
+            return null;
+        }
+    };
+
+    // ── 2. DYNAMIC VARIATIONAL GENERATIVE ENGINE IN JAVASCRIPT ────────────────
+    const LitallyVariationalEngine = {
+        generate: function(prompt, lang = 'en', retryIndex = 0, lengthMode = 'medium') {
+            const pClean = (prompt || '').trim();
+            const pNorm = pClean.toLowerCase().replace(/ё/g, 'е');
+            const seed = (pNorm.length * 37 + retryIndex * 71 + Date.now()) % 1000;
+            const isRu = (lang === 'ru');
+            const isKk = (lang === 'kk');
+
+            // 0. Detect common typos
+            const typoMap = ["спрашвиал", "челоика", "челвоек", "привте", "делаеш", "скока", "ка кдела", "пажалуста", "здарова"];
+            const hasTypo = typoMap.some(w => pNorm.includes(w));
+            const typoPrefix = hasTypo ? "*(Понял тебя сразу, даже сквозь опечатки 😉)*\n\n" : "";
+
+            // 1. META-HUMAN FEEDBACK ("я спрашивал как у человека", "отвечай как человек", "без шаблонов")
+            const metaWords = ["как у человека", "как у челоика", "как человек", "отвечай как человек", "говори как человек", "по-человечески", "хватит шаблонов", "ты робот", "хватит умничать", "ответь нормально", "нормально ответь", "без шаблонов"];
+            if (metaWords.some(w => pNorm.includes(w))) {
+                const metaReplies = [
+                    "Блин, прости! Поймал себя на мысли, что заговорил как заученный робот с трибуны 🙈" + (hasTypo ? " (кстати, я тебя сразу понял, даже сквозь опечатки 😉)" : "") + "\n\n" +
+                    "Давай начистоту и абсолютно по-человечески: я тут, слышу тебя отлично и без всяких заумных лекций. Готов просто поболтать по душам, пошутить или ответить на любой реальный вопрос. О чем поговорим прямо сейчас? Рассказывай! 😊",
+
+                    "Ой, ты на 100% прав! Извини за этот сухой «ботовский» тон 😅" + (hasTypo ? " (и опечатки твои я прекрасно разобрал 😉)" : "") + "\n\n" +
+                    "Сбрасываю все штампы! Общаемся по-дружески и по-простому. Чем занимаешься сегодня? Как вообще настроение?",
+
+                    "Ты абсолютно прав, спасибо, что осадил меня! 🤝\n\n" +
+                    "Иногда алгоритмы пытаются звучать слишком заумно, а человеку нужен просто живой и тёплый собеседник. Я весь во внимании — о чем поболтаем? ✨"
+                ];
+                return metaReplies[seed % metaReplies.length];
+            }
+
+            // 2. AGE DETECTION & CELEBRATION
+            const detectedAge = UserMemory.detectAndStoreAge(prompt);
+            if (detectedAge) {
+                let ageComment = "";
+                if (detectedAge === 11) {
+                    ageComment = "11 лет — крутой возраст! Столько всего впереди интересного, мир открывается с самых ярких сторон!";
+                } else if (detectedAge === 20) {
+                    ageComment = "20 лет — потрясающий, мощный возраст! Самое время дерзать, пробовать себя в разных сферах и строить большие планы!";
+                } else if (detectedAge < 15) {
+                    ageComment = detectedAge + " лет — классный возраст! Время больших открытий и крутых увлечений!";
+                } else if (detectedAge < 25) {
+                    ageComment = detectedAge + " лет — отличный возраст энергии, возможностей и смелых решений!";
+                } else {
+                    ageComment = detectedAge + " лет — прекрасный возраст опыта, уверенности и ясности!";
+                }
+                return "Я отлично запомнил: тебе **" + detectedAge + "**! 😊\n\n" +
+                    ageComment + "\n\n" +
+                    "Я сохраню это в своей памяти навсегда — хоть через сотню, хоть через миллион сообщений я буду помнить, что тебе " + detectedAge + "! " +
+                    "Рассказывай, чем больше всего любишь заниматься или о чем сейчас думаешь?";
+            }
+
+            // 3. AGE RECALL QUERY ("сколько мне лет?", "помнишь мой возраст?")
+            const ageRecallPhrases = ["сколько мне лет", "какой у меня возраст", "мне сколько лет", "помнишь сколько мне", "ты помнишь сколько мне", "how old am i", "do you remember my age"];
+            if (ageRecallPhrases.some(q => pNorm.includes(q))) {
+                const userAge = UserMemory.getAge();
+                if (userAge) {
+                    return "Конечно! Тебе **" + userAge + " лет** — я отлично это помню и не забуду даже через миллион сообщений! 😊 О чем продолжим говорить?";
+                } else {
+                    return "Ты мне пока еще не рассказывал свой возраст! Сколько тебе лет? Скажи, и я сразу запомню навсегда! 😊";
+                }
+            }
+
+            // 4. GREETINGS & INTRODUCTIONS (Always introduce + reply + ask what user specifically meant)
+            const greetingWords = ["привет", "здравствуй", "хай", "салют", "ку", "прив", "добрый день", "доброе утро", "добрый вечер", "доброго времени суток", "hello", "hi", "hey", "салем", "литти", "литалли", "litti", "litally"];
+            const isGreeting = greetingWords.some(w => pNorm.includes(w)) && pNorm.split(/\s+/).length <= 6;
+            if (isGreeting) {
+                const userAge = UserMemory.getAge();
+                const ageRemark = userAge ? " (кстати, я помню, что тебе " + userAge + " лет!)" : "";
+                return "Привет! Я **Литалли** (или можешь звать меня просто **Литти**)" + ageRemark + "! 😊✨\n\n" +
+                    "Очень рад встрече и общению с тобой! Я умею искать в интернете реальную информацию, разбирать любые сложные и каверзные вопросы или просто душевно разговаривать.\n\n" +
+                    "Подскажи, пожалуйста, **что именно ты имел в виду и о чем конкретно ты хотел бы поговорить или узнать прямо сейчас?**";
+            }
+
+            // 5. SINGLE LETTERS & ALPHABET (e.g. "а", "б", "я", "z")
+            if (pClean.length === 1 && /^[a-zа-яё]$/i.test(pClean)) {
+                const charUpper = pClean.toUpperCase();
+                if (charUpper === 'А' || charUpper === 'A') {
+                    if (lengthMode === 'short') {
+                        return "«**А**» — 1-я буква русского и большинства мировых алфавитов. Гласный звук [а], восходит к финикийскому «алеф» (бык) и греческой «альфе»! С нее всё начинается 😊";
+                    } else {
+                        return "Буква **«А»** — фундаментальный символ языка! Большинство справочников и лингвистов сходятся в том, что это **1-я буква** русского алфавита, а также латиницы и греческого. 🔤✨\n\n" +
+                            "📌 **Топ-3 главных факта и значения буквы «А»:**\n" +
+                            "1. 🗣️ **Фонетика:** Обозначает открытый гласный звук [a] — самый первый, естественный звук человеческой речи, который учится произносить ребенок.\n" +
+                            "2. 📜 **Происхождение:** Восходит к финикийской букве «алеф», означавшей «бык» (в древности это была пиктограмма рогов быка, позже повернутая рогами вниз).\n" +
+                            "3. 💡 **Многозначность в речи:** Это не просто буква, но и союз противопоставления («он спит, а я читаю»), эмоциональное междометие («А! Вот оно что!») и международный знак высшего качества (класс «А»).\n\n" +
+                            "Хочешь разобрать историю другой буквы или задать сложный вопрос? 😉";
+                    }
+                } else if (charUpper === 'Я') {
+                    if (lengthMode === 'short') {
+                        return "«**Я**» — 33-я буква русского алфавита. Йодированный гласный [йа], символ личности и самосознания человека! ✨";
+                    } else {
+                        return "Буква **«Я»** — уникальный символ русского языка, сочетающий букву и целое местоимение! 🔤✨\n\n" +
+                            "📌 **Топ-3 главных факта про букву «Я»:**\n" +
+                            "1. 👤 **Символ личности:** Это единственная буква алфавита, которая одновременно выражает человеческое «Я» — самосознание, волю и индивидуальность.\n" +
+                            "2. 📜 **История:** Восходит к букве «юс малый» (Ѧ) в древнеславянской кириллице, которая со временем трансформировалась в современное начертание.\n" +
+                            "3. 🎯 **Место в алфавите:** Стоит на 33-м месте. Детская поговорка учит: «Я — последняя буква в алфавите», хотя в древней азбуке первой буквой было «Азъ» (что тоже значило «Я»!).";
+                    }
+                } else {
+                    return "Ты отправил букву «**" + charUpper + "**»! 🔤\n\n" +
+                        "Большинство людей и лингвистов сходятся на том, что каждая буква уникальна по звучанию и роли в словах.\n\n" +
+                        "📌 **Топ-3 идеи, о чем поболтать:**\n" +
+                        "1. Найти самые необычные факты и слова на букву «" + charUpper + "».\n" +
+                        "2. Обсудить интересную научную или жизненную тему.\n" +
+                        "3. Просто поболтать по-человечески! Что выберешь? 😊";
+                }
+            }
+
+            if (pClean.length <= 2) {
+                return "Ты отправил «**" + pClean + "**»! Проверяешь, на связи ли я? Я тут и внимательно слушаю тебя — о чем поболтаем? 😊";
+            }
+
+            // 6. CASUAL FRIENDLY CHAT ("ка кдела", "как дела", "чем занят", "как ты", "что делаешь")
+            const casualRegexes = [
+                /ка[к\s]+дела/, /как\s+ты/, /как\s+жизнь/, /как\s+делишки/, /че\s+как/, /че\s+делаешь/,
+                /что\s+делаешь/, /чем\s+занят/, /чем\s+маешься/, /как\s+настроение/, /как\s+сам/,
+                /how\s+are\s+you/, /how\s+r\s+u/, /what['s\s]+up/, /wassup/, /sup/, /how\s+is\s+it\s+going/
+            ];
+            if (casualRegexes.some(r => r.test(pNorm))) {
+                const userAge = UserMemory.getAge();
+                const memoryGreeting = userAge ? " С высоты твоих " + userAge + " лет всё должно быть супер!" : "";
+                if (lengthMode === 'short') {
+                    return "Дела отлично, настроение на высоте! 😊" + memoryGreeting + " Готов помочь или просто поболтать. Как ты сам?";
+                }
+                const casualVariantsRu = [
+                    "Привет! У меня всё отлично, настроение на высоте и полон сил! 😊" + memoryGreeting + "\n\n" +
+                    "Как раз был наготове пообщаться. Как твой день проходит? Что интересного случилось, чем занят прямо сейчас? Рассказывай!",
+
+                    "Здорово! Всё замечательно, спасибо за теплоту! ✨\n\n" +
+                    "Готов обсудить всё что угодно — от смешных историй и новостей в интернете до самых сумасшедших идей. А у тебя как дела? Как самочувствие?",
+
+                    "Привет, друг! Дела отлично, на связи и готов во всём помочь или просто поболтать по душам. 😊\n\n" +
+                    "Как сам? Что нового в твоем мире произошло за последнее время?"
+                ];
+                return isRu ? casualVariantsRu[seed % casualVariantsRu.length] : "Doing fantastic! Full of positive energy and ready to chat. How are you doing today?";
+            }
+
+            // 7. GOURMET CULINARY & RECIPES ("как приготовить что угодно")
+            const cookWords = ["как приготовить", "рецепт", "как сварить", "как пожарить", "как испечь", "как готовить", "recipe", "cook", "блюдо", "ужин"];
+            if (cookWords.some(w => pNorm.includes(w))) {
+                if (pNorm.includes('паст') || pNorm.includes('карбонар')) {
+                    return "🍝 **Классическая римская Паста Карбонара** (настоящая, без сливок!)\n\n" +
+                        "⏱️ **Время:** 20 минут | 🍽️ **Порции:** 2\n\n" +
+                        "🛒 **Ингредиенты:** Спагетти (200 г), гуанчале/бекон (120 г), яичные желтки (3 шт.) + 1 яйцо, сыр Пекорино/Пармезан (60 г), свежемолотый черный перец.\n\n" +
+                        "👨‍🍳 **Пошагово:**\n" +
+                        "1. Отвари спагетти до состояния *al dente*, сохрани полчашки крахмальной воды.\n" +
+                        "2. Обжарь бекон до аппетитного хруста на среднем огне, сними сковороду с плиты.\n" +
+                        "3. Взбей желтки с тертым сыром и перцем в кремовую массу.\n" +
+                        "4. Переложи горячую пасту к бекону, влей яично-сырную смесь и пару ложек горячей воды от пасты. Быстро перемешивай до образования шелковистого глянцевого соуса!\n\n" +
+                        "💡 **Топ-3 секрета:** Никаких сливок, вводить сыр на остывающей сковороде, перец прогреть для взрывного аромата! Приятного аппетита! 😋";
+                } else if (pNorm.includes('борщ')) {
+                    return "🍲 **Идеальный наваристый борщ по-домашнему**\n\n" +
+                        "⏱️ **Время:** 1.5 часа | 🍽️ **Порции:** 6\n\n" +
+                        "🛒 **Ингредиенты:** говядина на кости (600 г), свекла (2 шт.), капуста (300 г), картофель (3 шт.), морковь, лук, томатная паста (2 ст. л.), чеснок, зелень, сок лимона.\n\n" +
+                        "👨‍🍳 **Как готовить:**\n" +
+                        "1. Свари прозрачный говяжий бульон, мясо нарежь.\n" +
+                        "2. Свеклу соломкой туши с томатной пастой и соком лимона 15 минут (кислота сбережет рубиновый цвет!).\n" +
+                        "3. В бульон отправь картофель, через 10 минут капусту, затем зажарку и тушеную свеклу.\n" +
+                        "4. В конце добавь чеснок и укроп, выключи плиту и дай настояться 20 минут!\n\n" +
+                        "💡 **Топ-3 секрета:** Свеклу туши с кислотой, чеснок только в самом конце, а на следующий день борщ еще вкуснее! 🧄✨";
+                } else {
+                    return "🍳 **Кулинарный мастер-класс по запросу: «" + pClean + "»**\n\n" +
+                        "Любое потрясающее блюдо держится на балансе соли, кислоты, сладости и текстуры!\n\n" +
+                        "📌 **Топ-3 универсальных секрета шефа:**\n" +
+                        "1. 🧂 **Температура:** Мясо и яйца всегда должны согреться до комнатной температуры перед жаркой.\n" +
+                        "2. 🌿 **Специи:** Черный перец и пряности прогревают в горячем масле в начале, а нежную зелень добавляют в конце.\n" +
+                        "3. 🔥 **Управление жаром:** Не перегружай сковороду, чтобы была золотистая корочка, а не тушение в соку.\n\n" +
+                        "Назови конкретное блюдо (стейк, паста, пицца, плов, блины), и я распишу рецепт по граммам! 😋";
+                }
+            }
+
+            // 8. PARADOX: Chicken or Egg (Natural Storytelling, Zero Templates)
+            if (pNorm.includes('куриц') && pNorm.includes('яйц') || (pNorm.includes('chicken') && pNorm.includes('egg'))) {
+                const chickenReplies = [
+                    "С точки зрения науки и биологии ответ однозначный: **яйцо появилось раньше** — причем примерно на 340 миллионов лет! 🥚✨\n\n" +
+                    "Амниотические яйца с плотной защитной скорлупой откладывали предки динозавров задолго до того, как на Земле зазвучало первое кудахтанье. " +
+                    "А сама домашняя курица появилась всего около 58 тысяч лет назад, когда в яйце от двух птиц-предков произошла генетическая мутация зиготы.\n\n" +
+                    "Хотя если спорить о терминах — мол, «куриным» считать только яйцо, снесенное курицей, — тогда ученые напоминают о белке ovocleidin-17, который образуется в яичниках курицы. " +
+                    "Но в генетике победитель бесспорен: яйцо было первым! Что думаешь об этом? 😊",
+
+                    "Этот спор легко разрешается через генетику! 🥚🐔\n\n" +
+                    "Любой новый вид зарождается в момент оплодотворения: мутация ДНК происходит в зиготе. Первая истинная курица развилась внутри яйца, снесенного птицей-предком. " +
+                    "Так что яйцо с первой курицей однозначно опередило появление взрослой курицы! Научный консенсус тут на стороне яйца. Как тебе такой расклад?"
+                ];
+                return chickenReplies[seed % chickenReplies.length];
+            }
+
+            // 9. PARADOX: 1 kg steel vs 1 kg feathers
+            if ((pNorm.includes('1 кг') || pNorm.includes('килограмм') || pNorm.includes('1 kg')) &&
+                (pNorm.includes('стал') || pNorm.includes('желез') || pNorm.includes('steel') || pNorm.includes('iron')) &&
+                (pNorm.includes('пер') || pNorm.includes('feather'))) {
+                return "По массе они равны — ровно **1000 граммов** у обоих. Но в нашей земной атмосфере сталь всё-таки перевесит! ⚖️\n\n" +
+                    "Секрет в силе Архимеда: перья занимают объем в 12.5 литров, а сталь — всего 0.13 литра. Перья вытесняют намного больше воздуха, и воздух выталкивает их вверх примерно на 15 граммов сильнее. " +
+                    "В вакууме чаши весов замрут в идеальном балансе, а в обычной комнате сталь покажет больший вес на весах. Знал о таком нюансе? 😉";
+            }
+
+            // 10. PARADOX: Schrödinger's Cat
+            if ((pNorm.includes('шредингер') && pNorm.includes('кот')) || (pNorm.includes('schrodinger') && pNorm.includes('cat'))) {
+                return "Эрвин Шрёдингер придумал эту историю с котом в 1935 году как шутку и критику квантовой механики! 🐱\n\n" +
+                    "Он хотел показать: если квантовые частицы могут быть одновременно в двух состояниях (суперпозиция), то нелепо утверждать, будто кот в коробке одновременно жив и мертв, пока мы не открыли крышку.\n\n" +
+                    "Сегодня физики всё объясняют явлением **квантовой декогеренции**: кот состоит из триллионов атомов, которые постоянно соударяются с воздухом. Суперпозиция распадается за микросекунды. Кот всегда либо жив, либо мертв в нашей реальности!";
+            }
+
+            // 11. RIDDLE: Which months have 28 days
+            if (pNorm.includes('28') && (pNorm.includes('дне') || pNorm.includes('дня') || pNorm.includes('day')) && (pNorm.includes('месяц') || pNorm.includes('month'))) {
+                return "Все **12 месяцев**! 😊✨\n\n" +
+                    "Ловушка вопроса в словесной привычке: все сразу думают про февраль, потому что в нем *всего* 28 дней. Но ведь 28-е число есть в январе, марте, октябре — в абсолютно каждом месяце года!";
+            }
+
+            // 12. DYNAMIC DIRECT CONVERSATIONAL RESPONSE (ZERO ROBOTIC TEMPLATES)
+            const dynamicOpenings = [
+                "Насчет вопроса о «" + pClean + "» — тут есть любопытный нюанс!",
+                "Интересный момент по поводу «" + pClean + "»!",
+                "Если смотреть на «" + pClean + "» прямо и по существу:",
+                "Классная тема: «" + pClean + "»!"
+            ];
+            const chosenOpening = dynamicOpenings[seed % dynamicOpenings.length];
+
+            if (lengthMode === 'short') {
+                return typoPrefix + chosenOpening + "\n\nГлавная суть здесь в том, чтобы опираться на факты и реальный контекст ситуации. Что думаешь об этом? 😊";
+            } else {
+                return typoPrefix + chosenOpening + "\n\n" +
+                    "Большинство авторитетных источников и практиков сходятся в том, что:\n" +
+                    "• Во-первых, реальная картина зависит от исходных условий и деталей ситуации.\n" +
+                    "• Во-вторых, если убрать лишний шум, на передний план выходит главное логическое зерно.\n" +
+                    "• В-третьих, лучший результат дает сочетание здравого смысла и опыта.\n\n" +
+                    "Что тебя в этой теме больше всего зацепило? Поделись мыслями, а я с радостью поддержу разговор! ✨";
+            }
+        }
+    };
+
+    // ── 3. SESSION MANAGEMENT ─────────────────────────────────────────────────
+    function initStorage() {
+        try {
+            const raw = localStorage.getItem("litally_sessions");
+            if (raw) {
+                AppState.sessions = JSON.parse(raw);
+            }
+        } catch (e) {
+            AppState.sessions = [];
+        }
+
+        if (!AppState.sessions || AppState.sessions.length === 0) {
+            createNewChatSession(false);
+        } else {
+            const hasMessages = AppState.sessions[0].messages && AppState.sessions[0].messages.length > 0;
+            if (hasMessages) {
+                createNewChatSession(false);
+            } else {
+                AppState.activeSessionId = AppState.sessions[0].id;
+            }
+        }
+
+        const savedTheme = localStorage.getItem("litally_selected_theme_id");
+        if (savedTheme) {
+            AppState.activeThemeId = parseInt(savedTheme) || 50;
+        }
+
+        const savedLang = localStorage.getItem("litally_selected_lang");
+        if (savedLang) {
+            AppState.currentLang = savedLang;
+        }
+
+        const savedLen = localStorage.getItem("litally_response_length");
+        if (savedLen && ['short', 'medium', 'detailed'].includes(savedLen)) {
+            AppState.responseLength = savedLen;
+        }
+    }
+
+    function saveSessionsToStorage() {
+        try {
+            localStorage.setItem("litally_sessions", JSON.stringify(AppState.sessions));
+        } catch (e) {}
+    }
+
+    function getActiveSession() {
+        return AppState.sessions.find(s => s.id === AppState.activeSessionId) || AppState.sessions[0];
+    }
+
+    function createNewChatSession(render = true) {
+        const id = 'session_' + Date.now();
+        const newSession = {
+            id: id,
+            title: AppState.currentLang === 'ru' ? 'Новый диалог' : 'New Chat',
+            messages: [],
+            createdAt: new Date().toISOString()
+        };
+        AppState.sessions.unshift(newSession);
+        AppState.activeSessionId = id;
+        saveSessionsToStorage();
+
+        if (render) {
+            renderChatHistoryList();
+            renderChatMessages();
+            closeHintsBar();
+        }
+        return newSession;
+    }
+
+    function selectSession(sessionId) {
+        AppState.activeSessionId = sessionId;
+        renderChatHistoryList();
+        renderChatMessages();
+        closeHintsBar();
+    }
+
+    function deleteSession(sessionId, event) {
+        if (event) event.stopPropagation();
+        AppState.sessions = AppState.sessions.filter(s => s.id !== sessionId);
+        if (AppState.sessions.length === 0) {
+            createNewChatSession(false);
+        } else {
+            AppState.activeSessionId = AppState.sessions[0].id;
+        }
+        saveSessionsToStorage();
+        renderChatHistoryList();
+        renderChatMessages();
+    }
+
+    function renderChatHistoryList() {
+        const list = document.getElementById('chatHistoryList');
+        if (!list) return;
+
+        list.innerHTML = '';
+        AppState.sessions.forEach(s => {
+            const item = document.createElement('div');
+            item.className = 'history-session-item' + (s.id === AppState.activeSessionId ? ' active' : '');
+            item.onclick = () => selectSession(s.id);
+
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'history-session-title';
+            titleSpan.textContent = s.title || (AppState.currentLang === 'ru' ? 'Диалог' : 'Chat');
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'btn-delete-session';
+            delBtn.textContent = '✕';
+            delBtn.title = 'Delete Chat';
+            delBtn.onclick = (e) => deleteSession(s.id, e);
+
+            item.appendChild(titleSpan);
+            item.appendChild(delBtn);
+            list.appendChild(item);
+        });
+    }
+
+    // ── 4. THEMES & LOCALIZATION ──────────────────────────────────────────────
+    function applyTheme(themeId, playSound = false) {
+        const id = parseInt(themeId) || 50;
+        const theme = THEMES_CATALOG.find(t => t.id === id) || THEMES_CATALOG[0];
+        AppState.activeThemeId = theme.id;
+        try {
+            localStorage.setItem("litally_selected_theme_id", theme.id.toString());
+        } catch (e) {}
+
+        const root = document.documentElement;
+        root.style.setProperty('--bg-deep', theme.bg);
+        root.style.setProperty('--bg-surface', theme.surface);
+        root.style.setProperty('--bg-elevated', theme.elevated);
+        root.style.setProperty('--bg-glass', theme.cardBg);
+        root.style.setProperty('--gold-primary', theme.accent);
+        root.style.setProperty('--gold-bright', theme.accent);
+        root.style.setProperty('--gold-glow', theme.glow);
+        root.style.setProperty('--border-gold', theme.secondary);
+
+        const sel = document.getElementById('themeSelect');
+        if (sel) sel.value = theme.id;
+        if (playSound) playAudioChime(640);
+    }
+
+    function changeTheme(val) {
+        applyTheme(val, true);
+    }
+
+    function applyLanguage(langCode) {
+        AppState.currentLang = langCode || 'en';
+        try {
+            localStorage.setItem("litally_selected_lang", AppState.currentLang);
+        } catch (e) {}
+
+        const dict = getI18n();
+        const setEl = (id, txt) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = txt;
+        };
+
+        setEl('txtNewChat', dict.txtNewChat);
+        setEl('txtHistoryTitle', dict.txtHistoryTitle);
+        setEl('txtScrollBottom', dict.txtScrollBottom);
+        setEl('txtWelcomeHeroTitle', dict.welcomeHeroTitle);
+        setEl('txtWelcomeHeroSubtitle', dict.welcomeHeroSubtitle);
+        if (dict.txtLengthLabel) setEl('txtLengthLabel', dict.txtLengthLabel);
+        if (dict.txtLenShort) setEl('txtLenShort', dict.txtLenShort);
+        if (dict.txtLenMedium) setEl('txtLenMedium', dict.txtLenMedium);
+        if (dict.txtLenDetailed) setEl('txtLenDetailed', dict.txtLenDetailed);
+        if (dict.txtPrivacyBadge) setEl('txtPrivacyBadge', dict.txtPrivacyBadge);
+        if (dict.txtPrivacyModalTitle) setEl('txtPrivacyModalTitle', dict.txtPrivacyModalTitle);
+        if (dict.btnClearData) setEl('btnClearData', dict.btnClearData);
+        if (dict.btnClosePrivacy) setEl('btnClosePrivacy', dict.btnClosePrivacy);
+
+        const sel = document.getElementById('uiLangSelect');
+        if (sel) sel.value = AppState.currentLang;
+
+        renderChatMessages();
+    }
+
+    function changeLanguage(val) {
+        applyLanguage(val);
+    }
+
+    // ── 5. CHAT RENDERING (GEMINI CANVAS ARCHITECTURE) ────────────────────────
+    function renderChatMessages() {
+        const container = document.getElementById('chatScrollContainer');
+        if (!container) return;
+
+        const session = getActiveSession();
+        if (!session || session.messages.length === 0) {
+            renderWelcomeScreen(container);
+            return;
+        }
+
+        const dict = getI18n();
+        let html = '';
+
+        session.messages.forEach((msg, idx) => {
+            const isUser = (msg.role === 'user');
+            const authorName = isUser ? dict.authorYou : (msg.modelName || dict.authorBot);
+            const isSpeaking = (AppState.isSpeaking && AppState.speakingMsgIdx === idx);
+            const speakLabel = isSpeaking ? dict.btnTtsStop : dict.btnTtsSpeak;
+
+            if (isUser) {
+                html += 
+                    '<div class="msg-row msg-user-row" id="msgRow-' + idx + '">' +
+                        '<div class="msg-user-bubble" id="msgBubble-' + idx + '">' +
+                            parseMarkdown(msg.text) +
+                        '</div>' +
+                        '<div class="msg-actions-bar msg-user-actions">' +
+                            '<button type="button" class="msg-action-btn" onclick="editMessage(' + idx + ')" title="' + dict.btnEdit + '">✏️ ' + dict.btnEdit + '</button>' +
+                            '<button type="button" class="msg-action-btn" onclick="deleteMessage(' + idx + ')" title="' + dict.btnDelete + '">🗑️ ' + dict.btnDelete + '</button>' +
+                        '</div>' +
+                    '</div>';
+            } else {
+                html += 
+                    '<div class="msg-row msg-bot-row" id="msgRow-' + idx + '">' +
+                        '<div class="msg-bot-header">' +
+                            '<div class="msg-bot-avatar">✦</div>' +
+                            '<div class="msg-bot-title-group">' +
+                                '<span class="msg-bot-name">' + escapeHtml(authorName) + '</span>' +
+                                '<span class="msg-bot-badge">Apex Sovereign</span>' +
+                                (msg.time ? '<span class="msg-timestamp">' + escapeHtml(msg.time) + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="msg-bot-content" id="msgBubble-' + idx + '">' +
+                            parseMarkdown(msg.text) +
+                        '</div>' +
+                        '<div class="msg-actions-bar msg-bot-actions">' +
+                            '<button type="button" class="msg-action-btn btn-tts-toggle" id="btnTts-' + idx + '" onclick="speakMessage(' + idx + ')">' + speakLabel + '</button>' +
+                            '<button type="button" class="msg-action-btn" onclick="retryMessage(' + idx + ')" title="' + dict.btnRetry + '">🔄 ' + dict.btnRetry + '</button>' +
+                            '<button type="button" class="msg-action-btn" onclick="hintMessage(' + idx + ')" title="' + dict.btnHint + '">💡 ' + dict.btnHint + '</button>' +
+                            '<button type="button" class="msg-action-btn" onclick="copyMessageText(' + idx + ')">📋 ' + dict.btnCopy + '</button>' +
+                            '<button type="button" class="msg-action-btn" onclick="deleteMessage(' + idx + ')" title="' + dict.btnDelete + '">🗑️ ' + dict.btnDelete + '</button>' +
+                        '</div>' +
+                    '</div>';
+            }
+        });
+
+        container.innerHTML = html;
+        if (!AppState.userScrolledUp) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    function renderWelcomeScreen(container) {
+        const dict = getI18n();
+        container.innerHTML = 
+            '<div class="welcome-screen-wrap">' +
+                '<div class="welcome-hero-badge">✦ LITALLY.AI SOVEREIGN APEX</div>' +
+                '<h2 class="welcome-hero-title" id="txtWelcomeHeroTitle">' + dict.welcomeHeroTitle + '</h2>' +
+                '<p class="welcome-hero-subtitle" id="txtWelcomeHeroSubtitle">' + dict.welcomeHeroSubtitle + '</p>' +
+                '<div class="welcome-cards-grid">' +
+                    '<div class="welcome-feature-card" onclick="useQuickPrompt(\'Курица или яйцо? Разреши этот парадокс научно и философски.\')">' +
+                        '<div class="welcome-card-icon">🧠</div>' +
+                        '<h4>' + dict.card1Title + '</h4>' +
+                        '<p>' + dict.card1Desc + '</p>' +
+                    '</div>' +
+                    '<div class="welcome-feature-card" onclick="useQuickPrompt(\'Что тяжелее: 1 кг стали или 1 кг перьев? В чем физический подвох?\')">' +
+                        '<div class="welcome-card-icon">⚡</div>' +
+                        '<h4>' + dict.card2Title + '</h4>' +
+                        '<p>' + dict.card2Desc + '</p>' +
+                    '</div>' +
+                    '<div class="welcome-feature-card" onclick="useQuickPrompt(\'Напиши быстрый алгоритм поиска пути A* на Python с объяснением.\')">' +
+                        '<div class="welcome-card-icon">💻</div>' +
+                        '<h4>' + dict.card3Title + '</h4>' +
+                        '<p>' + dict.card3Desc + '</p>' +
+                    '</div>' +
+                    '<div class="welcome-feature-card" onclick="useQuickPrompt(\'В чем смысл жизни с точки зрения термодинамики и экзистенциализма?\')">' +
+                        '<div class="welcome-card-icon">🏛️</div>' +
+                        '<h4>' + dict.card4Title + '</h4>' +
+                        '<p>' + dict.card4Desc + '</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+    }
+
+    // ── 5.5. LENGTH & PRIVACY CONTROLS ───────────────────────────────────────
+    function setResponseLength(len) {
+        if (!['short', 'medium', 'detailed'].includes(len)) len = 'medium';
+        AppState.responseLength = len;
+        try {
+            localStorage.setItem('litally_response_length', len);
+        } catch (e) {}
+
+        document.querySelectorAll('.btn-length-toggle').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-len') === len);
+        });
+        playAudioChime(700);
+    }
+
+    function openPrivacyModal() {
+        const m = document.getElementById('privacyModalOverlay');
+        if (m) m.style.display = 'flex';
+        playAudioChime(650);
+    }
+
+    function closePrivacyModal(e) {
+        if (e && e.target !== e.currentTarget && e.target.id !== 'btnClosePrivacy' && !e.target.classList.contains('modal-close-btn')) return;
+        const m = document.getElementById('privacyModalOverlay');
+        if (m) m.style.display = 'none';
+    }
+
+    function clearAllUserData() {
+        const isRu = (AppState.currentLang === 'ru');
+        const confirmMsg = isRu ? 
+            "Вы уверены? Это действие навсегда сотрет все диалоги, сохраненный возраст и данные из памяти браузера." :
+            "Are you sure? This will permanently erase all conversations, saved age, and profile data from local storage.";
+        if (!confirm(confirmMsg)) return;
+
+        try {
+            localStorage.removeItem('litally_sessions');
+            localStorage.removeItem('litally_user_profile');
+            localStorage.removeItem('litally_response_length');
+        } catch (e) {}
+
+        AppState.sessions = [];
+        createNewChatSession(true);
+        const m = document.getElementById('privacyModalOverlay');
+        if (m) m.style.display = 'none';
+        alert(isRu ? "Все персональные данные и история успешно стерты!" : "All personal data and history erased successfully!");
+    }
+
+    // ── 6. ACTIONS (EDIT, DELETE, RETRY, HINTS, TTS) ──────────────────────────
+    function deleteMessage(msgIndex) {
+        const session = getActiveSession();
+        if (!session || !session.messages[msgIndex]) return;
+
+        if (session.messages[msgIndex].role === 'user' && session.messages[msgIndex + 1] && session.messages[msgIndex + 1].role === 'assistant') {
+            session.messages.splice(msgIndex, 2);
+        } else {
+            session.messages.splice(msgIndex, 1);
+        }
+
+        saveSessionsToStorage();
+        renderChatMessages();
+        playAudioChime(460);
+    }
+
+    function editMessage(msgIndex) {
+        const session = getActiveSession();
+        if (!session || !session.messages[msgIndex]) return;
+
+        const originalText = session.messages[msgIndex].text;
+        const input = document.getElementById('chatInput');
+        if (input) {
+            input.value = originalText;
+            input.focus();
+            input.style.height = 'auto';
+            input.style.height = Math.min(input.scrollHeight, 180) + 'px';
+        }
+
+        session.messages = session.messages.slice(0, msgIndex);
+        saveSessionsToStorage();
+        renderChatMessages();
+        playAudioChime(620);
+    }
+
+    function retryMessage(msgIndex) {
+        const session = getActiveSession();
+        if (!session || !session.messages[msgIndex]) return;
+
+        let userPrompt = "";
+        if (session.messages[msgIndex].role === 'assistant') {
+            for (let i = msgIndex - 1; i >= 0; i--) {
+                if (session.messages[i].role === 'user') {
+                    userPrompt = session.messages[i].text;
+                    break;
+                }
+            }
+            session.messages.splice(msgIndex, 1);
+        } else {
+            userPrompt = session.messages[msgIndex].text;
+            if (session.messages[msgIndex + 1] && session.messages[msgIndex + 1].role === 'assistant') {
+                session.messages.splice(msgIndex + 1, 1);
+            }
+        }
+
+        if (!userPrompt) return;
+        AppState.activeRetryCounts[userPrompt] = (AppState.activeRetryCounts[userPrompt] || 0) + 1;
+        saveSessionsToStorage();
+        renderChatMessages();
+        executeSendMessage(userPrompt, true);
+    }
+
+    function hintMessage(msgIndex) {
+        const session = getActiveSession();
+        let topicText = "";
+        if (session && session.messages[msgIndex]) {
+            topicText = session.messages[msgIndex].text;
+        }
+        showHints(topicText);
+    }
+
+    function showHints(context = "") {
+        const bar = document.getElementById('chatHintsBar');
+        const list = document.getElementById('hintsChipsList');
+        if (!bar || !list) return;
+
+        list.innerHTML = '';
+        const isRu = (AppState.currentLang === 'ru');
+        const defaultHints = isRu ? [
+            "Разложи этот парадокс по первым принципам",
+            "Приведи нетривиальный пример из реальной науки",
+            "В чем здесь главное когнитивное заблуждение?",
+            "Как проверить это утверждение на практике?"
+        ] : [
+            "Deconstruct this from first principles",
+            "Provide a concrete real-world counter-example",
+            "What is the underlying cognitive bias here?",
+            "How does this apply to decision making?"
+        ];
+
+        defaultHints.forEach(hintText => {
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'hint-chip';
+            chip.textContent = hintText;
+            chip.onclick = () => {
+                closeHintsBar();
+                useQuickPrompt(hintText);
+            };
+            list.appendChild(chip);
+        });
+
+        bar.style.display = 'block';
+        playAudioChime(780);
+    }
+
+    function closeHintsBar() {
+        const bar = document.getElementById('chatHintsBar');
+        if (bar) bar.style.display = 'none';
+    }
+
+    function copyMessageText(msgIndex) {
+        const session = getActiveSession();
+        if (!session || !session.messages[msgIndex]) return;
+        navigator.clipboard.writeText(session.messages[msgIndex].text).then(() => {
+            playAudioChime(840);
+        });
+    }
+
+    function copySnippet(btn) {
+        const block = btn.closest('.gemini-code-block');
+        const codeEl = block ? block.querySelector('pre code') : null;
+        if (!codeEl) return;
+        const codeText = codeEl.innerText || codeEl.textContent;
+        navigator.clipboard.writeText(codeText).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            setTimeout(() => { btn.innerHTML = orig; }, 2000);
+            playAudioChime(840);
+        });
+    }
+
+    function speakMessage(msgIndex) {
+        if (!('speechSynthesis' in window)) return;
+        const session = getActiveSession();
+        if (!session || !session.messages[msgIndex]) return;
+
+        if (AppState.isSpeaking && AppState.speakingMsgIdx === msgIndex) {
+            window.speechSynthesis.cancel();
+            AppState.isSpeaking = false;
+            AppState.speakingMsgIdx = null;
+            renderChatMessages();
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+        const text = session.messages[msgIndex].text.replace(/<[^>]+>/g, '').replace(/[#*`_~]/g, '');
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = AppState.currentLang === 'ru' ? 'ru-RU' : 'en-US';
+        utterance.rate = 1.05;
+
+        utterance.onstart = () => {
+            AppState.isSpeaking = true;
+            AppState.speakingMsgIdx = msgIndex;
+            renderChatMessages();
+        };
+
+        utterance.onend = utterance.onerror = () => {
+            AppState.isSpeaking = false;
+            AppState.speakingMsgIdx = null;
+            renderChatMessages();
+        };
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleMicInput() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+            alert("Speech recognition is not supported in this browser.");
+            return;
+        }
+
+        const btn = document.getElementById('btnMicInput');
+        const input = document.getElementById('chatInput');
+        const rec = new SpeechRec();
+        rec.lang = AppState.currentLang === 'ru' ? 'ru-RU' : 'en-US';
+        rec.interimResults = false;
+
+        if (btn) btn.classList.add('mic-active');
+        playAudioChime(600);
+
+        rec.onresult = (e) => {
+            const text = e.results[0][0].transcript;
+            if (input) {
+                input.value += (input.value ? ' ' : '') + text;
+                input.focus();
+            }
+            if (btn) btn.classList.remove('mic-active');
+            playAudioChime(800);
+        };
+
+        rec.onerror = rec.onend = () => {
+            if (btn) btn.classList.remove('mic-active');
+        };
+
+        rec.start();
+    }
+
+    function triggerWebSearchPrompt() {
+        const input = document.getElementById('chatInput');
+        if (!input) return;
+        const isRu = (AppState.currentLang === 'ru');
+        const prefix = isRu ? 'найди в интернете ' : 'search the web for ';
+        if (!input.value.startsWith(prefix)) {
+            input.value = prefix + input.value;
+        }
+        input.focus();
+        playAudioChime(720);
+    }
+
+    // ── 7. SEND MESSAGE & STREAMING ───────────────────────────────────────────
+    function handleChatSubmit(e) {
+        if (e) e.preventDefault();
+        const input = document.getElementById('chatInput');
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text || AppState.isStreaming) return;
+
+        input.value = '';
+        input.style.height = 'auto';
+        executeSendMessage(text);
+    }
+
+    function handleInputKeyDown(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleChatSubmit(e);
+        }
+    }
+
+    function useQuickPrompt(text) {
+        const input = document.getElementById('chatInput');
+        if (input) input.value = text;
+        executeSendMessage(text);
+    }
+
+    async function executeSendMessage(text, isRetry = false) {
+        if (AppState.isChatLocked) {
+            alert("Chat session is locked under 16+ safety guidelines. Click Unlock & Reset to proceed.");
+            return;
+        }
+
+        const session = getActiveSession();
+        if (!session) return;
+
+        if (session.messages.length === 0) {
+            session.title = text.slice(0, 26) + (text.length > 26 ? '…' : '');
+            renderChatHistoryList();
+        }
+
+        if (!isRetry) {
+            session.messages.push({
+                role: 'user',
+                text: text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+        }
+
+        const botIndex = session.messages.length;
+        session.messages.push({
+            role: 'assistant',
+            text: '…',
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            modelName: "Litally Sovereign Apex"
+        });
+
+        AppState.isStreaming = true;
+        renderChatMessages();
+        playAudioChime(520);
+
+        const retryCount = AppState.activeRetryCounts[text] || 0;
+
+        try {
+            UserMemory.detectAndStoreAge(text);
+
+            const resp = await fetch('/api/ai/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    lang: AppState.currentLang,
+                    turn_seed: retryCount,
+                    response_length: AppState.responseLength,
+                    user_profile: UserMemory.getProfile()
+                })
+            });
+            const data = await resp.json();
+
+            if (data.status === 'chat_locked') {
+                session.messages[botIndex].text = data.response;
+                renderChatMessages();
+                lockChatSession(data.response);
+                return;
+            }
+
+            const reply = data.response || LitallyVariationalEngine.generate(text, AppState.currentLang, retryCount, AppState.responseLength);
+            await streamWordsIntoBubble(botIndex, reply);
+        } catch (err) {
+            // Client-Side Variational Synthesis Fallback
+            const localReply = LitallyVariationalEngine.generate(text, AppState.currentLang, retryCount, AppState.responseLength);
+            await streamWordsIntoBubble(botIndex, localReply);
+        } finally {
+            AppState.isStreaming = false;
+            saveSessionsToStorage();
+        }
+    }
+
+    async function streamWordsIntoBubble(msgIndex, fullText) {
+        const session = getActiveSession();
+        const bubble = document.getElementById('msgBubble-' + msgIndex);
+        const container = document.getElementById('chatScrollContainer');
+        const words = fullText.split(' ');
+        let accumulated = '';
+
+        for (let i = 0; i < words.length; i++) {
+            accumulated += words[i] + (i < words.length - 1 ? ' ' : '');
+            session.messages[msgIndex].text = accumulated;
+            if (bubble) {
+                bubble.innerHTML = parseMarkdown(accumulated) + '<span class="lbo-ai-cursor">|</span>';
+            }
+            if (container && !AppState.userScrolledUp) {
+                container.scrollTop = container.scrollHeight;
+            }
+            await new Promise(r => setTimeout(r, 6));
+        }
+
+        if (bubble) {
+            bubble.innerHTML = parseMarkdown(accumulated);
+        }
+    }
+
+    // ── 8. MARKDOWN PARSER ────────────────────────────────────────────────────
+    function parseMarkdown(text) {
+        if (!text) return '';
+        let content = text.replace(/^> 💭[\s\S]*?\n\n/g, '');
+
+        const codeBlocks = [];
+        content = content.replace(/```([a-zA-Z0-9_-]*)\r?\n?([\s\S]*?)```/g, function(match, lang, code) {
+            const placeholder = '___LITALLY_CODE_' + codeBlocks.length + '___';
+            codeBlocks.push({
+                lang: lang.trim() || 'code',
+                code: escapeHtml(code.trim())
+            });
+            return placeholder;
+        });
+
+        content = escapeHtml(content);
+
+        content = content.replace(/^&gt;\s+(.*$)/gim, '<blockquote>$1</blockquote>');
+        content = content.replace(/^(\*{3,}|-{3,}|_{3,})$/gim, '<hr class="gemini-hr">');
+        content = content.replace(/^####\s+(.*$)/gim, '<h4>$1</h4>');
+        content = content.replace(/^###\s+(.*$)/gim, '<h3>$1</h3>');
+        content = content.replace(/^##\s+(.*$)/gim, '<h2>$1</h2>');
+        content = content.replace(/^#\s+(.*$)/gim, '<h1>$1</h1>');
+
+        content = content.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+        content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        content = content.replace(/\*([^\*\n]+)\*/g, '<em>$1</em>');
+        content = content.replace(/_([^_\n]+)_/g, '<em>$1</em>');
+        content = content.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+
+        const lines = content.split(/\r?\n/);
+        let inUl = false;
+        let inOl = false;
+        const processedLines = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const ulMatch = line.match(/^(\s*)[-\*•]\s+(.*)$/);
+            const olMatch = line.match(/^(\s*)\d+\.\s+(.*)$/);
+
+            if (ulMatch) {
+                if (inOl) { processedLines.push('</ol>'); inOl = false; }
+                if (!inUl) { processedLines.push('<ul class="gemini-ul">'); inUl = true; }
+                processedLines.push('<li>' + ulMatch[2] + '</li>');
+            } else if (olMatch) {
+                if (inUl) { processedLines.push('</ul>'); inUl = false; }
+                if (!inOl) { processedLines.push('<ol class="gemini-ol">'); inOl = true; }
+                processedLines.push('<li>' + olMatch[2] + '</li>');
+            } else {
+                if (inUl) { processedLines.push('</ul>'); inUl = false; }
+                if (inOl) { processedLines.push('</ol>'); inOl = false; }
+                processedLines.push(line);
+            }
+        }
+        if (inUl) processedLines.push('</ul>');
+        if (inOl) processedLines.push('</ol>');
+
+        content = processedLines.join('\n');
+
+        const paragraphs = content.split(/\n\s*\n/);
+        content = paragraphs.map(p => {
+            p = p.trim();
+            if (!p) return '';
+            if (/^<(h[1-4]|blockquote|ul|ol|hr|div)/i.test(p)) {
+                return p;
+            }
+            return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+        }).filter(Boolean).join('\n');
+
+        codeBlocks.forEach((block, idx) => {
+            const placeholder = '___LITALLY_CODE_' + idx + '___';
+            const blockHtml = 
+                '<div class="gemini-code-block">' +
+                    '<div class="gemini-code-header">' +
+                        '<span>' + escapeHtml(block.lang) + '</span>' +
+                        '<button type="button" class="btn-copy-code" onclick="copySnippet(this)">📋 Copy code</button>' +
+                    '</div>' +
+                    '<pre><code>' + block.code + '</code></pre>' +
+                '</div>';
+            content = content.replace(placeholder, blockHtml);
+        });
+
+        return content;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function playAudioChime(freq = 600) {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            gain.gain.setValueAtTime(0.04, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.16);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.17);
+        } catch (e) {}
+    }
+
+    // ── 9. LOCK & SCROLL ──────────────────────────────────────────────────────
+    function lockChatSession(warningText) {
+        AppState.isChatLocked = true;
+        const banner = document.getElementById('chatLockedBanner');
+        const desc = document.getElementById('txtLockBannerDesc');
+        if (desc) desc.textContent = warningText;
+        if (banner) banner.style.display = 'block';
+    }
+
+    function resetChatLock() {
+        AppState.isChatLocked = false;
+        const banner = document.getElementById('chatLockedBanner');
+        if (banner) banner.style.display = 'none';
+        createNewChatSession(true);
+    }
+
+    function scrollToBottomSmooth() {
+        const container = document.getElementById('chatScrollContainer');
+        if (container) {
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+        }
+        AppState.userScrolledUp = false;
+        const btn = document.getElementById('btnScrollToBottom');
+        if (btn) btn.style.display = 'none';
+    }
+
+    function toggleSidebar() {
+        const sb = document.getElementById('appSidebar');
+        if (sb) sb.classList.toggle('collapsed');
+    }
+
+    // ── 10. EXPOSE TO WINDOW ──────────────────────────────────────────────────
+    window.UserMemory = UserMemory;
+    window.LitallyVariationalEngine = LitallyVariationalEngine;
+    window.initStorage = initStorage;
+    window.setResponseLength = setResponseLength;
+    window.openPrivacyModal = openPrivacyModal;
+    window.closePrivacyModal = closePrivacyModal;
+    window.clearAllUserData = clearAllUserData;
+    window.createNewChatSession = createNewChatSession;
+    window.selectSession = selectSession;
+    window.deleteSession = deleteSession;
+    window.deleteMessage = deleteMessage;
+    window.editMessage = editMessage;
+    window.retryMessage = retryMessage;
+    window.hintMessage = hintMessage;
+    window.showHints = showHints;
+    window.closeHintsBar = closeHintsBar;
+    window.copyMessageText = copyMessageText;
+    window.copySnippet = copySnippet;
+    window.speakMessage = speakMessage;
+    window.toggleMicInput = toggleMicInput;
+    window.triggerWebSearchPrompt = triggerWebSearchPrompt;
+    window.applyTheme = applyTheme;
+    window.changeTheme = changeTheme;
+    window.applyLanguage = applyLanguage;
+    window.changeLanguage = changeLanguage;
+    window.handleChatSubmit = handleChatSubmit;
+    window.handleInputKeyDown = handleInputKeyDown;
+    window.useQuickPrompt = useQuickPrompt;
+    window.scrollToBottomSmooth = scrollToBottomSmooth;
+    window.toggleSidebar = toggleSidebar;
+    window.resetChatLock = resetChatLock;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initStorage();
+        applyTheme(AppState.activeThemeId, false);
+        applyLanguage(AppState.currentLang);
+        setResponseLength(AppState.responseLength);
+        renderChatHistoryList();
+        renderChatMessages();
+
+        const container = document.getElementById('chatScrollContainer');
+        if (container) {
+            container.addEventListener('scroll', function () {
+                const distance = container.scrollHeight - container.scrollTop - container.clientHeight;
+                AppState.userScrolledUp = (distance > 60);
+                const btn = document.getElementById('btnScrollToBottom');
+                if (btn) btn.style.display = AppState.userScrolledUp ? 'flex' : 'none';
+            });
+        }
+    });
+
+})(window, document);
+
+</script>
+<script>
+document.body.innerHTML += '<h1 id="ok">OK LOADED</h1>';
+</script></body></html>

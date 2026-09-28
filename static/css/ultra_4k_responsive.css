@@ -1,0 +1,1134 @@
+/* =============================================================================
+   LITALLY 4K ULTRA HD — UNIVERSAL RESPONSIVE & LIQUID GLASS ANIMATION ENGINE
+   File: static/css/ultra_4k_responsive.css
+   Author: Litally Sovereign Core 2026
+   Devices: 4K Smart TV (10-ft UI), iPhone 17 Pro Max, Older Androids, Tablets, 4K Desktops
+   Performance: 120 FPS ProMotion Hardware-Accelerated, Zero Layout Thrashing
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. GLOBAL SYSTEM VARIABLES & MULTI-DEVICE RESPONSIVE TOKENS
+   ----------------------------------------------------------------------------- */
+:root {
+    /* 4K Liquid Glass Core Variables */
+    --u4k-gold-core: #ffd700;
+    --u4k-gold-deep: #b8860b;
+    --u4k-gold-bright: #fff275;
+    --u4k-gold-glow: rgba(255, 215, 0, 0.45);
+    --u4k-gold-intense: rgba(255, 215, 0, 0.85);
+    --u4k-gold-subtle: rgba(255, 215, 0, 0.12);
+    --u4k-void-black: #040507;
+    --u4k-surface-black: #080a0f;
+    --u4k-card-surface: rgba(10, 13, 20, 0.76);
+    --u4k-card-border: rgba(255, 255, 255, 0.14);
+    --u4k-card-border-hover: rgba(255, 215, 0, 0.55);
+
+    /* Safe Area Insets (iPhone 17 Pro Max Dynamic Island & Home Bar) */
+    --u4k-safe-top: env(safe-area-inset-top, 24px);
+    --u4k-safe-bottom: env(safe-area-inset-bottom, 20px);
+    --u4k-safe-left: env(safe-area-inset-left, 16px);
+    --u4k-safe-right: env(safe-area-inset-right, 16px);
+
+    /* Device Scaling Multipliers */
+    --u4k-scale-font: 1;
+    --u4k-scale-touch: 48px;
+    --u4k-scale-radius: 18px;
+    --u4k-scale-gap: 24px;
+    --u4k-scale-padding: 32px;
+
+    /* 4K Glass Optics */
+    --u4k-glass-blur: blur(28px) saturate(190%);
+    --u4k-glass-specular: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.38) 0%,
+        rgba(255, 255, 255, 0.05) 35%,
+        rgba(255, 215, 0, 0.18) 100%
+    );
+    --u4k-glass-shadow: 
+        0 30px 80px -15px rgba(0, 0, 0, 0.95),
+        0 15px 30px -10px rgba(0, 0, 0, 0.7),
+        inset 0 1px 2px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 2px 0 rgba(0, 0, 0, 0.65);
+
+    /* Liquid Smooth Physics */
+    --u4k-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --u4k-ease-fluid: cubic-bezier(0.25, 0.8, 0.25, 1);
+    --u4k-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --u4k-duration-fast: 0.22s;
+    --u4k-duration-normal: 0.38s;
+    --u4k-duration-slow: 0.65s;
+}
+
+/* Display P3 Wide Color Gamut (iPhone 17 Pro Max, MacBook Liquid Retina XDR, OLED 4K) */
+@media (color-gamut: p3) {
+    :root {
+        --u4k-gold-core: color(display-p3 1 0.843 0);
+        --u4k-gold-bright: color(display-p3 1 0.96 0.45);
+        --u4k-gold-glow: color(display-p3 1 0.843 0 / 0.52);
+        --u4k-gold-intense: color(display-p3 1 0.843 0 / 0.92);
+        --u4k-void-black: color(display-p3 0.015 0.02 0.028);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   2. HARDWARE ACCELERATION & ZERO LAYOUT-THRASHING RESET
+   ----------------------------------------------------------------------------- */
+html, body {
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background-color: var(--u4k-void-black);
+}
+
+*, *::before, *::after {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Force Composite Layers for 120 FPS ProMotion */
+.custom-card,
+.top-bar,
+.portal-content-box,
+.btn-header-action,
+.gold-submit-btn,
+.theme-matrix-tile,
+.a11y-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* -----------------------------------------------------------------------------
+   3. 4K SMART TV & 10-FOOT UI ARCHITECTURE (2560px - 3840px+)
+   ----------------------------------------------------------------------------- */
+@media (min-width: 2560px) {
+    :root {
+        --u4k-scale-font: 1.35;
+        --u4k-scale-touch: 72px;
+        --u4k-scale-radius: 26px;
+        --u4k-scale-gap: 36px;
+        --u4k-scale-padding: 56px;
+    }
+
+    body {
+        font-size: 22px;
+    }
+
+    .main-container {
+        max-width: 2400px;
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    .main-site-title {
+        font-size: 9.5rem !important;
+        letter-spacing: 24px !important;
+    }
+
+    .hero-statement {
+        font-size: 1.75rem !important;
+        line-height: 2.3 !important;
+        max-width: 1400px !important;
+    }
+
+    .btn-header-action,
+    .btn-master-trigger {
+        font-size: 1.25rem !important;
+        padding: 18px 36px !important;
+        min-height: 68px !important;
+        border-radius: 36px !important;
+    }
+
+    .gold-submit-btn {
+        font-size: 1.35rem !important;
+        padding: 24px 56px !important;
+        min-height: 76px !important;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)) !important;
+        gap: 36px !important;
+    }
+
+    .custom-card {
+        padding: 44px !important;
+        border-radius: 28px !important;
+    }
+
+    .custom-card h3 {
+        font-size: 1.85rem !important;
+    }
+
+    .custom-card p {
+        font-size: 1.25rem !important;
+        line-height: 2 !important;
+    }
+
+    .portal-content-box {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+
+    .themes-matrix-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 20px !important;
+    }
+
+    .theme-matrix-tile {
+        padding: 22px 28px !important;
+        font-size: 1.2rem !important;
+    }
+
+    .a11y-matrix-grid {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+        gap: 24px !important;
+    }
+
+    .a11y-card {
+        min-height: 190px !important;
+        padding: 28px !important;
+    }
+
+    .a11y-card-title {
+        font-size: 1.35rem !important;
+    }
+
+    .a11y-card-desc {
+        font-size: 1.05rem !important;
+    }
+}
+
+/* TV Remote Control (D-Pad) Spatial Focus Ring */
+body.device-tv *:focus,
+body.device-tv *:focus-visible,
+*:focus-visible {
+    outline: 4px solid var(--u4k-gold-core) !important;
+    outline-offset: 6px !important;
+    box-shadow: 
+        0 0 35px var(--u4k-gold-glow),
+        0 0 70px var(--u4k-gold-intense),
+        inset 0 0 15px rgba(255, 215, 0, 0.25) !important;
+    transform: scale(1.035) translateZ(0) !important;
+    transition: transform 0.2s var(--u4k-ease-spring), box-shadow 0.2s ease !important;
+    z-index: 999 !important;
+}
+
+body.device-tv .btn-header-action:focus,
+body.device-tv .gold-submit-btn:focus,
+body.device-tv .custom-card:focus,
+body.device-tv .theme-matrix-tile:focus,
+body.device-tv .a11y-card:focus {
+    border-color: var(--u4k-gold-bright) !important;
+    background: rgba(30, 36, 52, 0.95) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   4. IPHONE 17 PRO MAX & MODERN IOS (DYNAMIC ISLAND & SAFE INSETS)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    :root {
+        --u4k-scale-font: 0.92;
+        --u4k-scale-touch: 52px;
+        --u4k-scale-radius: 16px;
+        --u4k-scale-gap: 16px;
+        --u4k-scale-padding: 18px;
+    }
+
+    /* Top Bar Dynamic Island Compensation */
+    .top-bar {
+        padding-top: max(16px, env(safe-area-inset-top)) !important;
+        padding-bottom: 12px !important;
+        padding-left: max(16px, env(safe-area-inset-left)) !important;
+        padding-right: max(16px, env(safe-area-inset-right)) !important;
+        height: auto !important;
+        min-height: calc(64px + env(safe-area-inset-top)) !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .top-bar-controls {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+
+    .btn-header-action,
+    .btn-master-trigger {
+        padding: 9px 14px !important;
+        font-size: 0.78rem !important;
+        min-height: 42px !important;
+    }
+
+    /* Main Container & Hero Spacing */
+    .main-container {
+        padding-left: max(14px, env(safe-area-inset-left)) !important;
+        padding-right: max(14px, env(safe-area-inset-right)) !important;
+        padding-bottom: max(35px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .hero-section {
+        padding-top: calc(95px + env(safe-area-inset-top)) !important;
+        padding-bottom: 40px !important;
+    }
+
+    .main-site-title {
+        font-size: 3.4rem !important;
+        letter-spacing: 6px !important;
+    }
+
+    .hero-statement {
+        font-size: 0.95rem !important;
+        line-height: 1.85 !important;
+        padding: 0 4px !important;
+    }
+
+    .hero-quick-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+
+    .hero-quick-actions .gold-submit-btn,
+    .hero-quick-actions .btn-header-action {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Modals & Portals on iPhone & Mobile */
+    .portal-modal-overlay {
+        padding: 0 !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        align-items: center !important;
+    }
+
+    .portal-content-box {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+
+    .portal-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+    }
+
+    .portal-header > div:last-child {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+
+    .themes-search-input {
+        width: 100% !important;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .custom-card {
+        padding: 22px 18px !important;
+    }
+
+    .bio-wrapper {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 24px 18px !important;
+        gap: 24px !important;
+    }
+
+    .bio-avatar {
+        width: 160px !important;
+        height: 160px !important;
+        margin: 0 auto !important;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .contact-form-box {
+        padding: 24px 16px !important;
+    }
+
+    /* Footer clearance on mobile */
+    .site-footer {
+        padding-bottom: max(30px, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   5. TABLETS & FOLDABLE DISPLAYS (481px - 1024px)
+   ----------------------------------------------------------------------------- */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .main-container {
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+
+    .main-site-title {
+        font-size: 5rem;
+        letter-spacing: 12px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    .portal-content-box {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+
+    .bio-wrapper {
+        padding: 36px;
+        gap: 32px;
+    }
+
+    .bio-avatar {
+        width: 200px;
+        height: 200px;
+    }
+
+    .a11y-matrix-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .themes-matrix-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* Foldable Dual-Screen Awareness */
+@media (horizontal-viewport-segments: 2) {
+    .main-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .hero-section {
+        grid-column: span 2;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   6. OLDER ANDROID & LOW-END GPU FALLBACKS
+   ----------------------------------------------------------------------------- */
+/* Graceful degradation for browsers lacking backdrop-filter acceleration */
+@supports not (backdrop-filter: blur(10px)) {
+    .top-bar,
+    .custom-card,
+    .portal-content-box,
+    .admin-dashboard-box,
+    .bio-wrapper,
+    .contact-form-box,
+    .master-dropdown-menu {
+        background: rgba(8, 10, 15, 0.96) !important;
+        border: 1px solid rgba(255, 215, 0, 0.28) !important;
+    }
+}
+
+/* Low-power / Battery-saver / Budget Device class triggered by JS */
+body.device-low-end #ambientCanvas {
+    opacity: 0.35 !important;
+}
+
+body.device-low-end .cursor-spotlight {
+    display: none !important;
+}
+
+body.device-low-end * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+body.device-low-end .custom-card,
+body.device-low-end .portal-content-box,
+body.device-low-end .top-bar {
+    background: #090c12 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   7. 4K ULTRA HD LIQUID GLASS SHADERS & MICRO-INTERACTIONS
+   ----------------------------------------------------------------------------- */
+
+/* Specular Light Refraction across cards */
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--u4k-card-border);
+    background: var(--u4k-card-surface);
+    backdrop-filter: var(--u4k-glass-blur);
+    -webkit-backdrop-filter: var(--u4k-glass-blur);
+    box-shadow: var(--u4k-glass-shadow);
+    transition: transform var(--u4k-duration-normal) var(--u4k-ease-spring),
+                border-color var(--u4k-duration-normal) ease,
+                box-shadow var(--u4k-duration-normal) ease;
+}
+
+.custom-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: var(--u4k-glass-specular);
+    transform: skewX(-22deg);
+    pointer-events: none;
+    transition: left 0.85s var(--u4k-ease-fluid);
+    z-index: 1;
+}
+
+.custom-card:hover {
+    transform: translateY(-7px) scale(1.015);
+    border-color: var(--u4k-card-border-hover);
+    box-shadow: 
+        0 40px 100px -15px rgba(0, 0, 0, 0.98),
+        0 0 35px var(--u4k-gold-glow),
+        inset 0 1px 2px 0 rgba(255, 255, 255, 0.45);
+}
+
+.custom-card:hover::before {
+    left: 170%;
+}
+
+/* Holographic Master Title - Steady Sovereign Gold */
+.main-site-title {
+    position: relative;
+    color: #ffd700 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #ffd700 25%, #fff275 50%, #d4af37 75%, #ffd700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Pulsing Status Beacon */
+.status-beacon {
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.3), inset 0 0 10px rgba(0, 229, 255, 0.2);
+    animation: u4kBeaconBreathe 3s infinite ease-in-out;
+}
+
+@keyframes u4kBeaconBreathe {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 229, 255, 0.25); }
+    50%      { transform: scale(1.02); box-shadow: 0 0 45px rgba(0, 229, 255, 0.6); }
+}
+
+/* Magnetic Button Ripple Burst */
+.u4k-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+    transform: scale(0);
+    animation: u4kRipplePop 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes u4kRipplePop {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Top Bar Liquid Glass Elevation on Scroll */
+.top-bar.scrolled {
+    background: rgba(5, 6, 10, 0.88) !important;
+    backdrop-filter: blur(32px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.35) !important;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Modal Window 4K Pop Animation */
+.portal-modal-overlay.active .portal-content-box {
+    animation: u4kModalOpen 0.42s var(--u4k-ease-spring) forwards;
+}
+
+@keyframes u4kModalOpen {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   8. ULTRA 4K PERFORMANCE ACCELERATION UTILITIES
+   ----------------------------------------------------------------------------- */
+.gpu-accel {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.no-select {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Smooth Touch-Scroll on iOS */
+.touch-scroll-y {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+/* Reduced Motion Override for Vestibular Protection */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .main-site-title {
+        animation: none !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   9. 32:9 ULTRAWIDE & MULTI-MONITOR PANORAMIC EXPANSION
+   ----------------------------------------------------------------------------- */
+@media (min-aspect-ratio: 21/9) {
+    .main-container {
+        max-width: 2800px !important;
+        padding-left: 120px !important;
+        padding-right: 120px !important;
+    }
+
+    .hero-section {
+        padding-top: 140px !important;
+        padding-bottom: 100px !important;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 32px !important;
+    }
+
+    .portal-content-box {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+
+    .a11y-matrix-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+
+    .themes-matrix-grid {
+        grid-template-columns: repeat(6, 1fr) !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   10. IPHONE 17 PRO MAX DYNAMIC ISLAND FLOATING PILL HUD
+   ----------------------------------------------------------------------------- */
+.u4k-dynamic-island-hud {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.94);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 28px;
+    padding: 6px 18px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    z-index: 99999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(25px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.device-ios .u4k-dynamic-island-hud {
+    display: flex;
+}
+
+.u4k-dynamic-island-pill {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00e5ff;
+    box-shadow: 0 0 10px #00e5ff;
+    animation: u4kIslandPulse 2s infinite ease-in-out;
+}
+
+@keyframes u4kIslandPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50%      { transform: scale(1.3); opacity: 1; }
+}
+
+.u4k-dynamic-island-text {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #ffd700;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* -----------------------------------------------------------------------------
+   11. 4K RAY-TRACED REFRACTION SHADERS & SPECULAR WAVES
+   ----------------------------------------------------------------------------- */
+.u4k-specular-sheen {
+    position: relative;
+    overflow: hidden;
+}
+
+.u4k-specular-sheen::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 215, 0, 0.08) 25%,
+        transparent 60%
+    );
+    pointer-events: none;
+    transform: rotate(35deg);
+    transition: transform 0.8s ease-out, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.u4k-specular-sheen:hover::after {
+    opacity: 1;
+    transform: rotate(35deg) translate(20%, 20%);
+}
+
+/* 4K Liquid Glass Border Glow */
+.custom-card,
+.portal-content-box,
+.btn-master-trigger,
+.a11y-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.custom-card:hover {
+    border-color: rgba(255, 215, 0, 0.65) !important;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.95),
+        0 0 35px rgba(255, 215, 0, 0.35),
+        inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   12. HIGH-FRAMERATE PROMOTION (120HZ/144HZ/240HZ GAMING & APPLE PROMOTION)
+   ----------------------------------------------------------------------------- */
+@media (update: fast) {
+    * {
+        scroll-behavior: smooth;
+    }
+
+    .custom-card,
+    .btn-header-action,
+    .gold-submit-btn,
+    .theme-matrix-tile,
+    .a11y-card {
+        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   13. VINTAGE OLD ANDROID (ANDROID 4.4 - 9.0) ULTRA-LIGHTWEIGHT MATRIX
+   ----------------------------------------------------------------------------- */
+body.device-low-end {
+    --glass-blur: none !important;
+    background-color: #050608 !important;
+    background-image: none !important;
+}
+
+body.device-low-end .top-bar,
+body.device-low-end .custom-card,
+body.device-low-end .portal-content-box,
+body.device-low-end .a11y-card,
+body.device-low-end .theme-matrix-tile {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #0a0d14 !important;
+    border: 1px solid #242b3d !important;
+    box-shadow: none !important;
+}
+
+body.device-low-end .custom-card::before,
+body.device-low-end .gold-submit-btn::before {
+    display: none !important;
+}
+
+body.device-low-end .main-site-title {
+    animation: none !important;
+    color: #ffd700 !important;
+    -webkit-text-fill-color: #ffd700 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   14. WEARABLE & MINI-SCREEN SMARTWATCH VIEWPORT (<340px)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 340px) {
+    .main-site-title {
+        font-size: 2.2rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .hero-statement {
+        font-size: 0.82rem !important;
+        line-height: 1.6 !important;
+    }
+
+    .btn-header-action,
+    .btn-master-trigger {
+        font-size: 0.7rem !important;
+        padding: 6px 10px !important;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .custom-card {
+        padding: 16px !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   15. FALLING PLATES ("ПАДАЮЩИЕ ПЛАШКИ") & PORTALS (PLANS, ABOUT, FAQ)
+   ----------------------------------------------------------------------------- */
+.portal-modal-overlay.active .portal-content-box.falling-plate {
+    animation: u4kFallingPlate 0.54s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes u4kFallingPlate {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    65% {
+        opacity: 1;
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Plans & Roadmap Timeline */
+.plans-roadmap-wrapper {
+    max-width: 1060px;
+    margin: 0 auto;
+}
+
+.plans-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.plan-card {
+    background: rgba(14, 18, 28, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 26px 30px;
+    backdrop-filter: blur(24px);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.plan-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-color);
+    opacity: 0.4;
+    transition: var(--transition-smooth);
+}
+
+.plan-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-color);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px var(--glow-subtle);
+}
+
+.plan-card:hover::before {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--accent-color);
+}
+
+.plan-card.highlight-active {
+    border-color: rgba(255, 215, 0, 0.4);
+    background: rgba(20, 24, 38, 0.85);
+}
+
+.plan-card.highlight-active::before {
+    opacity: 1;
+    background: linear-gradient(to bottom, #ffd700, #ff9100);
+    box-shadow: 0 0 20px #ffd700;
+}
+
+.plan-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.plan-badge-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.plan-quarter {
+    font-family: var(--font-decorative);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+}
+
+.plan-status-pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.plan-status-pill.badge-active {
+    background: rgba(46, 204, 113, 0.18);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.35);
+}
+
+.plan-status-pill.badge-dev {
+    background: rgba(0, 229, 255, 0.16);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+.plan-status-pill.badge-planned {
+    background: rgba(212, 175, 55, 0.14);
+    color: #ffd700;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.plan-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 10px var(--glow-color));
+}
+
+.plan-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.28rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.plan-card-desc {
+    color: #c4c7d9;
+    font-size: 0.96rem;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+.plan-features-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.plan-feature-tag {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #d6d9e8;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* About Us Portal */
+.about-portal-wrapper {
+    max-width: 1060px;
+    margin: 0 auto;
+}
+
+.about-hero-banner {
+    text-align: center;
+    margin-bottom: 35px;
+    padding: 30px 20px;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 75%);
+    border-radius: 20px;
+}
+
+.about-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.about-pillar-card {
+    background: rgba(14, 18, 28, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 24px 20px;
+    transition: var(--transition-smooth);
+}
+
+.about-pillar-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-subtle);
+}
+
+.about-pillar-icon {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+}
+
+.about-story-box {
+    background: rgba(14, 18, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 20px;
+    padding: 34px 30px;
+    margin-bottom: 25px;
+}
+
+.about-author-showcase {
+    display: flex;
+    gap: 26px;
+    align-items: flex-start;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+    .about-author-showcase {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.about-author-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 25px var(--glow-color);
+    flex-shrink: 0;
+}
+
+/* FAQ Accordion Portal */
+.faq-portal-wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faq-accordion-item {
+    background: rgba(14, 18, 28, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.faq-accordion-item:hover,
+.faq-accordion-item.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px var(--glow-subtle);
+}
+
+.faq-question-btn {
+    width: 100%;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.faq-question-btn:hover {
+    color: var(--accent-color);
+}
+
+.faq-toggle-icon {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-answer-pane {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+    padding: 0 24px;
+    color: #c4c7d8;
+    font-size: 0.98rem;
+    line-height: 1.9;
+}
+
+.faq-answer-pane.open {
+    max-height: 400px;
+    padding: 0 24px 22px;
+}
+
+

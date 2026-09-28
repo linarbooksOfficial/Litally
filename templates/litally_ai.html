@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Litally.ai — Sovereign Dynamic Intelligence. Intelligent, adaptive conversational AI for deep reasoning, science, and creative discovery.">
+    <title>Litally.ai | Sovereign Quantum Intelligence</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Litally.ai Stylesheet -->
+    <link rel="stylesheet" href="/static/css/litally_ai_standalone.css">
+    <!-- Google Apex Ultra Material Design 3 Design System -->
+    <link rel="stylesheet" href="/static/css/google_apex_design.css">
+    <!-- Litally 4K Photorealism Studio Matrix -->
+    <link rel="stylesheet" href="/static/css/litally_photorealism_matrix.css">
+    <!-- Litally Sovereign Visual Matrix Obsidian Edition -->
+    <link rel="stylesheet" href="/static/css/litally_sovereign_visual_matrix.css">
+    <!-- Litally Hyper-Graphics Quantum Visual Engine 4K/8K Stylesheet -->
+    <link rel="stylesheet" href="/static/css/litally_hyper_graphics_engine.css">
+    <style>
+        :root, html, body.litally-ai-body {
+            background-color: #04060d !important;
+            color: #f3f4f6;
+        }
+        .app-main {
+            background: radial-gradient(ellipse at 50% 0%, #0d162d 0%, #060913 55%, #020306 100%) !important;
+            position: relative;
+        }
+        .app-sidebar {
+            background: rgba(6, 8, 16, 0.98) !important;
+            border-right: 1px solid rgba(212, 175, 55, 0.22) !important;
+            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body class="litally-ai-body">
+
+    <div class="app-layout">
+        
+        <!-- Mobile Sidebar Backdrop -->
+        <div id="sidebarMobileBackdrop" class="sidebar-mobile-backdrop" onclick="toggleSidebar()"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <a href="/" class="brand-link" title="Litally Sanctuary">
+                    <span class="brand-sparkle">📖</span>
+                    <span class="brand-name">Litally</span>
+                </a>
+                <button type="button" class="sidebar-collapse-btn" id="btnCollapseSidebar" onclick="toggleSidebar()" title="Свернуть боковую панель">◀</button>
+            </div>
+
+            <div class="sidebar-new-chat-wrap" style="display: flex; gap: 8px;">
+                <button type="button" class="btn-new-chat" id="btnNewChatSession" onclick="createNewChatSession()" style="flex: 1;">
+                    <span class="icon">✏️</span>
+                    <span id="txtNewChat">Новый диалог</span>
+                </button>
+                <button type="button" class="btn-new-chat" onclick="openAuthModal()" title="Новый вход / Профиль" style="width: auto; padding: 0 12px; background: rgba(255,215,0,0.12); border-color: rgba(255,215,0,0.35);">
+                    <span>👤 Вход</span>
+                </button>
+            </div>
+
+            <div class="sidebar-quick-nav">
+                <button type="button" class="sidebar-nav-item" onclick="focusChatSearch()" id="btnSearchChats">
+                    <span class="nav-icon">🔍</span>
+                    <span id="txtSearchChats">Поиск по чатам</span>
+                </button>
+                <button type="button" class="sidebar-nav-item" onclick="openSettingsModal()" id="btnSidebarSettings">
+                    <span class="nav-icon">⚙️</span>
+                    <span id="txtSidebarSettings">Настройки</span>
+                </button>
+                <a href="/video-ai" class="sidebar-nav-item" title="Litdeo 4K Video Studio" style="text-decoration:none; color: #c084fc;">
+                    <span class="nav-icon">🎬</span>
+                    <span>Litdeo Video AI ↗</span>
+                </a>
+                <a href="/trend-spy" target="_blank" class="sidebar-nav-item" title="Trend Spy AI | Viral Radar" style="text-decoration:none; color: #fda4af;">
+                    <span class="nav-icon">🔥</span>
+                    <span>Trend Spy AI ↗</span>
+                </a>
+            </div>
+
+            <!-- CHAT CONVERSATIONS LIST -->
+            <div class="sidebar-nav-sections">
+                <div class="nav-section-title" id="txtHistoryTitle">Недавние диалоги</div>
+                <div class="chat-history-list" id="chatHistoryList">
+                    <!-- Populated dynamically by engine.js -->
+                </div>
+            </div>
+
+            <!-- SIDEBAR FOOTER: USER PROFILE -->
+            <div class="sidebar-footer">
+                <div class="sidebar-user-profile" id="userProfilePill" onclick="openSettingsModal()" title="Профиль и настройки">
+                    <div class="profile-avatar-circle" id="profileAvatarCircle">
+                        <span id="profileAvatarInitials">👤</span>
+                    </div>
+                    <div class="profile-meta">
+                        <span class="profile-name" id="sidebarProfileName">Пользователь</span>
+                    </div>
+                    <button type="button" class="btn-profile-settings" onclick="openSettingsModal(); event.stopPropagation();" title="Настройки">⚙️</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="app-main" id="appMain">
+            
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <div class="topbar-left">
+                    <button type="button" class="sidebar-mobile-toggle" id="btnMobileSidebar" onclick="toggleSidebar()">☰</button>
+                    <div class="topbar-model-badge" onclick="openAiModeModal()" title="Переключить режим ИИ">
+                        <span class="model-sparkle">📖</span>
+                        <span class="model-name-text" id="topbarModelName">Литалли 2.0 (быстрый)</span>
+                        <span class="model-chevron">ˇ</span>
+                    </div>
+                    <button type="button" class="topbar-btn btn-topbar-new-chat" onclick="createNewChatSession()" title="Начать заново / Новый диалог">
+                        <span>➕ Новый диалог</span>
+                    </button>
+                    <button type="button" class="topbar-btn btn-topbar-auth" onclick="openAuthModal()" title="Войти / Сменить пользователя" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.12); border-color: rgba(255,215,0,0.35); color: #ffd700;">
+                        <span>👤 Новый вход</span>
+                    </button>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Session 60 Message Limit Counter -->
+                    <div class="topbar-pill-wrap" id="sessionMsgCounterWrap" style="background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.4); color: #fef08a; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;" title="Лимит сообщений на сессию: 60">
+                        <span>💬</span> <span id="msgCountDisplay">0 / 60</span>
+                    </div>
+                    <!-- 100 Themes Dropdown -->
+                    <div class="topbar-pill-wrap" title="100 тем оформления (Казахстан, Соверен, Драгоценности, Космос, Студия)">
+                        <span class="pill-icon">🎨</span>
+                        <select id="themeSelect" class="topbar-theme-dropdown" onchange="changeTheme(parseInt(this.value))">
+                            <!-- Populated with 100 themes -->
+                        </select>
+                    </div>
+
+                    <!-- 100 Languages Dropdown -->
+                    <div class="topbar-pill-wrap" title="100 мировых языков">
+                        <span class="pill-icon">🌐</span>
+                        <select id="uiLangSelect" class="topbar-lang-dropdown" onchange="changeLanguage(this.value)">
+                            <!-- Populated with 100 languages -->
+                        </select>
+                    </div>
+
+                    <!-- Audio FX Toggle -->
+                    <button type="button" id="btnSoundToggle" class="topbar-btn btn-sound-toggle" onclick="toggleSoundFX()" title="Звуковые эффекты">
+                        <span id="soundToggleIcon">🔊</span>
+                    </button>
+
+                    <!-- Settings Button -->
+                    <button type="button" class="topbar-btn" onclick="openSettingsModal()" title="Настройки" id="btnTopbarSettings">
+                        <span>⚙️</span>
+                    </button>
+
+                    <!-- Return to Main Sanctuary -->
+                    <a href="/" class="topbar-btn" title="В Святилище книг" id="btnTopbarHome">
+                        <span>🏛️</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- AMBIENT AURORA LIGHTING ORBS -->
+            <div class="ambient-aurora-wrap" aria-hidden="true">
+                <div class="aurora-orb aurora-orb-1"></div>
+                <div class="aurora-orb aurora-orb-2"></div>
+                <div class="aurora-orb aurora-orb-3"></div>
+            </div>
+
+            <!-- CHAT VIEWPORT -->
+            <div class="chat-viewport-wrap" id="chatViewportWrap">
+                <div class="chat-scroll-container" id="chatScrollContainer">
+                    <!-- Rendered Messages & Welcome Screen -->
+                </div>
+
+                <!-- Floating Scroll-to-Bottom Button -->
+                <button type="button" id="btnScrollToBottom" class="btn-scroll-bottom" onclick="scrollToBottomSmooth()" style="display:none;" title="Прокрутить к последнему сообщению">
+                    <span id="txtScrollBottom">⬇️ Новое сообщение</span>
+                </button>
+
+                <!-- Safety Banner -->
+                <div id="chatLockedBanner" class="chat-locked-banner" style="display:none;">
+                    <div class="lock-banner-content">
+                        <span class="lock-icon">⛔</span>
+                        <div class="lock-text-group">
+                            <strong id="txtLockBannerTitle">Сессия заблокирована</strong>
+                            <p id="txtLockBannerDesc">Диалог остановлен согласно правилам безопасности.</p>
+                        </div>
+                        <button type="button" class="btn-unlock-chat" id="btnUnlockChat" onclick="resetChatLock()">🔓 Разблокировать и начать заново</button>
+                    </div>
+                </div>
+
+                <!-- DOCKED INPUT BAR -->
+                <div class="chat-bottom-dock">
+                    <!-- Contextual Hints Bar -->
+                    <div class="chat-hints-bar" id="chatHintsBar" style="display:none;">
+                        <div class="hints-header">
+                            <span class="hints-title" id="txtHintsLabel">💡 Предложенные темы:</span>
+                            <button type="button" class="btn-close-hints" onclick="closeHintsBar()" title="Закрыть подсказки (Esc)" aria-label="Закрыть подсказки">✕</button>
+                        </div>
+                        <div class="hints-chips-scroll" id="hintsChipsList"></div>
+                    </div>
+
+                    <!-- Quick Prompt Chips -->
+                    <div class="chat-quick-chips" id="quickChipsBar"></div>
+
+                    <!-- Dynamic Controls Bar: Length, Memory Mode & Privacy -->
+                    <div class="chat-controls-bar">
+                        <div class="length-selector-group" title="Длина ответа">
+                            <span class="length-label" id="txtLengthLabel">📏 Ответ:</span>
+                            <button type="button" class="btn-length-toggle" data-len="short" onclick="setResponseLength('short')" id="btnLenShort">⚡ <span id="txtLenShort">Кратко</span></button>
+                            <button type="button" class="btn-length-toggle active" data-len="medium" onclick="setResponseLength('medium')" id="btnLenMedium">⚖️ <span id="txtLenMedium">Средне</span></button>
+                            <button type="button" class="btn-length-toggle" data-len="detailed" onclick="setResponseLength('detailed')" id="btnLenDetailed">📖 <span id="txtLenDetailed">Подробно</span></button>
+                        </div>
+                        <button type="button" class="btn-memory-toggle" id="btnToggleCrossMemory" onclick="toggleCrossChatMemory()" title="Сквозная память">
+                            <span id="memoryToggleIcon">🧠</span> <span id="txtMemoryToggle">Память: Сквозная</span>
+                        </button>
+                        <button type="button" class="btn-google-permission active" id="btnToggleGoogleSearch" onclick="toggleGoogleSearchPermission()" title="Разрешить поиск в Google для сленга и неизвестных слов (Рекомендуемо)">
+                            <span class="google-icon">🌐</span> <span id="txtGooglePermissionLabel">Поиск в Google: <b>Разрешено (Рекомендуемо)</b></span>
+                        </button>
+                        <button type="button" class="btn-privacy-badge" onclick="triggerTrillionImagePrompt()" id="btnTrillionChatPrompt" title="Сгенерировать случайный промпт из 129 квадриллионов вариантов!" style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(236,72,153,0.4); color: #f472b6;">
+                            🎲 <span>1 Триллион Идей</span>
+                        </button>
+                        <button type="button" class="btn-privacy-badge" onclick="openPrivacyModal()" id="btnOpenPrivacyModal" title="Конфиденциальность">
+                            🔒 <span id="txtPrivacyBadge">Конфиденциальность</span>
+                        </button>
+                    </div>
+
+                    <!-- DRAG & DROP OVERLAY -->
+                    <div id="chatDropzone" class="chat-dropzone-overlay" style="display:none;">
+                        <div class="dropzone-box">
+                            <span class="dropzone-icon">📥</span>
+                            <h4 id="txtDropzoneTitle">Перетащите файлы для мультимодального анализа</h4>
+                            <p id="txtDropzoneSubtitle">Изображения, фотографии, видео, презентации (PPTX/PDF), книги и документы (PDF/EPUB/DOCX/TXT)</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-dock">
+                        <!-- ATTACHED FILES TRAY -->
+                        <div id="attachedFilesTray" class="attached-files-tray" style="display:none;"></div>
+
+                        <form id="chatForm" onsubmit="handleChatSubmit(event)">
+                            <div class="input-glass-box">
+                                <button type="button" class="btn-input-attach" id="btnAttachFile" onclick="document.getElementById('mediaGalleryInput').click()" title="Добавить файлы, книги или изображения (+)">
+                                    <span class="attach-plus-icon">+</span>
+                                </button>
+
+                                <textarea id="chatInput" class="chat-textarea" rows="1" placeholder="Спросите Litally..." onkeydown="handleInputKeyDown(event)" oninput="handleChatInputChange(this)"></textarea>
+
+                                <button type="button" class="btn-input-clear" id="btnChatInputClear" onclick="clearChatInput()" style="display:none;" title="Стереть текст">✕</button>
+
+                                <input type="file" id="mediaGalleryInput" accept="image/*,video/*,.pdf,.pptx,.ppt,.odp,.epub,.fb2,.txt,.docx,.doc,.mobi,.md" multiple onchange="handleGalleryUpload(event)" style="display:none;" />
+
+                                <div class="input-model-pill" onclick="openAiModeModal()" title="Выбор режима ИИ">
+                                    <span id="txtInputModelName">Литалли 2.0 (быстрый)</span>
+                                    <span class="pill-chevron">ˇ</span>
+                                </div>
+
+                                <button type="button" class="btn-input-web" id="btnWebSearch" onclick="triggerWebSearchPrompt()" title="Поиск в интернете">
+                                    <span>🌐</span>
+                                </button>
+
+                                <button type="button" class="btn-input-mic" id="btnMicInput" onclick="toggleMicInput()" title="Голосовой ввод">
+                                    <span>🎙️</span>
+                                </button>
+
+                                <button type="submit" class="btn-input-send" id="btnSend" title="Отправить сообщение (Enter)">
+                                    <span class="send-arrow">➔</span>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="input-disclaimer">
+                            <span id="txtInputDisclaimer">Litally может допускать ошибки. Проверяйте важную информацию.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModalOverlay" class="litally-modal-overlay" style="display:none;" onclick="closeSettingsModal(event)">
+        <div class="litally-modal-box settings-modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-icon">⚙️</span>
+                    <h3 id="txtSettingsTitle">Настройки Litally</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeSettingsModal()" title="Закрыть (Esc)" aria-label="Закрыть">✕</button>
+            </div>
+            <div class="modal-body settings-modal-body">
+                
+                <!-- Quick Navigation Links -->
+                <div class="settings-nav-card">
+                    <a href="/" class="settings-action-link" id="linkReturnHome">
+                        <span class="link-icon">🏠</span>
+                        <div class="link-meta">
+                            <strong id="txtReturnHome">Вернуться на главную страницу</strong>
+                            <small id="txtReturnHomeSub">В книжное святилище и главную витрину</small>
+                        </div>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="/#plans" class="settings-action-link" id="linkPlans">
+                        <span class="link-icon">💎</span>
+                        <div class="link-meta">
+                            <strong id="txtPlans">Планы</strong>
+                            <small id="txtPlansSub">Перейти в раздел тарифных планов на главной странице</small>
+                        </div>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+
+                <!-- AI Mode Selection -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="sec-icon">🧠</span>
+                        <strong id="txtAiMode">ИИ режим:</strong>
+                    </div>
+                    <div class="ai-mode-selector-grid">
+                        <button type="button" class="ai-mode-option active" id="btnMode20" onclick="setAiMode('2.0')">
+                            <div class="mode-header">
+                                <span class="mode-badge">⚡ 2.0</span>
+                                <strong id="lblMode20">Литалли 2.0 (быстрый)</strong>
+                            </div>
+                            <p id="lblMode20Desc">Мгновенный отклик, скоростные вычисления и краткие точные формулировки</p>
+                        </button>
+                        <button type="button" class="ai-mode-option" id="btnMode21" onclick="setAiMode('2.1')">
+                            <div class="mode-header">
+                                <span class="mode-badge">⚖️ 2.1</span>
+                                <strong id="lblMode21">Литалли 2.1 (средний)</strong>
+                            </div>
+                            <p id="lblMode21Desc">Оптимальный баланс глубины анализа, литературного стиля и точности</p>
+                        </button>
+                        <button type="button" class="ai-mode-option" id="btnMode22" onclick="setAiMode('2.2')">
+                            <div class="mode-header">
+                                <span class="mode-badge">🔬 2.2</span>
+                                <strong id="lblMode22">Литалли 2.2 (думает)</strong>
+                            </div>
+                            <p id="lblMode22Desc">Многоуровневое формальное доказательство инвариантов и глубокий трактат</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Profile Management & Email Login -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="sec-icon">👤</span>
+                        <strong id="txtProfileHeader">Профиль пользователя:</strong>
+                    </div>
+                    <div class="settings-profile-card">
+                        <div class="profile-card-left">
+                            <div class="settings-avatar-circle" id="settingsAvatarCircle">👤</div>
+                            <div class="settings-profile-text">
+                                <strong id="settingsProfileName">Пользователь</strong>
+                                <small id="settingsProfileEmail">user@litally.ai</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-settings-auth" onclick="openAuthModal()" id="btnOpenAuthFromSettings">
+                            <span id="txtBtnSwitchProfile">✏️ Вход / Сменить имя</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Realistic Speech (TTS) & ElevenLabs Wikipedia Voice -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="sec-icon">🎙️</span>
+                        <strong id="txtSpeechHeader">Реалистичный голос ElevenLabs & Википедии:</strong>
+                    </div>
+                    <div class="settings-card tts-voice-card">
+                        <div class="tts-settings-row" style="margin-bottom: 12px;">
+                            <label for="selectTtsVoice" style="font-weight: 600; color: #ffffff;">Выбор голоса:</label>
+                            <select id="selectTtsVoice" class="tts-voice-dropdown" onchange="setTtsVoice(this.value)">
+                                <option value="wikipedia_dmitry">📖 Википедия / Энциклопедия (Дмитрий — глубокий диктор)</option>
+                                <option value="wikipedia_george">🎙️ ElevenLabs: George (Wikipedia / Audiobook Narrator)</option>
+                                <option value="wikipedia_brian">🎧 ElevenLabs: Brian (Deep Documentary Narrator)</option>
+                                <option value="svetlana">✨ Светлана (Ясный, мягкий диктор)</option>
+                                <option value="daulet">🇰🇿 Даулет (Қазақша энциклопедиялық дауыс)</option>
+                            </select>
+                        </div>
+                        <div class="tts-settings-row">
+                            <label for="rangeTtsRate" id="lblSpeechSpeed">Скорость речи:</label>
+                            <input type="range" id="rangeTtsRate" min="0.75" max="1.5" step="0.05" value="1.0" oninput="updateTtsRate(this.value)">
+                            <span id="valTtsRate">1.0x</span>
+                        </div>
+                        <div class="tts-api-key-wrap" style="margin-top: 12px;">
+                            <label for="inputElevenLabsKey" style="font-size: 0.82rem; color: var(--text-dim); display: block; margin-bottom: 4px;">
+                                Ключ ElevenLabs API <i>(опционально, встроенная нейро-Википедия уже активна)</i>:
+                            </label>
+                            <input type="password" id="inputElevenLabsKey" class="tts-key-input" placeholder="xi-api-key..." onchange="saveElevenLabsApiKey(this.value)" style="width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 0.85rem;">
+                        </div>
+                        <div class="tts-test-row" style="margin-top: 14px;">
+                            <button type="button" class="btn-test-tts" onclick="testTtsSpeech()" id="btnTestSpeech" style="width: 100%; justify-content: center;">
+                                <span id="txtBtnTestSpeech">▶ Прослушать голос Википедии</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Search Permission for Slang & Unknown Words -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="sec-icon">🌐</span>
+                        <strong id="txtGoogleSearchSectionTitle">Поиск в Google для сленга и неизвестных слов:</strong>
+                    </div>
+                    <div class="settings-card google-permission-card">
+                        <p id="txtGoogleSearchDesc" class="settings-card-desc">Если слово отсутствует в официальном литературном словаре (например, молодежный сленг, «дзшка», неологизмы), ИИ в обязательном порядке выполняет поиск в Google для точного понимания контекста.</p>
+                        <div class="google-permission-toggle-wrap">
+                            <label class="toggle-switch-label" for="toggleGoogleSearchCheckbox">
+                                <input type="checkbox" id="toggleGoogleSearchCheckbox" checked onchange="toggleGoogleSearchPermission(this.checked)">
+                                <span class="toggle-slider"></span>
+                                <span id="txtGoogleCheckboxLabel" class="toggle-label-text">Разрешить поиск в Google <b>(Рекомендуемо)</b></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clear Memory & Data -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <span class="sec-icon">🧹</span>
+                        <strong id="txtMemoryHeader">Память и данные:</strong>
+                    </div>
+                    <div class="settings-actions-group">
+                        <button type="button" class="modal-btn-clear" onclick="clearAllUserData()" id="btnClearData">
+                            🗑️ <span id="txtClearMemory">Очистить все данные и память</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn-close" onclick="closeSettingsModal()" id="btnCloseSettings">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMAIL AUTHENTICATION MODAL -->
+    <div id="authModalOverlay" class="litally-modal-overlay" style="display:none;" onclick="closeAuthModal(event)">
+        <div class="litally-modal-box auth-modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-icon">✉️</span>
+                    <h3 id="txtAuthModalTitle">Вход по почте</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeAuthModal()" title="Закрыть (Esc)" aria-label="Закрыть">✕</button>
+            </div>
+            <div class="modal-body auth-modal-body">
+                <!-- Step 1: Input Name & Email (Direct & Instant Login) -->
+                <div id="authStep1" class="auth-step">
+                    <p class="auth-step-desc" id="txtAuthStep1Desc" style="color: #ffd700; font-weight: 600; margin-bottom: 14px;">
+                        ⚡ Введите ваше имя для входа в профиль Литалли. Пароль не требуется — 100% суверенная конфиденциальность:
+                    </p>
+                    <div class="auth-input-group" style="margin-bottom: 12px;">
+                        <label for="authInputName" id="lblAuthName" style="font-weight: 700; color: #fff;">Ваше имя или псевдоним:</label>
+                        <input type="text" id="authInputName" class="auth-text-input" placeholder="например, Алексей, Данияр, John..." autofocus style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.4); border-radius: 10px; color: #fff; font-size: 1rem;">
+                    </div>
+                    <div class="auth-input-group" style="margin-bottom: 18px;">
+                        <label for="authInputEmail" id="lblAuthEmail" style="font-size: 0.82rem; color: #94a3b8;">Электронная почта (необязательно):</label>
+                        <input type="email" id="authInputEmail" class="auth-text-input" placeholder="user@litally.ai" style="width: 100%; padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #cbd5e1; font-size: 0.88rem;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button type="button" class="btn-auth-primary" id="btnQuickDirectLogin" onclick="quickDirectLogin()" style="width: 100%; padding: 12px 20px; font-size: 1rem; font-weight: 800; background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%); color: #000; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 20px rgba(255,215,0,0.35);">
+                            <span>⚡ Войти в аккаунт (В один клик)</span>
+                        </button>
+                        <button type="button" class="btn-auth-secondary" id="btnSendAuthCode" onclick="sendAuthConfirmationCode()" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; padding: 8px; border-radius: 10px; font-size: 0.8rem; cursor: pointer;">
+                            <span id="txtBtnSendCode">Или войти с 6-значным кодом подтверждения</span> ➔
+                        </button>
+                    </div>
+                </div>
+                <!-- Step 2: Verification Code -->
+                <div id="authStep2" class="auth-step" style="display:none;">
+                    <div class="auth-code-banner">
+                        <span class="banner-icon">📩</span>
+                        <div class="banner-text">
+                            <strong id="txtCodeSentNotice">Код подтверждения отправлен на вашу почту:</strong>
+                            <div class="auth-simulated-code-pill" onclick="fillAuthCode()" title="Нажмите, чтобы вставить код">
+                                <span id="displayAuthCode">849201</span>
+                                <span class="copy-hint" id="txtCopyHint">📋 Вставить</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-input-group">
+                        <label for="authInputCode" id="lblAuthCode">6-значный код подтверждения:</label>
+                        <input type="text" id="authInputCode" class="auth-text-input auth-code-input" maxlength="6" placeholder="000000">
+                    </div>
+                    <div class="auth-actions-row">
+                        <button type="button" class="btn-auth-secondary" onclick="backToAuthStep1()" id="btnAuthBack">← Назад</button>
+                        <button type="button" class="btn-auth-primary" id="btnConfirmAuthCode" onclick="confirmAuthCode()">
+                            <span id="txtBtnConfirm">Подтвердить и войти</span> ✓
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn-close" onclick="closeAuthModal()" id="btnCloseAuth">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY & CONFIDENTIALITY MODAL -->
+    <div id="privacyModalOverlay" class="litally-modal-overlay" style="display:none;" onclick="closePrivacyModal(event)">
+        <div class="litally-modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-icon">🛡️</span>
+                    <h3 id="txtPrivacyModalTitle">Litally · Конфиденциальность</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closePrivacyModal()" title="Закрыть (Esc)" aria-label="Закрыть">✕</button>
+            </div>
+            <div class="modal-body" id="txtPrivacyModalBody">
+                <p><strong>👤 Профиль:</strong> <span id="privacyProfileDisplay">Пользователь</span> (Суверенная учетная запись)</p>
+                <p><strong>🔒 100% Локальный суверенитет:</strong> Все диалоги, сохраненный возраст и профиль хранятся исключительно в вашем браузере (LocalStorage).</p>
+                <p><strong>🚫 Без трекинга:</strong> Никакие данные не передаются сторонним рекламным сетям.</p>
+                <p><strong>🌐 Безопасный поиск:</strong> Внешние запросы к поисковой сети осуществляются через изолированный шлюз.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn-clear" onclick="clearAllUserData()" id="btnClearDataPrivacy">🗑️ Очистить все данные и память</button>
+                <button type="button" class="modal-btn-close" onclick="closePrivacyModal()" id="btnClosePrivacy">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden compatibility hooks -->
+    <div id="bookCanvasDrawer" style="display:none;"></div>
+    <div id="project10kModalOverlay" style="display:none;"></div>
+
+    <!-- Core Engine Scripts -->
+    <script src="/static/js/languages_100_data.js"></script>
+    <script src="/static/js/languages_100_translations.js"></script>
+    <script src="/static/js/litally_themes_100.js"></script>
+    <script src="/static/js/languages_100_ai_engine.js"></script>
+    <script src="/static/js/google_performance_engine.js"></script>
+    <script src="/static/js/litally_photorealism_engine.js"></script>
+    <script src="/static/js/litally_encyclopedic_matrix.js"></script>
+    <script src="/static/js/litally_ai_standalone_engine.js"></script>
+    <!-- Litally Hyper-Graphics Quantum Visual Engine 4K/8K Engine -->
+    <script src="/static/js/litally_hyper_graphics_engine.js"></script>
+    <!-- Litally Updates & Capabilities 100 Languages Widget -->
+    <script src="/static/js/litally_updates_widget.js"></script>
+
+    <!-- SESSION 60-MESSAGE LIMIT MODAL -->
+    <div id="sessionLimitModal" class="custom-modal-backdrop" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px;">
+        <div class="modal-card" style="background:#0c081e; border:2px solid #ffd700; border-radius:24px; max-width:540px; width:100%; padding:32px; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255, 215, 0, 0.2);">
+            <div style="font-size:3rem; margin-bottom:12px;">👑 💬</div>
+            <h3 style="margin:0 0 10px 0; font-size:1.4rem; font-weight:800; color:#ffd700;">Лимит бесплатной сессии исчерпан</h3>
+            <div style="display:inline-block; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4); color:#fff; font-weight:800; font-size:0.9rem; padding:4px 14px; border-radius:20px; margin-bottom:16px;">
+                Достигнуто 60 из 60 сообщений
+            </div>
+            <p style="font-size:0.88rem; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">
+                В рамках правил бесплатного доступа платформы <b>Litally & Litdeo (Линар Серик)</b> для каждого диалога действует лимит в <b>60 сообщений</b>. Вы можете мгновенно начать новый диалог с чистого листа бесплатно или обновить тариф до <b>Sovereign VIP</b>!
+            </p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button type="button" onclick="handleLimitNewChat()" style="background:linear-gradient(135deg, #ffd700, #d4af37); color:#000; font-weight:800; font-size:0.95rem; border:none; padding:14px 20px; border-radius:14px; cursor:pointer; box-shadow:0 4px 20px rgba(255,215,0,0.35);">
+                    ➕ Начать новый бесплатный чат
+                </button>
+                <button type="button" onclick="handleLimitUpgrade()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; font-size:0.88rem; padding:12px 20px; border-radius:14px; cursor:pointer;">
+                    👑 Обновить тариф / Sovereign VIP (Безлимит)
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

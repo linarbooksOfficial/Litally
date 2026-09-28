@@ -1,0 +1,794 @@
+/* =============================================================================
+   LITALLY 4K — SOVEREIGN ACCESSIBILITY & ASSISTIVE MATRIX (50 MODALITIES)
+   File: static/css/accessibility_matrix.css
+   Author: Litally System Core 2026
+   Standards: WCAG 2.2 AAA / High-End Luxury Liquid Glass Compatibility
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. GLOBAL SYSTEM VARIABLES & ROOT OVERRIDES
+   ----------------------------------------------------------------------------- */
+:root {
+    --a11y-gold-primary: #ffd700;
+    --a11y-gold-glow: rgba(255, 215, 0, 0.45);
+    --a11y-gold-intense: rgba(255, 215, 0, 0.85);
+    --a11y-black-true: #000000;
+    --a11y-white-true: #ffffff;
+    --a11y-parchment-bg: #f8f5ea;
+    --a11y-parchment-text: #161822;
+    --a11y-parchment-accent: #b8860b;
+    --a11y-ruler-color: #ffd700;
+    --a11y-font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+    --a11y-font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    --a11y-font-mono: 'JetBrains Mono', monospace;
+    --a11y-font-scale: 1;
+    --a11y-line-height: 1.6;
+    --a11y-letter-spacing: 0px;
+    --a11y-word-spacing: 0px;
+}
+
+/* -----------------------------------------------------------------------------
+   2. OPHTHALMIC & COLOR FILTERS (MODES 1 - 10)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 1: High-Contrast Sovereign Gold */
+body.a11y-mode-1,
+body.a11y-high-contrast {
+    --bg-color: #000000 !important;
+    --bg-gradient: none !important;
+    --text-color: #ffffff !important;
+    --text-muted: #fef08a !important;
+    --text-dim: #fef9c3 !important;
+    --accent-color: #ffd700 !important;
+    --secondary-accent: #ffb700 !important;
+    --glow-color: rgba(255, 215, 0, 0.6) !important;
+    --card-bg: #050608 !important;
+    --card-border: #ffd700 !important;
+    --border-color: #ffd700 !important;
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+body.a11y-mode-1 .custom-card,
+body.a11y-mode-1 .portal-content-box,
+body.a11y-mode-1 .theme-matrix-tile,
+body.a11y-mode-1 .a11y-card,
+body.a11y-mode-1 .admin-dashboard-box {
+    border: 2.5px solid #ffd700 !important;
+    background: #000000 !important;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.45), inset 0 0 10px rgba(255, 215, 0, 0.15) !important;
+}
+body.a11y-mode-1 button,
+body.a11y-mode-1 .btn-header-action,
+body.a11y-mode-1 .btn-master-trigger {
+    border: 2px solid #ffd700 !important;
+    color: #ffd700 !important;
+    background: #0d0f14 !important;
+    font-weight: 800 !important;
+}
+
+/* Mode 2: Pure Black Ultra-OLED */
+body.a11y-mode-2,
+body.a11y-pure-black {
+    --bg-color: #000000 !important;
+    --bg-gradient: none !important;
+    --card-bg: #000000 !important;
+    --card-border: #222226 !important;
+    background-color: #000000 !important;
+    background-image: none !important;
+}
+body.a11y-mode-2 #ambientCanvas,
+body.a11y-mode-2 .ambient-vignette,
+body.a11y-mode-2 .cursor-spotlight {
+    display: none !important;
+}
+body.a11y-mode-2 .top-bar {
+    background: #000000 !important;
+    border-bottom: 1px solid #333333 !important;
+}
+
+/* Mode 3: Morning Soft Parchment */
+body.a11y-mode-3,
+body.a11y-morning-parchment {
+    --bg-color: #f7f4ea !important;
+    --bg-gradient: radial-gradient(circle at 50% 15%, #fffef9 0%, #ede7d6 85%) !important;
+    --text-color: #1a1e29 !important;
+    --text-muted: #303747 !important;
+    --text-dim: #545e75 !important;
+    --accent-color: #b8860b !important;
+    --secondary-accent: #8b6508 !important;
+    --glow-color: rgba(184, 134, 11, 0.22) !important;
+    --card-bg: #ffffff !important;
+    --card-border: rgba(184, 134, 11, 0.35) !important;
+    --border-color: rgba(184, 134, 11, 0.4) !important;
+    --title-gradient: linear-gradient(135deg, #1e1502 0%, #8b6508 45%, #b8860b 100%) !important;
+    background-color: #f7f4ea !important;
+    background-image: var(--bg-gradient) !important;
+    color: #1a1e29 !important;
+}
+body.a11y-mode-3 .top-bar,
+body.a11y-mode-3 .portal-content-box,
+body.a11y-mode-3 .custom-card,
+body.a11y-mode-3 .a11y-card,
+body.a11y-mode-3 .admin-dashboard-box {
+    background: #ffffff !important;
+    color: #1a1e29 !important;
+    border-color: rgba(184, 134, 11, 0.35) !important;
+    box-shadow: 0 15px 45px rgba(80, 60, 20, 0.08) !important;
+}
+body.a11y-mode-3 .custom-card p,
+body.a11y-mode-3 .portal-content-box p {
+    color: #2c3240 !important;
+}
+body.a11y-mode-3 .btn-header-action,
+body.a11y-mode-3 .btn-master-trigger {
+    background: #ffffff !important;
+    color: #1a1e29 !important;
+    border: 1px solid rgba(184, 134, 11, 0.4) !important;
+}
+
+/* Mode 4: Protanopia Compensation (Red-Blind Spectral Shift) */
+body.a11y-mode-4,
+body.a11y-protanopia {
+    filter: url('#protanopia-filter') saturate(135%) contrast(105%) !important;
+}
+
+/* Mode 5: Deuteranopia Compensation (Green-Blind Spectral Shift) */
+body.a11y-mode-5,
+body.a11y-deuteranopia {
+    filter: url('#deuteranopia-filter') saturate(135%) contrast(105%) !important;
+}
+
+/* Mode 6: Tritanopia Compensation (Blue-Yellow Blind Spectral Shift) */
+body.a11y-mode-6,
+body.a11y-tritanopia {
+    filter: url('#tritanopia-filter') saturate(140%) contrast(110%) !important;
+}
+
+/* Mode 7: Monochrome Sanctuary */
+body.a11y-mode-7,
+body.a11y-monochrome {
+    filter: grayscale(100%) contrast(118%) !important;
+}
+
+/* Mode 8: Cataract Soft Sharpener */
+body.a11y-mode-8,
+body.a11y-cataract-sharp {
+    text-shadow: 0 0 1px #ffffff, 0 0 2px #ffffff !important;
+    filter: contrast(135%) brightness(108%) !important;
+    font-weight: 600 !important;
+}
+body.a11y-mode-8 p,
+body.a11y-mode-8 span,
+body.a11y-mode-8 h1,
+body.a11y-mode-8 h2,
+body.a11y-mode-8 h3 {
+    text-rendering: geometricPrecision !important;
+}
+
+/* Mode 9: Glaucoma Central Focus (Peripheral Vignette Dimmer) */
+body.a11y-mode-9 #glaucomaCentralAperture {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9990;
+    background: radial-gradient(circle at 50% 50%, transparent 220px, rgba(0, 0, 0, 0.88) 550px, #000000 100%);
+    display: block;
+}
+
+/* Mode 10: Photophobia Anti-Glare Polarizer */
+body.a11y-mode-10,
+body.a11y-photophobia {
+    filter: sepia(50%) brightness(82%) contrast(92%) !important;
+    background-color: #0d0c0a !important;
+}
+body.a11y-mode-10 #ambientCanvas {
+    opacity: 0.2 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   3. NEURO & COGNITIVE ERGONOMICS (MODES 11 - 20)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 11: AI Easy-to-Read Simplifier */
+body.a11y-mode-11 .hero-statement-box {
+    border-left: 4px solid var(--accent-color) !important;
+    padding-left: 20px !important;
+}
+body.a11y-mode-11 .easy-read-badge {
+    display: inline-block;
+    background: var(--accent-color);
+    color: #000;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+/* Mode 12: Bionic Reading Morph */
+body.a11y-mode-12 p,
+body.a11y-mode-12 .bionic-applied {
+    letter-spacing: 0.6px !important;
+    line-height: 1.8 !important;
+}
+body.a11y-mode-12 .bionic-bold {
+    font-weight: 900 !important;
+    color: var(--accent-color) !important;
+    text-shadow: 0 0 6px var(--glow-color);
+}
+
+/* Mode 13: Dyslexia Laser Guide Ruler */
+#dyslexiaGuideRuler {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    height: 44px;
+    background: rgba(255, 215, 0, 0.14);
+    border-top: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2);
+    backdrop-filter: invert(0.06);
+    display: none;
+    transition: top 0.05s linear;
+}
+body.a11y-mode-13 #dyslexiaGuideRuler,
+body.a11y-dyslexia-ruler #dyslexiaGuideRuler {
+    display: block !important;
+}
+
+/* Mode 14: OpenDyslexic Weight Bias Typography */
+body.a11y-mode-14,
+body.a11y-opendyslexic {
+    font-family: var(--a11y-font-dyslexic) !important;
+    letter-spacing: 1.2px !important;
+    word-spacing: 4px !important;
+    line-height: 1.95 !important;
+}
+body.a11y-mode-14 p,
+body.a11y-mode-14 span,
+body.a11y-mode-14 h1,
+body.a11y-mode-14 h2,
+body.a11y-mode-14 h3 {
+    font-family: var(--a11y-font-dyslexic) !important;
+}
+
+/* Mode 15: ADHD Hyper-Focus Mask */
+body.a11y-mode-15 .main-container > * {
+    opacity: 0.22;
+    filter: blur(2.5px);
+    transition: opacity 0.25s ease, filter 0.25s ease;
+}
+body.a11y-mode-15 .main-container > *:hover,
+body.a11y-mode-15 .top-bar,
+body.a11y-mode-15 .portal-modal-overlay.active {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Mode 16: Sensory Overload Shield */
+body.a11y-mode-16 *,
+body.a11y-mode-16 *::before,
+body.a11y-mode-16 *::after {
+    animation: none !important;
+    transition: none !important;
+}
+body.a11y-mode-16 #ambientCanvas,
+body.a11y-mode-16 .cursor-spotlight,
+body.a11y-mode-16 .status-pulse,
+body.a11y-mode-16 .hero-crest-ring {
+    display: none !important;
+}
+
+/* Mode 17: Cognitive Scroll Pacer */
+body.a11y-mode-17 {
+    scroll-behavior: smooth !important;
+}
+
+/* Mode 18: TTS Karaoke Word Illumination */
+.tts-active-word {
+    background: var(--accent-color) !important;
+    color: #000000 !important;
+    padding: 2px 5px !important;
+    border-radius: 4px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 15px var(--accent-color) !important;
+}
+
+/* Mode 19: Cognitive Memory Breadcrumbs HUD */
+#a11yBreadcrumbsBar {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: rgba(8, 10, 15, 0.92);
+    border: 1px solid var(--border-color);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--accent-color);
+    z-index: 9980;
+    backdrop-filter: var(--glass-blur);
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--glow-subtle);
+}
+body.a11y-mode-19 #a11yBreadcrumbsBar {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Mode 20: Jargon & Metaphor Decrypter */
+.jargon-term {
+    border-bottom: 2px dashed var(--accent-color);
+    cursor: help;
+    position: relative;
+}
+.jargon-term:hover::after {
+    content: attr(data-jargon-def);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f131a;
+    border: 1px solid var(--accent-color);
+    color: #ffffff;
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 10000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+}
+
+/* -----------------------------------------------------------------------------
+   4. OPTICS & GAZE CONTROL (MODES 21 - 27)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 21: Interactive Virtual Eye-Tracker Target */
+#a11yGazeTarget {
+    position: fixed;
+    width: 90px;
+    height: 90px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9995;
+    box-shadow: 0 0 30px var(--glow-intense), inset 0 0 15px var(--glow-color);
+    display: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease-out;
+}
+body.a11y-mode-21 #a11yGazeTarget {
+    display: block !important;
+}
+
+/* Mode 22: Facial Gesture HUD */
+#a11yMimicHud {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(10, 14, 22, 0.9);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    z-index: 9985;
+    display: none;
+    backdrop-filter: var(--glass-blur);
+}
+body.a11y-mode-22 #a11yMimicHud {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Mode 23: Gaze Dwell-Clicker Radial Timer */
+#a11yDwellRing {
+    position: fixed;
+    width: 46px;
+    height: 46px;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10002;
+    display: none;
+    transform: translate(-50%, -50%);
+}
+body.a11y-mode-23 #a11yDwellRing {
+    display: block;
+}
+
+/* Mode 24: Optical Loupe Magnifier 2.5x */
+#a11yLoupeLens {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    border: 3px solid var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--glow-intense);
+    pointer-events: none;
+    z-index: 10001;
+    display: none;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+    background: rgba(12, 14, 20, 0.98);
+}
+body.a11y-mode-24 #a11yLoupeLens {
+    display: block !important;
+}
+
+/* Mode 25: Peripheral Contrast Amplifier */
+body.a11y-mode-25 .main-container {
+    padding: 0 40px !important;
+}
+body.a11y-mode-25 .custom-card,
+body.a11y-mode-25 .top-bar {
+    outline: 4px solid var(--border-color) !important;
+    outline-offset: 4px !important;
+}
+
+/* Mode 26: Line-Focus Letterbox Blinds */
+.a11y-letterbox-blind {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.82);
+    pointer-events: none;
+    z-index: 9992;
+    display: none;
+    backdrop-filter: blur(4px);
+}
+#a11yLetterboxTop {
+    top: 0;
+    height: calc(50vh - 55px);
+    border-bottom: 2px solid var(--accent-color);
+}
+#a11yLetterboxBottom {
+    bottom: 0;
+    height: calc(50vh - 55px);
+    border-top: 2px solid var(--accent-color);
+}
+body.a11y-mode-26 .a11y-letterbox-blind {
+    display: block !important;
+}
+
+/* Mode 27: Giant Luminescent Beacon Cursor */
+#a11yBeaconCursor {
+    position: fixed;
+    width: 48px;
+    height: 48px;
+    border: 3px solid #ffd700;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10005;
+    display: none;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 25px #ffd700, inset 0 0 10px #ffd700;
+}
+#a11yBeaconCursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #ffffff;
+}
+body.a11y-mode-27 #a11yBeaconCursor {
+    display: block !important;
+}
+
+/* -----------------------------------------------------------------------------
+   5. PSYCHOACOUSTICS & 3D SPATIAL AUDIO (MODES 28 - 34)
+   ----------------------------------------------------------------------------- */
+#a11yAudioTelemetryHud {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(7, 9, 14, 0.94);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--accent-color);
+    z-index: 9980;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.85);
+}
+.audio-wave-bar {
+    width: 4px;
+    height: 16px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    animation: soundWavePulse 1.2s infinite ease-in-out;
+}
+.audio-wave-bar:nth-child(2) { animation-delay: 0.2s; }
+.audio-wave-bar:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes soundWavePulse {
+    0%, 100% { height: 6px; }
+    50% { height: 22px; }
+}
+
+body.a11y-audio-active #a11yAudioTelemetryHud {
+    display: flex !important;
+}
+
+/* -----------------------------------------------------------------------------
+   6. MOTOR, TREMOR & TARGET EXPANSION (MODES 35 - 42)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 35: Parkinson & Tremor Click Guard */
+body.a11y-mode-35 button,
+body.a11y-mode-35 a,
+body.a11y-mode-35 .btn-header-action,
+body.a11y-mode-35 .btn-master-trigger {
+    min-height: 56px !important;
+    padding: 14px 28px !important;
+    margin: 6px !important;
+    font-size: 1.05rem !important;
+    border-width: 2.5px !important;
+}
+
+/* Mode 36: Single-Key Keyboard Matrix Focus Indicator */
+body.a11y-mode-36 *:focus,
+body.a11y-mode-36 *:focus-visible {
+    outline: 4px solid #ffd700 !important;
+    outline-offset: 6px !important;
+    box-shadow: 0 0 35px #ffd700 !important;
+}
+
+/* Mode 37: Head-Tracking Crosshair Indicator */
+#a11yHeadTrackIndicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    border: 2px dashed var(--accent-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9988;
+    display: none;
+}
+body.a11y-mode-37 #a11yHeadTrackIndicator {
+    display: block !important;
+}
+
+/* Mode 38: Magnetic Snapping Visual Aura */
+.magnetic-attracted {
+    transform: scale(1.08) !important;
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 30px var(--glow-intense) !important;
+}
+
+/* Mode 39: Giant Touch Targets (64px) */
+body.a11y-mode-39 button,
+body.a11y-mode-39 .btn-header-action,
+body.a11y-mode-39 .btn-master-trigger,
+body.a11y-mode-39 .btn-card-read,
+body.a11y-mode-39 .gold-submit-btn {
+    min-height: 64px !important;
+    min-width: 64px !important;
+    font-size: 1.15rem !important;
+    padding: 16px 32px !important;
+    border-radius: 18px !important;
+}
+
+/* Mode 40: Sip-and-Puff Switch Traversal Outline */
+.sip-puff-highlight {
+    outline: 5px solid #00e5ff !important;
+    outline-offset: 8px !important;
+    background: rgba(0, 229, 255, 0.15) !important;
+}
+
+/* Mode 41: Ultra-Slow Kinetic Deceleration */
+body.a11y-mode-41 {
+    scroll-behavior: auto !important;
+}
+
+/* -----------------------------------------------------------------------------
+   7. CIRCADIAN & BIOMETRIC MODALITIES (MODES 43 - 46)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 44: Melatonin Midnight Amber (<550nm Blue Filter) */
+body.a11y-mode-44 {
+    filter: sepia(90%) hue-rotate(330deg) saturate(175%) brightness(92%) !important;
+}
+
+/* Mode 45: 4-7-8 Breathing Coherence Aura */
+#a11yBreathingAura {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9970;
+    box-shadow: inset 0 0 80px rgba(255, 215, 0, 0.2);
+    display: none;
+    animation: breathingCycle 19s infinite ease-in-out;
+}
+@keyframes breathingCycle {
+    0%   { box-shadow: inset 0 0 40px rgba(255, 215, 0, 0.15); }
+    21%  { box-shadow: inset 0 0 140px rgba(255, 215, 0, 0.55); } /* 4s Inhale */
+    58%  { box-shadow: inset 0 0 140px rgba(255, 215, 0, 0.55); } /* 7s Hold */
+    100% { box-shadow: inset 0 0 40px rgba(255, 215, 0, 0.15); } /* 8s Exhale */
+}
+body.a11y-mode-45 #a11yBreathingAura {
+    display: block !important;
+}
+
+/* -----------------------------------------------------------------------------
+   8. VISUAL DE-CLUTTER & PURE STRUCTURE (MODES 47 - 50)
+   ----------------------------------------------------------------------------- */
+
+/* Mode 47: Semantic Graphic De-Clutter */
+body.a11y-mode-47 .card-photo,
+body.a11y-mode-47 .ambient-vignette,
+body.a11y-mode-47 .cursor-spotlight,
+body.a11y-mode-47 #ambientCanvas,
+body.a11y-mode-47 .hero-crest-ring {
+    display: none !important;
+}
+body.a11y-mode-47 .custom-card {
+    background: #090c12 !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Mode 48: Screen-Reader Semantic Blueprint */
+body.a11y-mode-48 *[aria-label]::before,
+body.a11y-mode-48 *[role]::before {
+    content: '[' attr(role) ': ' attr(aria-label) '] ';
+    color: #38bdf8;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: bold;
+}
+
+/* Mode 50: Pure Sovereign Gutenberg Sheet */
+body.a11y-mode-50 {
+    --bg-color: #101216 !important;
+    background: #101216 !important;
+    color: #e5e7eb !important;
+}
+body.a11y-mode-50 #ambientCanvas,
+body.a11y-mode-50 .cursor-spotlight {
+    display: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   9. 50 ACCESSIBILITY TILES MATRIX MODAL DIALOG
+   ----------------------------------------------------------------------------- */
+.a11y-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+    max-height: 64vh;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.a11y-card {
+    background: rgba(14, 18, 26, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    user-select: none;
+    min-height: 140px;
+}
+
+.a11y-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px var(--glow-subtle);
+    background: rgba(22, 28, 42, 0.88);
+}
+
+.a11y-card.active {
+    border: 2px solid var(--accent-color) !important;
+    background: rgba(255, 215, 0, 0.1) !important;
+    box-shadow: 0 0 30px var(--glow-color) !important;
+}
+
+.a11y-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.a11y-card-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.a11y-card-badge {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 3px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--accent-color);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+}
+
+.a11y-card.active .a11y-card-badge {
+    background: var(--accent-color);
+    color: #000000;
+    font-weight: 800;
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+.a11y-card-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-family: var(--font-sans);
+    line-height: 1.35;
+}
+
+.a11y-card-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+.a11y-category-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    scrollbar-width: thin;
+}
+
+.a11y-category-chip {
+    padding: 7px 16px;
+    border-radius: 24px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+}
+
+.a11y-category-chip.active,
+.a11y-category-chip:hover {
+    background: var(--accent-color);
+    color: #000000;
+    font-weight: 700;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--glow-color);
+}
