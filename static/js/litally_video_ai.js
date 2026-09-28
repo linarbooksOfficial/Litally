@@ -1597,8 +1597,12 @@
 
         // 5v5 ROSTER & MATCH METHODS
         open5v5RosterModal() {
+            if (!this.canvas) this.init();
             const modal = document.getElementById('modal5v5TeamRoster');
-            if (modal) modal.style.display = 'flex';
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.style.zIndex = '10350';
+            }
             this.render5v5RosterUI();
         },
 
@@ -1718,6 +1722,15 @@
 
         start5v5Battle() {
             this.close5v5RosterModal();
+            if (!this.isOpen) {
+                this.open();
+            } else {
+                const gameModal = document.getElementById('miniGameModalOverlay');
+                if (gameModal) {
+                    gameModal.style.display = 'flex';
+                    gameModal.style.zIndex = '10250';
+                }
+            }
             this.is5v5Mode = true;
             this.alphaKills = 0;
             this.betaKills = 0;
@@ -6003,13 +6016,21 @@
             if (urlParams.get('game') === '1' || urlParams.get('battle') === '1' || urlParams.get('5v5') === '1') {
                 setTimeout(() => {
                     if (window.MiniGame) {
+                        if (!window.MiniGame.canvas) window.MiniGame.init();
                         window.MiniGame.open();
                         if (urlParams.get('5v5') === '1' || urlParams.get('battle') === '1') {
                             window.MiniGame.open5v5RosterModal();
                         }
                     }
-                }, 350);
+                }, 200);
             }
+            window.open5v5BattleModal = function() {
+                if (window.MiniGame) {
+                    if (!window.MiniGame.canvas) window.MiniGame.init();
+                    window.MiniGame.open();
+                    window.MiniGame.open5v5RosterModal();
+                }
+            };
         } catch(e) {}
 
         // 100 Themes Modal Trigger

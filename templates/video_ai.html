@@ -856,10 +856,10 @@
                     <button type="button" class="btn-action-cinema" id="btnScanFrameVision" title="Сканировать текущий кадр: что ИИ РЕАЛЬНО видит в кадре (спектральная палитра пикселей, резкость, свет, объекты)" style="background:rgba(56,189,248,0.18); border-color:rgba(56,189,248,0.5); color:#38bdf8;">
                         <span>👁️ Что ИИ видит в кадре?</span>
                     </button>
-                    <button type="button" class="btn-action-cinema" id="btnOpenMiniGame" title="Сыграть в Кибер-Раннер и заработать L-Coins" style="background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.4); color:#34d399;">
+                    <button type="button" class="btn-action-cinema" id="btnOpenMiniGame" onclick="if(window.MiniGame){window.MiniGame.open();}" title="Сыграть в Кибер-Раннер и заработать L-Coins" style="background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.4); color:#34d399;">
                         <span>🎮 Мини-игра</span>
                     </button>
-                    <button type="button" class="btn-action-cinema" id="btnOpen5v5FromCinema" title="Командная битва 5х5: составьте ростер из 25 персонажей" style="background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.45); color:#fca5a5;">
+                    <button type="button" class="btn-action-cinema" id="btnOpen5v5FromCinema" onclick="if(window.open5v5BattleModal){window.open5v5BattleModal();}else if(window.MiniGame){window.MiniGame.open();window.MiniGame.open5v5RosterModal();}" title="Командная битва 5х5: составьте ростер из 25 персонажей" style="background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.45); color:#fca5a5;">
                         <span>⚔️ Битва 5х5</span>
                     </button>
                 </div>
@@ -1333,8 +1333,8 @@
                 <div style="font-size:0.66rem; color:#94a3b8; font-weight:700; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
                     <span style="color:#38bdf8;">🌟 Выберите Героя из 100 персонажей: <strong id="activeHeroDisplayName" style="color:#ffd700;">Фил (Главный стратег, СЕО)</strong></span>
                     <div style="display:flex; gap:6px;">
-                        <button type="button" id="btnOpen5v5RosterModal" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;" title="Собрать команды и начать битву 5х5">⚔️ Битва 5х5 (Ростер) ➔</button>
-                        <button type="button" id="btnOpen100HeroesRoster" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#000; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;">👥 Каталог всех 100 Героев ➔</button>
+                        <button type="button" id="btnOpen5v5RosterModal" onclick="if(window.MiniGame){window.MiniGame.open5v5RosterModal();}" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;" title="Собрать команды и начать битву 5х5">⚔️ Битва 5х5 (Ростер) ➔</button>
+                        <button type="button" id="btnOpen100HeroesRoster" onclick="if(window.MiniGame){window.MiniGame.openHeroRoster();}" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#000; border-radius:6px; padding:2px 8px; font-size:0.65rem; font-weight:800; cursor:pointer;">👥 Каталог всех 100 Героев ➔</button>
                     </div>
                 </div>
                 <div id="quickHeroSelectRow" style="display:grid; grid-template-columns:repeat(7, 1fr); gap:4px;">
@@ -1537,16 +1537,16 @@
                         <div style="font-size:0.72rem; color:#94a3b8; margin-top:2px;">Соберите идеальный отряд из 25 канонических героев вселенной Litally и сокрушите команду соперника!</div>
                     </div>
                 </div>
-                <button type="button" class="btn-modal-close" id="btnClose5v5RosterModal">✕</button>
+                <button type="button" class="btn-modal-close" id="btnClose5v5RosterModal" onclick="if(window.MiniGame){window.MiniGame.close5v5RosterModal();}">✕</button>
             </div>
 
             <!-- Preset Quick Bar -->
             <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:8px 12px; border-radius:10px;">
                 <span style="font-size:0.7rem; color:#ffd700; font-weight:800;">⚡ Быстрые Сетапы:</span>
-                <button type="button" id="btnPreset5v5Canonical" style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🌟 Канонический (Лидеры Litally)</button>
-                <button type="button" id="btnPreset5v5SpecOps" style="background:rgba(168,85,247,0.15); border:1px solid #a855f7; color:#c084fc; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🗡️ Спецназ & Разведка</button>
-                <button type="button" id="btnPreset5v5Balanced" style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">⚖️ Идеальный Баланс Классов</button>
-                <button type="button" id="btnPreset5v5Random" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🎲 Случайный Ростер</button>
+                <button type="button" id="btnPreset5v5Canonical" onclick="if(window.MiniGame){window.MiniGame.apply5v5Preset('canonical');}" style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🌟 Канонический (Лидеры Litally)</button>
+                <button type="button" id="btnPreset5v5SpecOps" onclick="if(window.MiniGame){window.MiniGame.apply5v5Preset('specops');}" style="background:rgba(168,85,247,0.15); border:1px solid #a855f7; color:#c084fc; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🗡️ Спецназ & Разведка</button>
+                <button type="button" id="btnPreset5v5Balanced" onclick="if(window.MiniGame){window.MiniGame.apply5v5Preset('balanced');}" style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">⚖️ Идеальный Баланс Классов</button>
+                <button type="button" id="btnPreset5v5Random" onclick="if(window.MiniGame){window.MiniGame.apply5v5Preset('random');}" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:3px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🎲 Случайный Ростер</button>
             </div>
 
             <!-- 2-Column Teams Grid -->
@@ -1585,7 +1585,7 @@
                 <div style="font-size:0.72rem; color:#94a3b8;">
                     💡 <em>Первый слот Команды Альфа — это ваш активный герой. Остальные 4 союзника и 5 соперников сражаются под управлением ИИ.</em>
                 </div>
-                <button type="button" id="btnStart5v5Battle" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; font-weight:800; font-size:0.92rem; padding:10px 24px; border-radius:10px; cursor:pointer; box-shadow:0 0 20px rgba(239,68,68,0.5); display:flex; align-items:center; gap:8px;">
+                <button type="button" id="btnStart5v5Battle" onclick="if(window.MiniGame){window.MiniGame.start5v5Battle();}" style="background:linear-gradient(135deg, #ef4444, #f97316); border:none; color:#fff; font-weight:800; font-size:0.92rem; padding:10px 24px; border-radius:10px; cursor:pointer; box-shadow:0 0 20px rgba(239,68,68,0.5); display:flex; align-items:center; gap:8px;">
                     <span>⚔️ НАЧАТЬ БИТВУ 5х5</span> <span>➔</span>
                 </button>
             </div>
